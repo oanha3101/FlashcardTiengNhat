@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Học Kanji N3</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-wrapper">
+        <div class="glass-container">
+            <header class="app-header">
+                <h1>漢字<span>N3 学習</span></h1>
+                <div class="theme-toggle">
+                    <button id="themeToggle" aria-label="Chuyển đổi chế độ sáng/tối"></button>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Mode Switcher -->
+            <div id="modeSwitcher" class="mode-switcher">
+                <button id="switchToFlashcardSetupBtn" class="mode-btn flashcard-mode active">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                        <path d="M12 8v8"></path>
+                        <path d="M8 12h8"></path>
+                    </svg>
+                    Flashcard
+                </button>
+                <button id="switchToWordSetManagerBtn" class="mode-btn wordset-mode">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
+                    </svg>
+                    Bộ Kanji
+                </button>
+                <button id="switchToTestSetupBtn" class="mode-btn test-mode">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 11l3 3L22 4"></path>
+                        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                    </svg>
+                    Kiểm tra
+                </button>
+            </div>
+
+            <!-- Initial Setup -->
+            <div id="initialSetup" class="screen range-selector">
+                <h2>Chọn khoảng Kanji để học</h2>
+                <div class="range-inputs">
+                    <div class="input-group">
+                        <label for="startWord">Từ Kanji số:</label>
+                        <input type="number" id="startWord" min="1" value="1">
+                    </div>
+                    <div class="input-group">
+                        <label for="endWord">Đến Kanji số:</label>
+                        <input type="number" id="endWord" min="1" value="50">
+                    </div>
+                </div>
+                <p id="totalWordsMessage" class="info-text">Tổng số Kanji trong file: đang tải...</p>
+                <button id="loadRangeButton" class="primary-btn pulse-btn">Tải Kanji</button>
+            </div>
+
+            <!-- Kanji Flashcard App -->
+            <div id="flashcardApp" class="screen hidden">
+                <div class="flashcard-header">
+                    <h2>Flashcard Kanji N3</h2>
+                    <div class="progress-stats">
+                        <span>Còn lại: <b id="remainingCount">0</b></span>
+                        <span>Vị trí: <b id="currentCardNumber">0</b>/<b id="totalInReviewSet">0</b></span>
+                        <span>Tổng: <b id="totalSelectedCount">0</b></span>
+                    </div>
+                </div>
+
+                <div class="settings-panel">
+                    <div class="setting-group">
+                        <label for="reviewModeSelect">Chế độ:</label>
+                        <select id="reviewModeSelect">
+                            <option value="all">Tất cả</option>
+                            <option value="unmarked">Chưa đánh dấu</option>
+                            <option value="known">Đã biết (O)</option>
+                            <option value="unknown">Chưa biết (X)</option>
+                        </select>
+                    </div>
+                    <div class="setting-group">
+                        <label for="intervalSelect">Tự động lật:</label>
+                        <select id="intervalSelect">
+                            <option value="0">Tắt</option>
+                            <option value="3000">3 giây</option>
+                            <option value="5000" selected>5 giây</option>
+                            <option value="7000">7 giây</option>
+                            <option value="10000">10 giây</option>
+                        </select>
+                    </div>
+                    <div class="setting-group">
+                        <button id="clearAllMarksButton" class="outline-btn">Xóa tất cả đánh dấu</button>
+                    </div>
+                </div>
+
+                <div class="progress-bar-container">
+                    <div id="progressBar" class="progress-bar"></div>
+                </div>
+
+                <div id="flashcardContainer" class="flashcard-container">
+                    <div id="flashcard" class="flashcard">
+                        <div class="flashcard-face flashcard-front">
+                            <div id="markIndicator" class="mark-indicator"></div>
+                            <div id="kanjiDisplay" class="kanji">漢字</div>
+                            <div id="onYomiDisplay" class="on-yomi">おん</div>
+                        </div>
+                        <div class="flashcard-face flashcard-back">
+                            <div id="kunYomiDisplay" class="kun-yomi">くん</div>
+                            <div id="meaningDisplay" class="meaning">Ý nghĩa</div>
+                            <div id="exampleDisplay" class="example">Ví dụ</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls-grid">
+                    <button id="flipButton" class="control-btn flip-btn" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M17 3v10"></path>
+                            <path d="m21 7-4-4-4 4"></path>
+                            <path d="M7 21v-10"></path>
+                            <path d="m3 17 4 4 4-4"></path>
+                        </svg>
+                        Lật thẻ
+                    </button>
+                    <button id="prevButton" class="control-btn prev-btn" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m15 18-6-6 6-6"></path>
+                        </svg>
+                        Trước
+                    </button>
+                    <button id="nextButton" class="control-btn next-btn" disabled>
+                        Tiếp
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m9 18 6-6-6-6"></path>
+                        </svg>
+                    </button>
+                    <button id="markKnownButton" class="control-btn known-btn" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                        </svg>
+                        Đã biết (O)
+                    </button>
+                    <button id="markUnknownButton" class="control-btn unknown-btn" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="15" y1="9" x2="9" y2="15"></line>
+                            <line x1="9" y1="9" x2="15" y2="15"></line>
+                        </svg>
+                        Chưa biết (X)
+                    </button>
+                    <button id="clearMarkButton" class="control-btn clear-btn" disabled>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+                            <path d="m15 9-6 6"></path>
+                            <path d="m9 9 6 6"></path>
+                        </svg>
+                        Xóa đánh dấu
+                    </button>
+                </div>
+
+                <div class="bottom-actions">
+                    <button id="restartButton" class="secondary-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                            <path d="M3 3v5h5"></path>
+                        </svg>
+                        Quay lại
+                    </button>
+                    <button id="backToWordSetManagerFromFlashcard" class="outline-btn hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
+                        </svg>
+                        Quay lại bộ Kanji
+                    </button>
+                </div>
+            </div>
+
+            <!-- Word Set Manager -->
+            <div id="wordSetManager" class="screen hidden">
+                <h2>Quản lý bộ Kanji</h2>
+                <div class="create-set-form">
+                    <h3>Tạo bộ Kanji mới</h3>
+                    <div class="form-group">
+                        <label for="wordSetName">Tên bộ Kanji:</label>
+                        <input type="text" id="wordSetName" placeholder="Nhập tên bộ Kanji">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="wordSetStart">Từ Kanji số:</label>
+                            <input type="number" id="wordSetStart" min="1" value="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="wordSetEnd">Đến Kanji số:</label>
+                            <input type="number" id="wordSetEnd" min="1" value="50">
+                        </div>
+                    </div>
+                    <p id="wordSetTotalMessage" class="info-text">Tổng số Kanji trong file CSV: đang tải...</p>
+                    <button id="createWordSetButton" class="primary-btn">Tạo bộ Kanji</button>
+                </div>
+
+                <div id="wordSetListContainer" class="word-set-list-container">
+                    <h3>Danh sách bộ Kanji</h3>
+                    <div class="word-set-list">
+                        <div id="wordSetList"></div>
+                        <div id="noWordSetsMessage" class="empty-message">Chưa có bộ Kanji nào. Hãy tạo bộ Kanji mới.</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Word Set Detail View -->
+            <div id="wordSetDetailView" class="screen hidden">
+                <h2 id="detailViewName" class="set-detail-title">Tên bộ Kanji</h2>
+                <p id="detailViewRange" class="set-detail-range">Khoảng: 1-50 (50 Kanji)</p>
+                
+                <div class="action-buttons">
+                    <button id="studySetFlashcardButton" class="primary-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                            <path d="M12 8v8"></path>
+                            <path d="M8 12h8"></path>
+                        </svg>
+                        Học Flashcard
+                    </button>
+                    <button id="testSetButton" class="secondary-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 11l3 3L22 4"></path>
+                            <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                        </svg>
+                        Kiểm tra
+                    </button>
+                    <button id="backToSetManagerButton" class="outline-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m15 18-6-6 6-6"></path>
+                        </svg>
+                        Quay lại
+                    </button>
+                </div>
+                
+                <div id="detailWordList" class="word-list-container"></div>
+            </div>
+
+            <!-- Test Setup -->
+            <div id="testSetup" class="screen hidden">
+                <h2>Thiết lập bài kiểm tra Kanji</h2>
+                <div class="test-setup-form">
+                    <div class="form-group">
+                        <label for="numTestQuestions">Số câu hỏi:</label>
+                        <input type="number" id="numTestQuestions" min="1" max="50" value="10">
+                    </div>
+                    <div class="form-group">
+                        <label for="testType">Loại kiểm tra:</label>
+                        <select id="testType">
+                            <option value="kanjiToMeaning">Kanji → Ý nghĩa</option>
+                            <option value="meaningToKanji">Ý nghĩa → Kanji</option>
+                            <option value="kanjiToReading">Kanji → Cách đọc</option>
+                            <option value="readingToKanji">Cách đọc → Kanji</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="testStartWord">Từ Kanji số:</label>
+                            <input type="number" id="testStartWord" min="1" value="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="testEndWord">Đến Kanji số:</label>
+                            <input type="number" id="testEndWord" min="1" value="50">
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <button id="startTestButton" class="primary-btn">Bắt đầu kiểm tra</button>
+                        <button id="backToFlashcardModeButton" class="outline-btn">Quay lại</button>
+                        <button id="backToWordSetManagerFromTestSetup" class="outline-btn hidden">Quay lại bộ Kanji</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Test Interface -->
+            <div id="testInterface" class="screen hidden">
+                <h2>Bài Kiểm Tra Kanji</h2>
+                <p class="test-progress">Câu <span id="currentQuestionNum">1</span>/<span id="totalTestQuestions">10</span></p>
+                
+                <div class="question-area">
+                    <p id="questionText">Câu hỏi sẽ hiển thị ở đây</p>
+                </div>
+                
+                <div id="optionsArea" class="options-area">
+                    <!-- Options will be generated here -->
+                </div>
+                
+                <p id="testFeedback" class="test-feedback"></p>
+                
+                <div class="test-actions">
+                    <button id="nextQuestionButton" class="primary-btn hidden">Câu tiếp theo</button>
+                    <button id="finishTestButton" class="danger-btn">Kết thúc</button>
+                </div>
+            </div>
+
+            <!-- Test Results -->
+            <div id="testResults" class="screen hidden">
+                <h2>Kết quả kiểm tra</h2>
+                
+                <div class="results-summary">
+                    <div class="score-display">
+                        <div class="score-circle">
+                            <span><span id="scoreCorrect">0</span>/<span id="scoreTotal">0</span></span>
+                        </div>
+                        <p>Đúng <span id="scorePercentage">0</span>%</p>
+                    </div>
+                </div>
+                
+                <div id="reviewAnswersArea" class="review-answers">
+                    <h4>Xem lại câu sai:</h4>
+                    <!-- Review content will be generated here -->
+                </div>
+                
+                <div class="results-actions">
+                    <button id="retakeTestButton" class="primary-btn">Làm lại bài kiểm tra</button>
+                    <button id="backToTestSetupButton" class="secondary-btn">Quay lại thiết lập</button>
+                    <button id="backToFlashcardFromResultsButton" class="outline-btn">Quay lại bộ Kanji</button>
+                </div>
+            </div>
+
+            <!-- Loading Message -->
+            <div id="loadingMessage" class="screen hidden">
+                <div class="message-container loading-message">
+                    <div class="spinner"></div>
+                    <p>Đang tải dữ liệu...</p>
+                </div>
+            </div>
+
+            <!-- Error Message -->
+            <div id="errorMessage" class="screen hidden">
+                <div class="message-container error-message">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    <p>Đã xảy ra lỗi. Vui lòng thử lại sau.</p>
+                </div>
+            </div>
+
+            <footer class="app-footer">
+                <p>© 2023 Học Tiếng Nhật N3 | Thiết kế bởi GamezUI</p>
+            </footer>
+        </div>
+    </div>
+
+    <script src="../js/kanji.js"></script>
+</body>
+</html>

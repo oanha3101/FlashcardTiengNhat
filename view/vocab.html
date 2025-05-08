@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcard N3 - Học Tiếng Nhật</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+
+
+
+
+</head>
+<body>
+    <div class="app-wrapper">
+        <div class="glass-container">
+            <div class="app-header">
+                <h1>日本語 <span>N3 Flashcards</span></h1>
+                <div class="theme-toggle">
+                    <button id="themeToggle" aria-label="Toggle dark mode">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"></path></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mode Switcher -->
+            <div id="modeSwitcher" class="mode-switcher">
+                <button id="switchToFlashcardSetupBtn" class="mode-btn flashcard-mode">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect><path d="M3 9h18"></path></svg>
+                    Học Flashcard
+                </button>
+                <button id="switchToWordSetManagerBtn" class="mode-btn wordset-mode active">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><path d="M15 2H9a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1z"></path></svg>
+                    Quản lý Bộ Từ
+                </button>
+                <button id="switchToTestSetupBtn" class="mode-btn test-mode">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    Kiểm Tra
+                </button>
+            </div>
+
+            <!-- Loading & Error Messages -->
+            <div id="loadingMessage" class="message-container loading-message hidden">
+                <div class="spinner"></div>
+                <p>Đang tải từ vựng...</p>
+            </div>
+            <div id="errorMessage" class="message-container error-message hidden"></div>
+
+            <!-- Initial Setup Screen -->
+            <div id="initialSetup" class="screen range-selector hidden">
+                <h2>Chọn khoảng từ vựng để học</h2>
+                <div class="range-inputs">
+                    <div class="input-group">
+                        <label for="startWord">Từ số:</label>
+                        <input type="number" id="startWord" value="1" min="1">
+                    </div>
+                    <div class="input-group">
+                        <label for="endWord">Đến số:</label>
+                        <input type="number" id="endWord" value="">
+                    </div>
+                </div>
+                <button id="loadRangeButton" class="primary-btn pulse-btn">Bắt đầu học</button>
+                <p id="totalWordsMessage" class="info-text"></p>
+                <div class="storage-controls">
+                    <button id="clearAllMarksButton" class="danger-btn">Xóa tất cả đánh dấu đã lưu</button>
+                </div>
+            </div>
+
+            <!-- Word Set Manager Screen -->
+            <div id="wordSetManager" class="screen">
+                <h2>Quản lý Bộ Từ Vựng</h2>
+                
+                <!-- Form tạo bộ từ mới -->
+                <div class="create-set-form">
+                    <h3>Tạo Bộ Từ Mới</h3>
+                    <div class="form-group">
+                        <label for="wordSetName">Tên Bộ Từ:</label>
+                        <input type="text" id="wordSetName" placeholder="Ví dụ: Bài 1, Từ khó N3">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="wordSetStart">Từ số (CSV):</label>
+                            <input type="number" id="wordSetStart" value="1" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="wordSetEnd">Đến số (CSV):</label>
+                            <input type="number" id="wordSetEnd" value="">
+                        </div>
+                    </div>
+                    <button id="createWordSetButton" class="primary-btn">Tạo Bộ Từ</button>
+                    <p id="wordSetTotalMessage" class="info-text"></p>
+                </div>
+                
+                <!-- Danh sách các bộ từ đã tạo -->
+                <div id="wordSetListContainer" class="word-set-list-container">
+                    <h3>Các Bộ Từ Đã Tạo</h3>
+                    <div id="wordSetList" class="word-set-list">
+                        <!-- Các bộ từ sẽ được thêm vào đây bằng JavaScript -->
+                    </div>
+                    <p id="noWordSetsMessage" class="empty-message hidden">Chưa có bộ từ nào được tạo.</p>
+                </div>
+            </div>
+
+            <!-- Word Set Detail View -->
+            <div id="wordSetDetailView" class="screen hidden">
+                <h2 id="detailViewName" class="set-detail-title"></h2>
+                <p id="detailViewRange" class="set-detail-range"></p>
+                <div class="action-buttons">
+                    <button id="studySetFlashcardButton" class="primary-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect><path d="M3 9h18"></path></svg>
+                        Học Flashcard
+                    </button>
+                    <button id="testSetButton" class="secondary-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                        Kiểm Tra
+                    </button>
+                    <button id="backToSetManagerButton" class="outline-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+                        Quay Lại
+                    </button>
+                </div>
+                <div id="detailWordList" class="word-list-container">
+                    <!-- Danh sách từ trong bộ sẽ hiển thị ở đây -->
+                </div>
+            </div>
+
+            <!-- Flashcard App Screen -->
+            <div id="flashcardApp" class="screen hidden">
+                <div class="flashcard-header">
+                    <h2>Flashcard N3</h2>
+                    <div class="progress-stats">
+                        <span>Còn lại: <b id="remainingCount">0</b></span>
+                        <span>Hiện tại: <b id="currentCardNumber">0</b>/<b id="totalInReviewSet">0</b></span>
+                        <span>Tổng: <b id="totalSelectedCount">0</b></span>
+                    </div>
+                </div>
+
+                <div class="flashcard-container" id="flashcardContainer">
+                    <div id="markIndicator" class="mark-indicator"></div>
+                    <div class="flashcard" id="flashcard">
+                        <div class="flashcard-face flashcard-front">
+                            <div class="kanji" id="kanjiDisplay"></div>
+                        </div>
+                        <div class="flashcard-face flashcard-back">
+                            <div class="hiragana" id="hiraganaDisplay"></div>
+                            <div class="meaning" id="meaningDisplay"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+
+                <div class="controls-grid">
+                    <button id="flipButton" class="control-btn flip-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0"></path><path d="M17 12H7"></path><path d="m13 8-4 4 4 4"></path></svg>
+                        Lật Thẻ (Space)
+                    </button>
+                    <button id="prevButton" class="control-btn prev-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+                        Trước (←)
+                    </button>
+                    <button id="nextButton" class="control-btn next-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 7 7 7-7"></path><path d="M5 12h14"></path></svg>
+                        Tiếp (→)
+                    </button>
+                    <button id="markKnownButton" class="control-btn known-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><path d="m9 11 3 3L22 4"></path></svg>
+                        Thuộc (O)
+                    </button>
+                    <button id="markUnknownButton" class="control-btn unknown-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+                        Chưa thuộc (X)
+                    </button>
+                    <button id="clearMarkButton" class="control-btn clear-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><path d="m14.5 9-5 5"></path><path d="m9.5 9 5 5"></path></svg>
+                        Bỏ dấu
+                    </button>
+                </div>
+
+                <div class="settings-panel">
+                    <div class="setting-group">
+                        <label for="reviewModeSelect">Chế độ xem:</label>
+                        <select id="reviewModeSelect">
+                            <option value="all" selected>Tất cả từ</option>
+                            <option value="unknown">Chỉ từ chưa thuộc (X)</option>
+                            <option value="known">Chỉ từ đã thuộc (O)</option>
+                            <option value="unmarked">Chỉ từ chưa đánh dấu</option>
+                        </select>
+                    </div>
+                    <div class="setting-group">
+                        <label for="intervalSelect">Tự động chuyển:</label>
+                        <select id="intervalSelect">
+                            <option value="3000">3 giây</option>
+                            <option value="5000" selected>5 giây</option>
+                            <option value="7000">7 giây</option>
+                            <option value="10000">10 giây</option>
+                            <option value="0">Tắt</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="bottom-actions">
+                    <button id="restartButton" class="secondary-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0"></path><path d="M9 9v6"></path><path d="M15 9v6"></path></svg>
+                        Học lại / Chọn lại
+                    </button>
+                    <button id="backToWordSetManagerFromFlashcard" class="outline-btn hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9Z"></path><path d="m3 9 2.45-4.9A2 2 0 0 1 7.24 3h9.52a2 2 0 0 1 1.8 1.1L21 9"></path><path d="M12 3v6"></path></svg>
+                        Về Quản lý Bộ Từ
+                    </button>
+                </div>
+            </div>
+
+            <!-- Test Setup Screen -->
+            <div id="testSetup" class="screen hidden">
+                <h2>Cài Đặt Bài Kiểm Tra</h2>
+                <div class="test-setup-form">
+                    <div class="form-group">
+                        <label for="numTestQuestions">Số câu hỏi:</label>
+                        <input type="number" id="numTestQuestions" value="10" min="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="testType">Loại câu hỏi:</label>
+                        <select id="testType">
+                            <option value="viToJp">Nghĩa Tiếng Việt → Từ Tiếng Nhật</option>
+                            <option value="jpToVi">Từ Tiếng Nhật → Nghĩa Tiếng Việt</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="testStartWord">Từ vựng từ số:</label>
+                            <input type="number" id="testStartWord" value="1" min="1">
+                        </div>
+                        <div class="form-group">
+                            <label for="testEndWord">Đến số:</label>
+                            <input type="number" id="testEndWord" value="">
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <button id="startTestButton" class="primary-btn">Bắt đầu Kiểm tra</button>
+                        <button id="backToFlashcardModeButton" class="outline-btn">Quay lại Flashcard</button>
+                        <button id="backToWordSetManagerFromTestSetup" class="outline-btn hidden">Về Quản lý Bộ Từ</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Test Interface Screen -->
+            <div id="testInterface" class="screen hidden">
+                <h2>Bài Kiểm Tra</h2>
+                <div id="testProgress" class="test-progress">Câu: <span id="currentQuestionNum">1</span>/<span id="totalTestQuestions">10</span></div>
+                
+                <div id="questionArea" class="question-area">
+                    <p id="questionText"></p>
+                </div>
+                
+                <div id="optionsArea" class="options-area">
+                    <!-- Options will be populated here -->
+                </div>
+                
+                <div id="testFeedback" class="test-feedback"></div>
+                
+                <div class="test-actions">
+                    <button id="nextQuestionButton" class="primary-btn hidden">Câu Tiếp Theo</button>
+                    <button id="finishTestButton" class="danger-btn">Kết Thúc Sớm</button>
+                </div>
+            </div>
+
+            <!-- Test Results Screen -->
+            <div id="testResults" class="screen hidden">
+                <h2>Kết Quả Kiểm Tra</h2>
+                <div class="results-summary">
+                    <div class="score-display">
+                        <div class="score-circle">
+                            <span id="scorePercentage">0</span>%
+                        </div>
+                        <p>Điểm của bạn: <span id="scoreCorrect">0</span>/<span id="scoreTotal">0</span></p>
+                    </div>
+                </div>
+                
+                <div id="reviewAnswersArea" class="review-answers">
+                    <!-- Review of incorrect answers will go here -->
+                </div>
+                
+                <div class="results-actions">
+                    <button id="retakeTestButton" class="primary-btn">Làm lại Kiểm tra</button>
+                    <button id="backToTestSetupButton" class="secondary-btn">Cài đặt lại</button>
+                    <button id="backToFlashcardFromResultsButton" class="outline-btn">Về Flashcard</button>
+                </div>
+            </div>
+
+            <div class="app-footer">
+                <p>© 2025 Japanese Flashcard App - Học Tiếng Nhật N3</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/script.js"></script>
+
+</body>
+</html>
