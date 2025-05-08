@@ -133,112 +133,170 @@ document.addEventListener('DOMContentLoaded', function() {
         return `${STORAGE_KEY_PREFIX}${primaryId}_${secondaryId}`;
     }
 
-    // Load CSV vocabulary
-    async function loadFullCSVVocabulary(filePath = '../csv/n3_vocab.csv') {
-        showScreen('loading');
-        try {
-            const response = await fetch(filePath);
-            if (!response.ok) { throw new Error(`HTTP error! Status: ${response.status}`); }
-            const csvText = await response.text();
-            if (!csvText.trim()) throw new Error("File CSV trống.");
+    // // Load CSV vocabulary
+    // async function loadFullCSVVocabulary(filePath = '../csv/n3_vocab.csv') {
+    //     showScreen('loading');
+    //     try {
+    //         const response = await fetch(filePath);
+    //         if (!response.ok) { throw new Error(`HTTP error! Status: ${response.status}`); }
+    //         const csvText = await response.text();
+    //         if (!csvText.trim()) throw new Error("File CSV trống.");
             
-            const lines = csvText.trim().split(/\r?\n/);
-            if (lines.length < 2) throw new Error("CSV cần header và ít nhất 1 dòng data.");
+    //         const lines = csvText.trim().split(/\r?\n/);
+    //         if (lines.length < 2) throw new Error("CSV cần header và ít nhất 1 dòng data.");
 
-            const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
-            ['kanji', 'hiragana', 'nghiatiengviet'].forEach(reqH => {
-                if (!headers.includes(reqH)) throw new Error(`Thiếu header '${reqH}'.`);
-            });
+    //         const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+    //         ['kanji', 'hiragana', 'nghiatiengviet'].forEach(reqH => {
+    //             if (!headers.includes(reqH)) throw new Error(`Thiếu header '${reqH}'.`);
+    //         });
 
-            const data = lines.slice(1).map((line, lineIndex) => {
-                const values = [];
-                let currentVal = ''; 
-                let inQuotes = false;
+    //         const data = lines.slice(1).map((line, lineIndex) => {
+    //             const values = [];
+    //             let currentVal = ''; 
+    //             let inQuotes = false;
                 
-                for (let i = 0; i < line.length; i++) {
-                    const char = line[i];
-                    if (char === '"') {
-                        if (inQuotes && i + 1 < line.length && line[i+1] === '"') { 
-                            currentVal += '"'; 
-                            i++; 
-                        } else { 
-                            inQuotes = !inQuotes; 
-                        }
-                    } else if (char === ',' && !inQuotes) { 
-                        values.push(currentVal.trim()); 
-                        currentVal = ''; 
-                    } else { 
-                        currentVal += char; 
-                    }
-                }
-                values.push(currentVal.trim());
+    //             for (let i = 0; i < line.length; i++) {
+    //                 const char = line[i];
+    //                 if (char === '"') {
+    //                     if (inQuotes && i + 1 < line.length && line[i+1] === '"') { 
+    //                         currentVal += '"'; 
+    //                         i++; 
+    //                     } else { 
+    //                         inQuotes = !inQuotes; 
+    //                     }
+    //                 } else if (char === ',' && !inQuotes) { 
+    //                     values.push(currentVal.trim()); 
+    //                     currentVal = ''; 
+    //                 } else { 
+    //                     currentVal += char; 
+    //                 }
+    //             }
+    //             values.push(currentVal.trim());
 
-                if (values.length !== headers.length) { 
-                    console.warn(`Dòng ${lineIndex + 2} CSV cột không khớp.`); 
-                    return null; 
-                }
+    //             if (values.length !== headers.length) { 
+    //                 console.warn(`Dòng ${lineIndex + 2} CSV cột không khớp.`); 
+    //                 return null; 
+    //             }
                 
-                let entry = {};
-                headers.forEach((header, index) => { 
-                    entry[header] = values[index] || ''; 
-                });
+    //             let entry = {};
+    //             headers.forEach((header, index) => { 
+    //                 entry[header] = values[index] || ''; 
+    //             });
                 
-                if (!entry.nghiatiengviet || (!entry.kanji && !entry.hiragana)) { 
-                    console.warn(`Dòng ${lineIndex + 2} thiếu data.`); 
-                    return null; 
-                }
+    //             if (!entry.nghiatiengviet || (!entry.kanji && !entry.hiragana)) { 
+    //                 console.warn(`Dòng ${lineIndex + 2} thiếu data.`); 
+    //                 return null; 
+    //             }
 
-                // Load mark from localStorage
-                const storageKey = generateStorageKey(entry);
-                const savedMark = storageKey ? localStorage.getItem(storageKey) : null;
-                entry.mark = (savedMark === 'known' || savedMark === 'unknown') ? savedMark : null;
+    //             // Load mark from localStorage
+    //             const storageKey = generateStorageKey(entry);
+    //             const savedMark = storageKey ? localStorage.getItem(storageKey) : null;
+    //             entry.mark = (savedMark === 'known' || savedMark === 'unknown') ? savedMark : null;
                 
-                return entry;
-            }).filter(entry => entry !== null);
+    //             return entry;
+    //         }).filter(entry => entry !== null);
 
-            if (data.length === 0) throw new Error("Không có data hợp lệ từ CSV.");
+    //         if (data.length === 0) throw new Error("Không có data hợp lệ từ CSV.");
             
-            return data;
-        } catch (error) {
-            console.error("Lỗi tải/xử lý CSV:", error);
-            displayError(`Lỗi CSV: ${error.message}`);
-            return [];
-        }
+    //         return data;
+    //     } catch (error) {
+    //         console.error("Lỗi tải/xử lý CSV:", error);
+    //         displayError(`Lỗi CSV: ${error.message}`);
+    //         return [];
+    //     }
+    // }
+
+    // function displayError(message) { 
+    //     errorMessage.textContent = message;
+    //     showScreen('error');
+    // }
+
+    // async function prepareInitialSetup() {
+    //     showScreen('loading');
+    //     fullVocabulary = await loadFullCSVVocabulary();
+    //     if (fullVocabulary && fullVocabulary.length > 0) {
+    //         loadWordSets();
+    //         showScreen('wordSetManager');
+            
+    //         // Update max values for range inputs
+    //         endWordInput.max = fullVocabulary.length;
+    //         startWordInput.max = fullVocabulary.length;
+    //         wordSetStartInput.max = fullVocabulary.length;
+    //         wordSetEndInput.max = fullVocabulary.length;
+    //         testStartWordInput.max = fullVocabulary.length;
+    //         testEndWordInput.max = fullVocabulary.length;
+            
+    //         // Set default values
+    //         if (fullVocabulary.length > 0) {
+    //             endWordInput.value = fullVocabulary.length;
+    //             testEndWordInput.value = fullVocabulary.length;
+    //             wordSetEndInput.value = fullVocabulary.length;
+    //         }
+            
+    //         totalWordsMessage.textContent = `Tổng số từ trong file: ${fullVocabulary.length}`;
+    //         updateWordSetTotalMessage();
+    //     } else if (errorMessage.classList.contains('hidden')) {
+    //         displayError("Không tải được từ vựng. Không thể tiếp tục.");
+    //     }
+    // }
+    // Trong file script.js (hoặc file JS xử lý vocab)
+
+// ... (các khai báo DOM Elements, state variables, constants...)
+// function generateStorageKey(entry) { ... } // Cần hàm này nếu bạn lưu mark
+// function displayError(message) { ... }
+async function prepareInitialSetup() {
+    showScreen('loading');
+
+    if (typeof N3_VOCAB_DATA !== 'undefined' && Array.isArray(N3_VOCAB_DATA)) {
+        fullVocabulary = N3_VOCAB_DATA.map(entry => {
+            const storageKey = generateStorageKey(entry);
+            const savedMark = storageKey ? localStorage.getItem(storageKey) : null;
+            return {
+                ...entry,
+                mark: (savedMark === 'known' || savedMark === 'unknown') ? savedMark : null
+            };
+        });
+    } else {
+        console.error("Dữ liệu N3_VOCAB_DATA không được định nghĩa hoặc không phải là mảng.");
+        fullVocabulary = [];
     }
 
-    function displayError(message) { 
-        errorMessage.textContent = message;
-        showScreen('error');
-    }
+    if (fullVocabulary && fullVocabulary.length > 0) {
+        loadWordSets(); // <<< BỎ COMMENT DÒNG NÀY ĐỂ TẢI BỘ TỪ ĐÃ LƯU
+        showScreen('wordSetManager'); // Hiển thị màn hình quản lý bộ từ sau khi tải
 
-    async function prepareInitialSetup() {
-        showScreen('loading');
-        fullVocabulary = await loadFullCSVVocabulary();
-        if (fullVocabulary && fullVocabulary.length > 0) {
-            loadWordSets();
-            showScreen('wordSetManager');
-            
-            // Update max values for range inputs
-            endWordInput.max = fullVocabulary.length;
-            startWordInput.max = fullVocabulary.length;
-            wordSetStartInput.max = fullVocabulary.length;
-            wordSetEndInput.max = fullVocabulary.length;
-            testStartWordInput.max = fullVocabulary.length;
-            testEndWordInput.max = fullVocabulary.length;
-            
-            // Set default values
-            if (fullVocabulary.length > 0) {
-                endWordInput.value = fullVocabulary.length;
-                testEndWordInput.value = fullVocabulary.length;
-                wordSetEndInput.value = fullVocabulary.length;
-            }
-            
-            totalWordsMessage.textContent = `Tổng số từ trong file: ${fullVocabulary.length}`;
-            updateWordSetTotalMessage();
-        } else if (errorMessage.classList.contains('hidden')) {
-            displayError("Không tải được từ vựng. Không thể tiếp tục.");
-        }
+        // Cập nhật các UI elements nếu cần
+        totalWordsMessage.textContent = `Tổng số từ trong file: ${fullVocabulary.length}`;
+        updateWordSetTotalMessage(); // Đảm bảo hàm này được gọi để cập nhật UI
+
+        // Cập nhật các input.max nếu có trên màn hình quản lý bộ từ hoặc thiết lập ban đầu
+        if (endWordInput) endWordInput.max = fullVocabulary.length;
+        if (startWordInput) startWordInput.max = fullVocabulary.length;
+        if (wordSetStartInput) wordSetStartInput.max = fullVocabulary.length;
+        if (wordSetEndInput) wordSetEndInput.max = fullVocabulary.length;
+        if (testStartWordInput) testStartWordInput.max = fullVocabulary.length;
+        if (testEndWordInput) testEndWordInput.max = fullVocabulary.length;
+
+        // Set default values cho các input nếu cần (ví dụ: trên màn hình tạo bộ từ)
+        if (endWordInput) endWordInput.value = fullVocabulary.length; // Hoặc một giá trị mặc định hợp lý
+        if (testEndWordInput) testEndWordInput.value = fullVocabulary.length;
+        if (wordSetEndInput) wordSetEndInput.value = fullVocabulary.length;
+
+
+    } else if (errorMessage && errorMessage.classList.contains('hidden') || (typeof N3_VOCAB_DATA === 'undefined')) {
+        displayError("Không tải được từ vựng. Vui lòng kiểm tra file n3_vocab_data.js.");
     }
+}
+// ... (phần còn lại của code cho trang học từ vựng: initializeAppWithRange,
+//      displayCardAtIndex, showNextCard, flipCard, markCurrentCard, v.v...)
+
+// Đảm bảo prepareInitialSetup() được gọi khi DOM sẵn sàng
+// document.addEventListener('DOMContentLoaded', function() {
+    // ...
+    // initTheme(); // Nếu có
+    // prepareInitialSetup();
+    // ...
+// });
     
     function initializeAppWithRange(sourceVocabArray = null, sourceName = "khoảng đã chọn") {
         let start, end;

@@ -135,91 +135,103 @@ document.addEventListener('DOMContentLoaded', function() {
         return `${STORAGE_KEY_PREFIX}${primaryId}_${secondaryId}`;
     }
 
-    // Load CSV vocabulary
-    async function loadFullCSVVocabulary(filePath = '../csv/n3_kanji.csv') {
-        showScreen('loading');
-        try {
-            const response = await fetch(filePath);
-            if (!response.ok) { throw new Error(`HTTP error! Status: ${response.status}`); }
-            const csvText = await response.text();
-            if (!csvText.trim()) throw new Error("File CSV trống.");
+    // // Load CSV vocabulary
+    // async function loadFullCSVVocabulary(filePath = '../csv/n3_kanji.csv') {
+    //     showScreen('loading');
+    //     try {
+    //         const response = await fetch(filePath);
+    //         if (!response.ok) { throw new Error(`HTTP error! Status: ${response.status}`); }
+    //         const csvText = await response.text();
+    //         if (!csvText.trim()) throw new Error("File CSV trống.");
             
-            const lines = csvText.trim().split(/\r?\n/);
-            if (lines.length < 2) throw new Error("CSV cần header và ít nhất 1 dòng data.");
+    //         const lines = csvText.trim().split(/\r?\n/);
+    //         if (lines.length < 2) throw new Error("CSV cần header và ít nhất 1 dòng data.");
 
-            const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
-            ['kanji', 'on_yomi', 'kun_yomi', 'meaning', 'example'].forEach(reqH => {
-                if (!headers.includes(reqH)) throw new Error(`Thiếu header '${reqH}'.`);
-            });
+    //         const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
+    //         ['kanji', 'on_yomi', 'kun_yomi', 'meaning', 'example'].forEach(reqH => {
+    //             if (!headers.includes(reqH)) throw new Error(`Thiếu header '${reqH}'.`);
+    //         });
 
-            const data = lines.slice(1).map((line, lineIndex) => {
-                const values = [];
-                let currentVal = ''; 
-                let inQuotes = false;
+    //         const data = lines.slice(1).map((line, lineIndex) => {
+    //             const values = [];
+    //             let currentVal = ''; 
+    //             let inQuotes = false;
                 
-                for (let i = 0; i < line.length; i++) {
-                    const char = line[i];
-                    if (char === '"') {
-                        if (inQuotes && i + 1 < line.length && line[i+1] === '"') { 
-                            currentVal += '"'; 
-                            i++; 
-                        } else { 
-                            inQuotes = !inQuotes; 
-                        }
-                    } else if (char === ',' && !inQuotes) { 
-                        values.push(currentVal.trim()); 
-                        currentVal = ''; 
-                    } else { 
-                        currentVal += char; 
-                    }
-                }
-                values.push(currentVal.trim());
+    //             for (let i = 0; i < line.length; i++) {
+    //                 const char = line[i];
+    //                 if (char === '"') {
+    //                     if (inQuotes && i + 1 < line.length && line[i+1] === '"') { 
+    //                         currentVal += '"'; 
+    //                         i++; 
+    //                     } else { 
+    //                         inQuotes = !inQuotes; 
+    //                     }
+    //                 } else if (char === ',' && !inQuotes) { 
+    //                     values.push(currentVal.trim()); 
+    //                     currentVal = ''; 
+    //                 } else { 
+    //                     currentVal += char; 
+    //                 }
+    //             }
+    //             values.push(currentVal.trim());
 
-                if (values.length !== headers.length) { 
-                    console.warn(`Dòng ${lineIndex + 2} CSV cột không khớp.`); 
-                    return null; 
-                }
+    //             if (values.length !== headers.length) { 
+    //                 console.warn(`Dòng ${lineIndex + 2} CSV cột không khớp.`); 
+    //                 return null; 
+    //             }
                 
-                let entry = {};
-                headers.forEach((header, index) => { 
-                    entry[header] = values[index] || ''; 
-                });
+    //             let entry = {};
+    //             headers.forEach((header, index) => { 
+    //                 entry[header] = values[index] || ''; 
+    //             });
                 
-                if (!entry.kanji || !entry.meaning) { 
-                    console.warn(`Dòng ${lineIndex + 2} thiếu data.`); 
-                    return null; 
-                }
+    //             if (!entry.kanji || !entry.meaning) { 
+    //                 console.warn(`Dòng ${lineIndex + 2} thiếu data.`); 
+    //                 return null; 
+    //             }
 
-                // Load mark from localStorage
-                const storageKey = generateStorageKey(entry);
-                const savedMark = storageKey ? localStorage.getItem(storageKey) : null;
-                entry.mark = (savedMark === 'known' || savedMark === 'unknown') ? savedMark : null;
+    //             // Load mark from localStorage
+    //             const storageKey = generateStorageKey(entry);
+    //             const savedMark = storageKey ? localStorage.getItem(storageKey) : null;
+    //             entry.mark = (savedMark === 'known' || savedMark === 'unknown') ? savedMark : null;
                 
-                return entry;
-            }).filter(entry => entry !== null);
+    //             return entry;
+    //         }).filter(entry => entry !== null);
 
-            if (data.length === 0) throw new Error("Không có data hợp lệ từ CSV.");
+    //         if (data.length === 0) throw new Error("Không có data hợp lệ từ CSV.");
             
-            return data;
-        } catch (error) {
-            console.error("Lỗi tải/xử lý CSV:", error);
-            displayError(`Lỗi CSV: ${error.message}`);
-            return [];
-        }
-    }
-
-    function displayError(message) { 
-        errorMessage.textContent = message;
-        showScreen('error');
-    }
-
+    //         return data;
+    //     } catch (error) {
+    //         console.error("Lỗi tải/xử lý CSV:", error);
+    //         displayError(`Lỗi CSV: ${error.message}`);
+    //         return [];
+    //     }
+    // }
     async function prepareInitialSetup() {
         showScreen('loading');
-        fullVocabulary = await loadFullCSVVocabulary();
+        // fullVocabulary = await loadFullCSVVocabulary(); // Dòng này sẽ được thay thế
+    
+        // KIỂM TRA XEM N3_KANJI_DATA CÓ TỒN TẠI KHÔNG
+        if (typeof N3_KANJI_DATA !== 'undefined' && Array.isArray(N3_KANJI_DATA)) {
+            fullVocabulary = N3_KANJI_DATA.map(entry => {
+                // Bạn vẫn cần load mark từ localStorage nếu có logic này
+                const storageKey = generateStorageKey(entry); // Giả sử bạn có hàm này
+                const savedMark = storageKey ? localStorage.getItem(storageKey) : null;
+                return {
+                    ...entry, // Sao chép tất cả thuộc tính từ entry
+                    mark: (savedMark === 'known' || savedMark === 'unknown') ? savedMark : null
+                };
+            });
+        } else {
+            console.error("Dữ liệu N3_KANJI_DATA không được định nghĩa hoặc không phải là mảng.");
+            fullVocabulary = []; // Khởi tạo mảng rỗng để tránh lỗi ở các phần sau
+        }
+    
+    
         if (fullVocabulary && fullVocabulary.length > 0) {
-            loadWordSets();
-            showScreen('wordSetManager');
-            
+            loadWordSets(); // Giữ lại nếu bạn có quản lý bộ từ
+            showScreen('wordSetManager'); // Hoặc màn hình bạn muốn hiển thị đầu tiên
+    
             // Update max values for range inputs
             endWordInput.max = fullVocabulary.length;
             startWordInput.max = fullVocabulary.length;
@@ -227,20 +239,54 @@ document.addEventListener('DOMContentLoaded', function() {
             wordSetEndInput.max = fullVocabulary.length;
             testStartWordInput.max = fullVocabulary.length;
             testEndWordInput.max = fullVocabulary.length;
-            
+    
             // Set default values
             if (fullVocabulary.length > 0) {
                 endWordInput.value = fullVocabulary.length;
                 testEndWordInput.value = fullVocabulary.length;
                 wordSetEndInput.value = fullVocabulary.length;
             }
-            
+    
             totalWordsMessage.textContent = `Tổng số Kanji trong file: ${fullVocabulary.length}`;
-            updateWordSetTotalMessage();
-        } else if (errorMessage.classList.contains('hidden')) {
-            displayError("Không tải được Kanji. Không thể tiếp tục.");
+            updateWordSetTotalMessage(); // Giữ lại nếu có
+        } else if (errorMessage.classList.contains('hidden') || (typeof N3_KANJI_DATA === 'undefined')) {
+            displayError("Không tải được Kanji. Không thể tiếp tục. Vui lòng kiểm tra file n3_kanji_data.js.");
         }
     }
+
+    // function displayError(message) { 
+    //     errorMessage.textContent = message;
+    //     showScreen('error');
+    // }
+
+    // async function prepareInitialSetup() {
+    //     showScreen('loading');
+    //     fullVocabulary = await loadFullCSVVocabulary();
+    //     if (fullVocabulary && fullVocabulary.length > 0) {
+    //         loadWordSets();
+    //         showScreen('wordSetManager');
+            
+    //         // Update max values for range inputs
+    //         endWordInput.max = fullVocabulary.length;
+    //         startWordInput.max = fullVocabulary.length;
+    //         wordSetStartInput.max = fullVocabulary.length;
+    //         wordSetEndInput.max = fullVocabulary.length;
+    //         testStartWordInput.max = fullVocabulary.length;
+    //         testEndWordInput.max = fullVocabulary.length;
+            
+    //         // Set default values
+    //         if (fullVocabulary.length > 0) {
+    //             endWordInput.value = fullVocabulary.length;
+    //             testEndWordInput.value = fullVocabulary.length;
+    //             wordSetEndInput.value = fullVocabulary.length;
+    //         }
+            
+    //         totalWordsMessage.textContent = `Tổng số Kanji trong file: ${fullVocabulary.length}`;
+    //         updateWordSetTotalMessage();
+    //     } else if (errorMessage.classList.contains('hidden')) {
+    //         displayError("Không tải được Kanji. Không thể tiếp tục.");
+    //     }
+    // }
     
     function initializeAppWithRange(sourceVocabArray = null, sourceName = "khoảng đã chọn") {
         let start, end;
