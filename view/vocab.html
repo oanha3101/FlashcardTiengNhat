@@ -66,7 +66,7 @@
                 </div>
             </div>
 
-            <!-- Word Set Manager Screen -->
+                       <!-- Word Set Manager Screen -->
             <div id="wordSetManager" class="screen">
                 <h2>Quản lý Bộ Từ Vựng</h2>
                 
@@ -90,6 +90,12 @@
                     <button id="createWordSetButton" class="primary-btn">Tạo Bộ Từ</button>
                     <p id="wordSetTotalMessage" class="info-text"></p>
                 </div>
+
+                <!-- Thanh tìm kiếm bộ từ -->
+                <div class="search-word-set-container">
+                    <label for="searchWordSetInput">Tìm kiếm bộ từ:</label>
+                    <input type="text" id="searchWordSetInput" placeholder="Nhập tên bộ từ...">
+                </div>
                 
                 <!-- Danh sách các bộ từ đã tạo -->
                 <div id="wordSetListContainer" class="word-set-list-container">
@@ -98,6 +104,7 @@
                         <!-- Các bộ từ sẽ được thêm vào đây bằng JavaScript -->
                     </div>
                     <p id="noWordSetsMessage" class="empty-message hidden">Chưa có bộ từ nào được tạo.</p>
+                    <p id="noSearchResultsMessage" class="empty-message hidden">Không tìm thấy bộ từ nào phù hợp với tìm kiếm của bạn.</p> <!-- Thêm dòng này -->
                 </div>
             </div>
 

@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const flashcardApp = document.getElementById('flashcardApp');
     const remainingCountDisplay = document.getElementById('remainingCount');
     const currentCardNumberDisplay = document.getElementById('currentCardNumber');
-    const totalInReviewSetDisplay = document.getElementById('totalInReviewSet'); 
+    const totalInReviewSetDisplay = document.getElementById('totalInReviewSet');
     const totalSelectedCountDisplay = document.getElementById('totalSelectedCount');
 
     const initialSetupDiv = document.getElementById('initialSetup');
@@ -48,6 +48,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const wordSetListDiv = document.getElementById('wordSetList');
     const noWordSetsMessage = document.getElementById('noWordSetsMessage');
     const wordSetTotalMessage = document.getElementById('wordSetTotalMessage');
+    // --- Thêm cho tìm kiếm bộ từ ---
+    const searchWordSetInput = document.getElementById('searchWordSetInput');
+    const noSearchResultsMessage = document.getElementById('noSearchResultsMessage');
 
     // Word set detail elements
     const wordSetDetailViewDiv = document.getElementById('wordSetDetailView');
@@ -89,15 +92,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const themeToggle = document.getElementById('themeToggle');
 
     // State variables
-    let fullVocabulary = [];      
-    let vocabulary = [];          
-    let activeVocabulary = [];    
-    let currentCardIndex = -1;    
+    let fullVocabulary = [];
+    let vocabulary = [];
+    let activeVocabulary = [];
+    let currentCardIndex = -1;
     let isFlipped = false;
     let autoNextInterval;
     let autoNextDuration = 5000;
-    let wordSets = [];
-    let currentStudyingSet = null;
+    let wordSets = []; // Sẽ được load từ localStorage
+    let currentStudyingSet = null; // Lưu bộ từ đang được xem/học/kiểm tra
     let testQuestions = [];
     let currentTestQuestionIndex = 0;
     let userScore = 0;
@@ -109,6 +112,22 @@ document.addEventListener('DOMContentLoaded', function() {
     const STORAGE_KEY_PREFIX = 'flashcard_mark_';
     const WORD_SETS_STORAGE_KEY = 'flashcard_word_sets';
     const THEME_STORAGE_KEY = 'flashcard_theme';
+
+        function escapeHTML(str) {
+        if (typeof str !== 'string') return ''; // Trả về chuỗi rỗng nếu không phải string
+        return str.replace(/[&<>"']/g, function (match) {
+            // Object map các ký tự cần thay thế với HTML entity của chúng
+            const escapeChars = {
+                '&': '&',  // Ký tự &
+                '<': '<',   // Ký tự <
+                '>': '>',   // Ký tự >
+                '"': '"', // Ký tự "
+                "'": ''  
+                              // Hoặc có thể dùng ''' nhưng hỗ trợ trình duyệt cũ không tốt bằng '
+            };
+            return escapeChars[match]; // Trả về HTML entity tương ứng
+        });
+    }
 
     // Theme toggle functionality
     function initTheme() {
@@ -127,181 +146,76 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to generate a unique key for localStorage
     function generateStorageKey(card) {
-        if (!card || (!card.kanji && !card.hiragana)) return null;
-        const primaryId = (card.kanji || card.hiragana || 'unknown_card').replace(/\s+/g, '_');
-        const secondaryId = (card.nghiatiengviet || 'no_meaning').substring(0,15).replace(/\s+/g, '_');
+        if (!card || (!card.kanji && !card.hiragana && !card.nghiatiengviet)) return null; // Thêm nghiatiengviet để đảm bảo có key
+        const primaryId = (card.kanji || card.hiragana || 'unknown_card').replace(/\s+/g, '_').substring(0, 50);
+        const secondaryId = (card.nghiatiengviet || 'no_meaning').substring(0, 15).replace(/\s+/g, '_');
         return `${STORAGE_KEY_PREFIX}${primaryId}_${secondaryId}`;
     }
-
-    // // Load CSV vocabulary
-    // async function loadFullCSVVocabulary(filePath = '../csv/n3_vocab.csv') {
-    //     showScreen('loading');
-    //     try {
-    //         const response = await fetch(filePath);
-    //         if (!response.ok) { throw new Error(`HTTP error! Status: ${response.status}`); }
-    //         const csvText = await response.text();
-    //         if (!csvText.trim()) throw new Error("File CSV trống.");
-            
-    //         const lines = csvText.trim().split(/\r?\n/);
-    //         if (lines.length < 2) throw new Error("CSV cần header và ít nhất 1 dòng data.");
-
-    //         const headers = lines[0].split(',').map(h => h.trim().toLowerCase());
-    //         ['kanji', 'hiragana', 'nghiatiengviet'].forEach(reqH => {
-    //             if (!headers.includes(reqH)) throw new Error(`Thiếu header '${reqH}'.`);
-    //         });
-
-    //         const data = lines.slice(1).map((line, lineIndex) => {
-    //             const values = [];
-    //             let currentVal = ''; 
-    //             let inQuotes = false;
-                
-    //             for (let i = 0; i < line.length; i++) {
-    //                 const char = line[i];
-    //                 if (char === '"') {
-    //                     if (inQuotes && i + 1 < line.length && line[i+1] === '"') { 
-    //                         currentVal += '"'; 
-    //                         i++; 
-    //                     } else { 
-    //                         inQuotes = !inQuotes; 
-    //                     }
-    //                 } else if (char === ',' && !inQuotes) { 
-    //                     values.push(currentVal.trim()); 
-    //                     currentVal = ''; 
-    //                 } else { 
-    //                     currentVal += char; 
-    //                 }
-    //             }
-    //             values.push(currentVal.trim());
-
-    //             if (values.length !== headers.length) { 
-    //                 console.warn(`Dòng ${lineIndex + 2} CSV cột không khớp.`); 
-    //                 return null; 
-    //             }
-                
-    //             let entry = {};
-    //             headers.forEach((header, index) => { 
-    //                 entry[header] = values[index] || ''; 
-    //             });
-                
-    //             if (!entry.nghiatiengviet || (!entry.kanji && !entry.hiragana)) { 
-    //                 console.warn(`Dòng ${lineIndex + 2} thiếu data.`); 
-    //                 return null; 
-    //             }
-
-    //             // Load mark from localStorage
-    //             const storageKey = generateStorageKey(entry);
-    //             const savedMark = storageKey ? localStorage.getItem(storageKey) : null;
-    //             entry.mark = (savedMark === 'known' || savedMark === 'unknown') ? savedMark : null;
-                
-    //             return entry;
-    //         }).filter(entry => entry !== null);
-
-    //         if (data.length === 0) throw new Error("Không có data hợp lệ từ CSV.");
-            
-    //         return data;
-    //     } catch (error) {
-    //         console.error("Lỗi tải/xử lý CSV:", error);
-    //         displayError(`Lỗi CSV: ${error.message}`);
-    //         return [];
-    //     }
-    // }
-
-    // function displayError(message) { 
-    //     errorMessage.textContent = message;
-    //     showScreen('error');
-    // }
-
-    // async function prepareInitialSetup() {
-    //     showScreen('loading');
-    //     fullVocabulary = await loadFullCSVVocabulary();
-    //     if (fullVocabulary && fullVocabulary.length > 0) {
-    //         loadWordSets();
-    //         showScreen('wordSetManager');
-            
-    //         // Update max values for range inputs
-    //         endWordInput.max = fullVocabulary.length;
-    //         startWordInput.max = fullVocabulary.length;
-    //         wordSetStartInput.max = fullVocabulary.length;
-    //         wordSetEndInput.max = fullVocabulary.length;
-    //         testStartWordInput.max = fullVocabulary.length;
-    //         testEndWordInput.max = fullVocabulary.length;
-            
-    //         // Set default values
-    //         if (fullVocabulary.length > 0) {
-    //             endWordInput.value = fullVocabulary.length;
-    //             testEndWordInput.value = fullVocabulary.length;
-    //             wordSetEndInput.value = fullVocabulary.length;
-    //         }
-            
-    //         totalWordsMessage.textContent = `Tổng số từ trong file: ${fullVocabulary.length}`;
-    //         updateWordSetTotalMessage();
-    //     } else if (errorMessage.classList.contains('hidden')) {
-    //         displayError("Không tải được từ vựng. Không thể tiếp tục.");
-    //     }
-    // }
-    // Trong file script.js (hoặc file JS xử lý vocab)
-
-// ... (các khai báo DOM Elements, state variables, constants...)
-// function generateStorageKey(entry) { ... } // Cần hàm này nếu bạn lưu mark
-// function displayError(message) { ... }
-async function prepareInitialSetup() {
-    showScreen('loading');
-
-    if (typeof N3_VOCAB_DATA !== 'undefined' && Array.isArray(N3_VOCAB_DATA)) {
-        fullVocabulary = N3_VOCAB_DATA.map(entry => {
-            const storageKey = generateStorageKey(entry);
-            const savedMark = storageKey ? localStorage.getItem(storageKey) : null;
-            return {
-                ...entry,
-                mark: (savedMark === 'known' || savedMark === 'unknown') ? savedMark : null
-            };
-        });
-    } else {
-        console.error("Dữ liệu N3_VOCAB_DATA không được định nghĩa hoặc không phải là mảng.");
-        fullVocabulary = [];
-    }
-
-    if (fullVocabulary && fullVocabulary.length > 0) {
-        loadWordSets(); // <<< BỎ COMMENT DÒNG NÀY ĐỂ TẢI BỘ TỪ ĐÃ LƯU
-        showScreen('wordSetManager'); // Hiển thị màn hình quản lý bộ từ sau khi tải
-
-        // Cập nhật các UI elements nếu cần
-        totalWordsMessage.textContent = `Tổng số từ trong file: ${fullVocabulary.length}`;
-        updateWordSetTotalMessage(); // Đảm bảo hàm này được gọi để cập nhật UI
-
-        // Cập nhật các input.max nếu có trên màn hình quản lý bộ từ hoặc thiết lập ban đầu
-        if (endWordInput) endWordInput.max = fullVocabulary.length;
-        if (startWordInput) startWordInput.max = fullVocabulary.length;
-        if (wordSetStartInput) wordSetStartInput.max = fullVocabulary.length;
-        if (wordSetEndInput) wordSetEndInput.max = fullVocabulary.length;
-        if (testStartWordInput) testStartWordInput.max = fullVocabulary.length;
-        if (testEndWordInput) testEndWordInput.max = fullVocabulary.length;
-
-        // Set default values cho các input nếu cần (ví dụ: trên màn hình tạo bộ từ)
-        if (endWordInput) endWordInput.value = fullVocabulary.length; // Hoặc một giá trị mặc định hợp lý
-        if (testEndWordInput) testEndWordInput.value = fullVocabulary.length;
-        if (wordSetEndInput) wordSetEndInput.value = fullVocabulary.length;
-
-
-    } else if (errorMessage && errorMessage.classList.contains('hidden') || (typeof N3_VOCAB_DATA === 'undefined')) {
-        displayError("Không tải được từ vựng. Vui lòng kiểm tra file n3_vocab_data.js.");
-    }
-}
-// ... (phần còn lại của code cho trang học từ vựng: initializeAppWithRange,
-//      displayCardAtIndex, showNextCard, flipCard, markCurrentCard, v.v...)
-
-// Đảm bảo prepareInitialSetup() được gọi khi DOM sẵn sàng
-// document.addEventListener('DOMContentLoaded', function() {
-    // ...
-    // initTheme(); // Nếu có
-    // prepareInitialSetup();
-    // ...
-// });
     
+    function displayError(message) {
+        if (errorMessage) {
+            errorMessage.textContent = message;
+            showScreen('error');
+        } else {
+            console.error("Error message display element not found. Error:", message);
+            alert("Lỗi: " + message);
+        }
+    }
+
+    async function prepareInitialSetup() {
+        showScreen('loading');
+
+        if (typeof N3_VOCAB_DATA !== 'undefined' && Array.isArray(N3_VOCAB_DATA)) {
+            fullVocabulary = N3_VOCAB_DATA.map(entry => {
+                const storageKey = generateStorageKey(entry);
+                const savedMark = storageKey ? localStorage.getItem(storageKey) : null;
+                return {
+                    ...entry,
+                    mark: (savedMark === 'known' || savedMark === 'unknown') ? savedMark : null
+                };
+            });
+        } else {
+            console.error("Dữ liệu N3_VOCAB_DATA không được định nghĩa hoặc không phải là mảng.");
+            fullVocabulary = [];
+        }
+
+        if (fullVocabulary && fullVocabulary.length > 0) {
+            loadWordSets(); // Tải bộ từ đã lưu
+            showScreen('wordSetManager'); // Hiển thị màn hình quản lý bộ từ sau khi tải
+
+            // Cập nhật các UI elements nếu cần
+            if (totalWordsMessage) totalWordsMessage.textContent = `Tổng số từ trong file: ${fullVocabulary.length}`;
+            updateWordSetTotalMessage(); 
+
+            // Cập nhật các input.max
+            if (endWordInput) endWordInput.max = fullVocabulary.length;
+            if (startWordInput) startWordInput.max = fullVocabulary.length;
+            if (wordSetStartInput) wordSetStartInput.max = fullVocabulary.length;
+            if (wordSetEndInput) wordSetEndInput.max = fullVocabulary.length;
+            if (testStartWordInput) testStartWordInput.max = fullVocabulary.length;
+            if (testEndWordInput) testEndWordInput.max = fullVocabulary.length;
+
+            // Set default values cho các input nếu cần
+            if (endWordInput && !endWordInput.value) endWordInput.value = fullVocabulary.length;
+            if (testEndWordInput && !testEndWordInput.value) testEndWordInput.value = fullVocabulary.length;
+            if (wordSetEndInput && !wordSetEndInput.value) wordSetEndInput.value = fullVocabulary.length;
+
+        } else if (errorMessage && (errorMessage.classList.contains('hidden') || (typeof N3_VOCAB_DATA === 'undefined'))) {
+            displayError("Không tải được từ vựng. Vui lòng kiểm tra file n3_vocab_data.js.");
+        }
+    }
+
     function initializeAppWithRange(sourceVocabArray = null, sourceName = "khoảng đã chọn") {
         let start, end;
+        currentStudyingSet = null; // Reset current studying set unless set explicitly below
+
         if (sourceVocabArray) {
             vocabulary = sourceVocabArray.map(card => ({ ...card }));
+             // If sourceName is provided and it matches a word set name, set currentStudyingSet
+            const foundSet = wordSets.find(ws => ws.name === sourceName);
+            if (foundSet) {
+                currentStudyingSet = foundSet;
+            }
         } else {
             start = parseInt(startWordInput.value);
             end = parseInt(endWordInput.value);
@@ -316,23 +230,22 @@ async function prepareInitialSetup() {
 
         if (vocabulary.length > 0) {
             showScreen('flashcardApp');
-            errorMessage.classList.add('hidden');
+            if(errorMessage) errorMessage.classList.add('hidden');
 
             shuffleArray(vocabulary);
-            reviewModeSelect.value = 'all';
+            if(reviewModeSelect) reviewModeSelect.value = 'all';
             applyReviewMode();
 
-            totalSelectedCountDisplay.textContent = vocabulary.length;
+            if(totalSelectedCountDisplay) totalSelectedCountDisplay.textContent = vocabulary.length;
             
-            // Update title if studying from a set
             const fcAppTitle = flashcardApp.querySelector('h2');
-            if (sourceName !== "khoảng đã chọn" && fcAppTitle) {
-                fcAppTitle.textContent = `Flashcard - Bộ: ${sourceName}`;
+            if (currentStudyingSet && fcAppTitle) {
+                fcAppTitle.textContent = `Flashcard - Bộ: ${escapeHTML(currentStudyingSet.name)}`;
             } else if (fcAppTitle) {
                 fcAppTitle.textContent = `Flashcard N3`;
             }
         } else {
-            displayError(`Không có từ vựng trong ${sourceName}.`);
+            displayError(`Không có từ vựng trong ${escapeHTML(sourceName)}.`);
             showScreen(currentStudyingSet ? 'wordSetDetail' : 'initialSetup');
         }
     }
@@ -349,7 +262,7 @@ async function prepareInitialSetup() {
                 activeVocabulary = vocabulary.filter(card => card.mark === 'known');
                 break;
             case 'unmarked':
-                activeVocabulary = vocabulary.filter(card => card.mark === null);
+                activeVocabulary = vocabulary.filter(card => card.mark === null || card.mark === undefined);
                 break;
             case 'all':
             default:
@@ -379,10 +292,10 @@ async function prepareInitialSetup() {
 
     function displayCardAtIndex(index) {
         if (activeVocabulary.length === 0 || index < 0 || index >= activeVocabulary.length) {
-            console.warn("displayCardAtIndex được gọi với index không hợp lệ hoặc activeVocabulary trống.", index, activeVocabulary.length);
+            console.warn("displayCardAtIndex: index không hợp lệ hoặc activeVocabulary trống.", index, activeVocabulary.length);
             if (isFlipped) {
                 flashcard.style.transition = 'none';
-                flipCard(false);
+                flipCard(false); // Lật về mặt trước
                 void flashcard.offsetWidth;
                 flashcard.style.transition = 'transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
             }
@@ -404,8 +317,8 @@ async function prepareInitialSetup() {
 
         if (isFlipped) {
             flashcard.style.transition = 'none';
-            flipCard(false);
-            void flashcard.offsetWidth;
+            flipCard(false); // Lật về mặt trước
+            void flashcard.offsetWidth; // Force reflow
             flashcard.style.transition = 'transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
         }
 
@@ -496,10 +409,10 @@ async function prepareInitialSetup() {
         }
         
         let remainingInSet = activeVocabulary.length - studiedInSet;
-        remainingCountDisplay.textContent = Math.max(0, remainingInSet);
-        currentCardNumberDisplay.textContent = (activeVocabulary.length > 0 && currentCardIndex < activeVocabulary.length && currentCardIndex !== -1) ? currentCardIndex + 1 : (activeVocabulary.length > 0 ? activeVocabulary.length : 0);
-        totalInReviewSetDisplay.textContent = activeVocabulary.length;
-        totalSelectedCountDisplay.textContent = vocabulary.length; 
+        if(remainingCountDisplay) remainingCountDisplay.textContent = Math.max(0, remainingInSet);
+        if(currentCardNumberDisplay) currentCardNumberDisplay.textContent = (activeVocabulary.length > 0 && currentCardIndex < activeVocabulary.length && currentCardIndex !== -1) ? currentCardIndex + 1 : (activeVocabulary.length > 0 ? activeVocabulary.length : 0);
+        if(totalInReviewSetDisplay) totalInReviewSetDisplay.textContent = activeVocabulary.length;
+        if(totalSelectedCountDisplay) totalSelectedCountDisplay.textContent = vocabulary.length; 
     }
 
     function flipCard(toggle = true) {
@@ -515,10 +428,8 @@ async function prepareInitialSetup() {
         const currentCardInActive = activeVocabulary[currentCardIndex];
         const storageKey = generateStorageKey(currentCardInActive);
 
-        // Update in-memory activeVocabulary
         currentCardInActive.mark = status;
 
-        // Find and update in vocabulary (session's full selected range)
         const originalCardInSession = vocabulary.find(card => 
             generateStorageKey(card) === storageKey
         );
@@ -526,7 +437,6 @@ async function prepareInitialSetup() {
             originalCardInSession.mark = status;
         }
 
-        // Find and update in fullVocabulary (all CSV data)
         const originalCardInFull = fullVocabulary.find(card =>
             generateStorageKey(card) === storageKey
         );
@@ -534,7 +444,6 @@ async function prepareInitialSetup() {
             originalCardInFull.mark = status;
         }
 
-        // Save to localStorage
         if (storageKey) {
             if (status === null) {
                 localStorage.removeItem(storageKey);
@@ -594,18 +503,24 @@ async function prepareInitialSetup() {
         clearTimeout(autoNextInterval);
         
         if (currentStudyingSet) {
-            viewWordSetDetail(wordSets.findIndex(s => s.id === currentStudyingSet.id));
+            const setIndex = wordSets.findIndex(s => s.id === currentStudyingSet.id);
+            if (setIndex !== -1) {
+                viewWordSetDetail(wordSets[setIndex]); // Truyền object set
+            } else {
+                showScreen('wordSetManager'); // Nếu không tìm thấy, về quản lý chung
+            }
         } else {
-            showScreen('wordSetManager');
+            showScreen('wordSetManager'); // Nếu không có bộ nào đang học, về màn hình chọn bộ từ (quản lý)
         }
         
-        reviewModeSelect.value = 'all';
+        if(reviewModeSelect) reviewModeSelect.value = 'all';
         activeVocabulary = [];
         vocabulary = [];
         currentCardIndex = -1;
 
         const fcAppTitle = flashcardApp.querySelector('h2');
         if(fcAppTitle) fcAppTitle.textContent = "Flashcard N3";
+        if (backToWordSetManagerFromFlashcardBtn) backToWordSetManagerFromFlashcardBtn.classList.add('hidden');
     }
 
     function handleClearAllMarks() {
@@ -619,18 +534,95 @@ async function prepareInitialSetup() {
             keysToRemove.forEach(key => localStorage.removeItem(key));
             alert("Đã xóa tất cả đánh dấu đã lưu.");
 
-            fullVocabulary = [];
+            // Cập nhật lại trạng thái `mark` trong `fullVocabulary` và `wordSets` nếu cần
+             fullVocabulary.forEach(card => card.mark = null);
+             if (vocabulary.length > 0) vocabulary.forEach(card => card.mark = null);
+             if (activeVocabulary.length > 0) activeVocabulary.forEach(card => card.mark = null);
+
+
             if (!flashcardApp.classList.contains('hidden')) {
-                handleRestart();
+                // Nếu đang ở màn hình flashcard, cập nhật lại thẻ hiện tại và chế độ xem
+                updateMarkIndicator();
+                applyReviewMode(); // Để activeVocabulary được cập nhật
             } else {
-                prepareInitialSetup();
+                // Nếu không, chỉ cần tải lại (không cần prepareInitialSetup đầy đủ nếu chỉ xóa mark)
+                // Có thể cần tải lại wordSets nếu mark ảnh hưởng đến hiển thị của chúng (hiện tại không)
             }
+            // Không cần prepareInitialSetup() lại hoàn toàn, chỉ cần reset mark
         }
     }
 
-    // Word Set Management Functions
+    // --- Word Set Management Functions (ĐÃ SỬA ĐỔI) ---
     function saveWordSets() {
         localStorage.setItem(WORD_SETS_STORAGE_KEY, JSON.stringify(wordSets));
+    }
+
+    function displayWordSets(setsToDisplay) {
+        wordSetListDiv.innerHTML = '';
+        noWordSetsMessage.classList.add('hidden');
+        if (noSearchResultsMessage) noSearchResultsMessage.classList.add('hidden');
+
+        if (setsToDisplay.length === 0) {
+            if (searchWordSetInput && searchWordSetInput.value.trim() !== '') {
+                if (noSearchResultsMessage) noSearchResultsMessage.classList.remove('hidden');
+            } else {
+                noWordSetsMessage.classList.remove('hidden');
+            }
+            return;
+        }
+
+        setsToDisplay.forEach((set) => {
+            const item = document.createElement('div');
+            item.classList.add('word-set-item');
+            item.innerHTML = `
+                <div class="word-set-info">
+                    <h4 class="word-set-name">${escapeHTML(set.name)}</h4>
+                    <p class="word-set-range">Từ ${set.start} đến ${set.end} (${set.end - set.start + 1} từ)</p>
+                </div>
+                <div class="word-set-actions">
+                    <button class="action-btn view-set-btn" title="Xem chi tiết">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    </button>
+                    <button class="action-btn study-set-btn" title="Học bộ này">
+                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect><path d="M3 9h18"></path></svg>
+                    </button>
+                    <button class="action-btn delete-set-btn" title="Xóa bộ này">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                    </button>
+                </div>
+            `;
+            
+            item.querySelector('.view-set-btn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                viewWordSetDetail(set);
+            });
+            
+            item.querySelector('.study-set-btn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                currentStudyingSet = set;
+                const words = fullVocabulary.slice(set.start - 1, set.end);
+                initializeAppWithRange(words, set.name);
+            });
+            
+            item.querySelector('.delete-set-btn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                deleteWordSet(set);
+            });
+            
+            wordSetListDiv.appendChild(item);
+        });
+    }
+
+    function filterAndDisplayWordSets() {
+        const searchTerm = searchWordSetInput ? searchWordSetInput.value.toLowerCase().trim() : "";
+        let filteredSets = wordSets;
+
+        if (searchTerm) {
+            filteredSets = wordSets.filter(set => 
+                (set.name && set.name.toLowerCase().includes(searchTerm))
+            );
+        }
+        displayWordSets(filteredSets);
     }
 
     function loadWordSets() {
@@ -638,54 +630,17 @@ async function prepareInitialSetup() {
         if (storedSets) {
             wordSets = JSON.parse(storedSets);
         } else {
-            // Create default word sets if none exist
             wordSets = [
-                { name: "N3 Phần 1", start: 1, end: 160, id: Date.now() + "_p1" },
-                { name: "N3 Phần 2", start: 161, end: 264, id: Date.now() + "_p2" },
-                { name: "N3 Phần 3", start: 265, end: 369, id: Date.now() + "_p3" },
-                { name: "N3 Phần 4", start: 370, end: 474, id: Date.now() + "_p4" },
-                { name: "N3 Phần 5", start: 475, end: 579, id: Date.now() + "_p5" },
-                { name: "N3 Phần 6", start: 580, end: 686, id: Date.now() + "_p6" },
+                { name: "N3 Phần 1", start: 1, end: 160, id: Date.now().toString() + "_p1" },
+                { name: "N3 Phần 2", start: 161, end: 264, id: Date.now().toString() + "_p2" },
+                { name: "N3 Phần 3", start: 265, end: 369, id: Date.now().toString() + "_p3" },
+                { name: "N3 Phần 4", start: 370, end: 474, id: Date.now().toString() + "_p4" },
+                { name: "N3 Phần 5", start: 475, end: 579, id: Date.now().toString() + "_p5" },
+                { name: "N3 Phần 6", start: 580, end: 686, id: Date.now().toString() + "_p6" },
             ];
             saveWordSets();
         }
-        renderWordSetList();
-    }
-
-    function renderWordSetList() {
-        wordSetListDiv.innerHTML = '';
-        if (wordSets.length === 0) {
-            noWordSetsMessage.classList.remove('hidden');
-            return;
-        }
-        noWordSetsMessage.classList.add('hidden');
-
-        wordSets.forEach((set, index) => {
-            const item = document.createElement('div');
-            item.classList.add('word-set-item');
-            item.innerHTML = `
-                <div>
-                    <span class="word-set-name">${set.name}</span>
-                    <span class="word-set-info">(Từ ${set.start} - ${set.end}, ${set.end - set.start + 1} từ)</span>
-                </div>
-                <div class="word-set-actions">
-                    <button data-index="${index}" class="view-set-btn primary-btn">Xem</button>
-                    <button data-index="${index}" class="delete-set-btn danger-btn">Xóa</button>
-                </div>
-            `;
-            
-            item.querySelector('.view-set-btn').addEventListener('click', (e) => {
-                e.stopPropagation();
-                viewWordSetDetail(index);
-            });
-            
-            item.querySelector('.delete-set-btn').addEventListener('click', (e) => {
-                e.stopPropagation();
-                deleteWordSet(index);
-            });
-            
-            wordSetListDiv.appendChild(item);
-        });
+        filterAndDisplayWordSets();
     }
 
     function createWordSet() {
@@ -695,49 +650,83 @@ async function prepareInitialSetup() {
 
         if (!name) {
             alert("Vui lòng nhập tên cho bộ từ.");
+            wordSetNameInput.focus();
             return;
         }
-        if (isNaN(start) || isNaN(end) || start < 1 || end < start || end > fullVocabulary.length) {
-            alert(`Khoảng từ không hợp lệ. Đảm bảo Từ >= 1, Đến >= Từ, và Đến <= ${fullVocabulary.length}.`);
+        if (isNaN(start) || isNaN(end) || start < 1 || end < start || (fullVocabulary.length > 0 && end > fullVocabulary.length) ) {
+            alert(`Khoảng từ không hợp lệ. Đảm bảo Từ >= 1, Đến >= Từ, và Đến <= ${fullVocabulary.length || 'tổng số từ'}.`);
+            wordSetStartInput.focus();
             return;
+        }
+        if (wordSets.some(set => set.name.toLowerCase() === name.toLowerCase())) {
+            if (!confirm(`Bộ từ với tên "${escapeHTML(name)}" đã tồn tại. Bạn vẫn muốn tạo?`)) {
+                return;
+            }
         }
 
         const newSet = {
-            id: Date.now().toString(),
+            id: Date.now().toString() + "_" + Math.random().toString(36).substring(2, 5),
             name: name,
             start: start,
             end: end
         };
         wordSets.push(newSet);
         saveWordSets();
-        renderWordSetList();
+        filterAndDisplayWordSets();
         wordSetNameInput.value = '';
+        // wordSetStartInput.value = 1; // Optional: reset form
+        // wordSetEndInput.value = fullVocabulary.length > 0 ? fullVocabulary.length : ''; // Optional
         updateWordSetTotalMessage();
     }
 
-    function deleteWordSet(index) {
-        if (index < 0 || index >= wordSets.length) return;
-        const setName = wordSets[index].name;
-        if (confirm(`Bạn có chắc chắn muốn xóa bộ từ "${setName}" không?`)) {
-            wordSets.splice(index, 1);
-            saveWordSets();
-            renderWordSetList();
+    function deleteWordSet(setToDelete) {
+        if (!setToDelete || typeof setToDelete.id === 'undefined') {
+            console.error("Invalid set object passed to deleteWordSet:", setToDelete);
+            return;
+        }
+        const actualIndex = wordSets.findIndex(set => set.id === setToDelete.id);
+
+        if (actualIndex !== -1) {
+            if (confirm(`Bạn có chắc chắn muốn xóa bộ từ "${escapeHTML(wordSets[actualIndex].name)}" không?`)) {
+                wordSets.splice(actualIndex, 1);
+                saveWordSets();
+                filterAndDisplayWordSets();
+                // Nếu bộ đang xóa là bộ đang xem chi tiết, quay về màn hình quản lý
+                if (currentStudyingSet && currentStudyingSet.id === setToDelete.id) {
+                    showScreen('wordSetManager');
+                }
+            }
+        } else {
+            console.error("Không thể tìm thấy bộ từ để xóa trong danh sách gốc:", setToDelete);
+            alert("Lỗi: Không tìm thấy bộ từ để xóa.");
         }
     }
 
-    function viewWordSetDetail(index) {
-        if (index < 0 || index >= wordSets.length) return;
-        const set = wordSets[index];
-        currentStudyingSet = set;
+    function viewWordSetDetail(setObject) {
+        if (!setObject || typeof setObject.id === 'undefined' || !wordSets.find(s => s.id === setObject.id)) {
+            console.error("Thông tin bộ từ không hợp lệ hoặc không tồn tại:", setObject);
+            alert("Lỗi: Không thể xem chi tiết bộ từ này.");
+            showScreen('wordSetManager');
+            return;
+        }
+        currentStudyingSet = setObject;
 
-        detailViewName.textContent = set.name;
-        detailViewRange.textContent = `Từ ${set.start} đến ${set.end} (Tổng: ${set.end - set.start + 1} từ)`;
+        detailViewName.textContent = escapeHTML(setObject.name);
+        detailViewRange.textContent = `Từ ${setObject.start} đến ${setObject.end} (Tổng: ${setObject.end - setObject.start + 1} từ)`;
 
-        const wordsInSet = fullVocabulary.slice(set.start - 1, set.end);
+        if (!fullVocabulary || fullVocabulary.length === 0) {
+            detailWordListDiv.textContent = "Dữ liệu từ vựng chưa được tải. Vui lòng thử lại.";
+            console.error("fullVocabulary is not loaded or empty in viewWordSetDetail");
+            showScreen('wordSetManager');
+            return;
+        }
+
+        const wordsInSet = fullVocabulary.slice(setObject.start - 1, setObject.end);
         detailWordListDiv.innerHTML = '';
 
         if (wordsInSet.length > 0) {
             const table = document.createElement('table');
+            table.classList.add('word-detail-table');
             const thead = table.createTHead();
             const headerRow = thead.insertRow();
             ['STT', 'Kanji', 'Hiragana', 'Nghĩa Tiếng Việt'].forEach(text => {
@@ -749,26 +738,25 @@ async function prepareInitialSetup() {
             const tbody = table.createTBody();
             wordsInSet.forEach((word, i) => {
                 const row = tbody.insertRow();
-                row.insertCell().textContent = set.start + i;
+                row.insertCell().textContent = setObject.start + i;
                 row.insertCell().textContent = word.kanji || '-';
                 row.insertCell().textContent = word.hiragana || '-';
                 row.insertCell().textContent = word.nghiatiengviet;
             });
             detailWordListDiv.appendChild(table);
         } else {
-            detailWordListDiv.textContent = "Không có từ nào trong bộ này (có thể do file CSV đã thay đổi).";
+            detailWordListDiv.textContent = "Không có từ nào trong bộ này.";
         }
-
         showScreen('wordSetDetail');
     }
 
     function updateWordSetTotalMessage() {
         if (fullVocabulary.length > 0) {
-            wordSetStartInput.max = fullVocabulary.length;
-            wordSetEndInput.max = fullVocabulary.length;
-            wordSetTotalMessage.textContent = `Tổng số từ trong file CSV: ${fullVocabulary.length}. Nhập khoảng từ để tạo bộ.`;
+            if (wordSetStartInput) wordSetStartInput.max = fullVocabulary.length;
+            if (wordSetEndInput) wordSetEndInput.max = fullVocabulary.length;
+            if (wordSetTotalMessage) wordSetTotalMessage.textContent = `Tổng số từ trong file: ${fullVocabulary.length}. Nhập khoảng từ để tạo bộ.`;
         } else {
-            wordSetTotalMessage.textContent = "Đang chờ tải file CSV...";
+            if (wordSetTotalMessage) wordSetTotalMessage.textContent = "Đang chờ tải dữ liệu từ vựng...";
         }
     }
 
@@ -778,12 +766,15 @@ async function prepareInitialSetup() {
         const type = testTypeSelect.value;
         let start, end;
         let vocabSource;
+        
+        // currentStudyingSet được set khi người dùng click "Kiểm tra" từ chi tiết bộ hoặc đã có từ trước
+        // Nếu không, sourceSetName là null và currentStudyingSet cũng null hoặc không liên quan
 
-        if (sourceVocabArray) {
+        if (sourceVocabArray) { // Thường dùng khi gọi từ chi tiết bộ từ
             vocabSource = [...sourceVocabArray];
-            start = currentStudyingSet ? currentStudyingSet.start : 1;
+            start = currentStudyingSet ? currentStudyingSet.start : 1; // Lấy start/end từ currentStudyingSet nếu có
             end = currentStudyingSet ? currentStudyingSet.end : vocabSource.length;
-        } else {
+        } else { // Khi gọi từ màn hình test setup chung
             start = parseInt(testStartWordInput.value);
             end = parseInt(testEndWordInput.value);
 
@@ -832,14 +823,12 @@ async function prepareInitialSetup() {
         nextQuestionButton.classList.add('hidden');
         finishTestButton.classList.remove('hidden');
 
-        // Update title if testing from a set
         const testInterfaceTitle = document.querySelector('#testInterface h2');
         if (sourceSetName && testInterfaceTitle) {
-            testInterfaceTitle.textContent = `Bài Kiểm Tra - Bộ: ${sourceSetName}`;
+            testInterfaceTitle.textContent = `Bài Kiểm Tra - Bộ: ${escapeHTML(sourceSetName)}`;
         } else if (testInterfaceTitle) {
             testInterfaceTitle.textContent = `Bài Kiểm Tra`;
         }
-
         displayTestQuestion();
     }
 
@@ -865,7 +854,7 @@ async function prepareInitialSetup() {
                 questionText = correctAnswerCard.nghiatiengviet;
                 correctAnswerText = correctAnswerCard.kanji || correctAnswerCard.hiragana;
                 options.push(correctAnswerText);
-            } else {
+            } else { // jpToVi
                 questionText = correctAnswerCard.kanji || correctAnswerCard.hiragana;
                 correctAnswerText = correctAnswerCard.nghiatiengviet;
                 options.push(correctAnswerText);
@@ -878,7 +867,7 @@ async function prepareInitialSetup() {
             
             shuffleArray(tempVocabForDistractors);
 
-            for (let j = 0; j < 3; j++) {
+            for (let j = 0; j < 3; j++) { // Cố gắng tạo 3 distractors
                 if (tempVocabForDistractors.length === 0) break;
                 const distractorCard = tempVocabForDistractors.pop();
                 if (type === 'viToJp') {
@@ -888,31 +877,33 @@ async function prepareInitialSetup() {
                 }
             }
             
-            if (options.length < 2 && sourceVocab.length >= 4) {
+            if (options.length < 2 && sourceVocab.length >= 4) { // Nếu không đủ distractor
                 console.warn("Không đủ từ khác biệt để tạo đáp án nhiễu cho câu hỏi:", correctAnswerCard);
-                i--;
-                availableVocab.push(correctAnswerCard);
+                // Thử lại câu hỏi này nếu có thể
+                i--; 
+                availableVocab.push(correctAnswerCard); // Trả lại từ đã chọn
                 continue;
             }
             
-            while (options.length < 4 && sourceVocab.length >= options.length + 1) {
+            // Nếu vẫn không đủ 4 options, lấy ngẫu nhiên từ sourceVocab (tránh trùng)
+            while (options.length < 4 && sourceVocab.length >= options.length + 1) { // options.length + 1 để đảm bảo có từ để lấy
                 let fallbackDistractor;
                 let attempts = 0;
                 do {
                     fallbackDistractor = sourceVocab[Math.floor(Math.random() * sourceVocab.length)];
                     attempts++;
                 } while (
-                    (
+                    ( // Điều kiện trùng
                         (fallbackDistractor.kanji === correctAnswerCard.kanji && fallbackDistractor.hiragana === correctAnswerCard.hiragana) ||
                         options.includes(type === 'viToJp' ? (fallbackDistractor.kanji || fallbackDistractor.hiragana) : fallbackDistractor.nghiatiengviet)
-                    ) && attempts < sourceVocab.length * 2
+                    ) && attempts < sourceVocab.length * 2 // Giới hạn attempts để tránh vòng lặp vô hạn
                 );
                 
-                if (attempts < sourceVocab.length * 2) {
+                if (attempts < sourceVocab.length * 2) { // Tìm được
                     options.push(type === 'viToJp' ? (fallbackDistractor.kanji || fallbackDistractor.hiragana) : fallbackDistractor.nghiatiengviet);
-                } else {
-                    console.warn("Rất khó tìm đáp án nhiễu cho:", questionText);
-                    break;
+                } else { // Không tìm được nữa
+                    console.warn("Rất khó tìm đáp án nhiễu cho:", questionText, ". Số lượng lựa chọn hiện tại:", options.length);
+                    break; 
                 }
             }
 
@@ -922,7 +913,7 @@ async function prepareInitialSetup() {
                 questionText: questionText,
                 options: options,
                 correctAnswer: correctAnswerText,
-                originalCard: correctAnswerCard
+                originalCard: correctAnswerCard // Lưu lại thẻ gốc để review
             });
         }
         return questions;
@@ -954,12 +945,12 @@ async function prepareInitialSetup() {
     }
 
     function handleAnswerSelection(selectedAnswer, correctAnswer, selectedButton, originalCard) {
-        // Disable all option buttons after selection
         document.querySelectorAll('.option-button').forEach(btn => {
             btn.disabled = true;
+            // Xóa class cũ nếu có
+            btn.classList.remove('bg-green-500', 'bg-red-500', 'text-white'); 
             if (btn.textContent === correctAnswer) {
-                btn.classList.remove('bg-blue-500', 'hover:bg-blue-700');
-                btn.classList.add('bg-green-500'); // Highlight correct answer
+                btn.classList.add('bg-green-500', 'text-white'); 
             }
         });
 
@@ -968,12 +959,13 @@ async function prepareInitialSetup() {
             userScore++;
             isCorrect = true;
             testFeedbackDisplay.textContent = "Chính xác!";
-            testFeedbackDisplay.className = 'test-feedback text-success-color';
-            selectedButton.classList.add('bg-success-color');
+            testFeedbackDisplay.className = 'test-feedback text-success-color'; // Hoặc dùng class CSS trực tiếp
+            selectedButton.classList.remove('bg-green-500'); // Bỏ nếu đã có ở trên
+            selectedButton.classList.add('bg-green-500', 'text-white');
         } else {
             testFeedbackDisplay.textContent = `Sai rồi! Đáp án đúng: ${correctAnswer}`;
-            testFeedbackDisplay.className = 'test-feedback text-danger-color';
-            selectedButton.classList.add('bg-danger-color');
+            testFeedbackDisplay.className = 'test-feedback text-danger-color'; // Hoặc dùng class CSS
+            selectedButton.classList.add('bg-red-500', 'text-white');
         }
         
         answeredQuestions.push({
@@ -1007,16 +999,20 @@ async function prepareInitialSetup() {
         const percentage = testQuestions.length > 0 ? Math.round((userScore / testQuestions.length) * 100) : 0;
         scorePercentageDisplay.textContent = percentage;
         
-        // Update score circle with percentage
-        document.querySelector('.score-circle').style.setProperty('--score-percent', `${percentage}%`);
+        const scoreCircle = document.querySelector('.score-circle');
+        if(scoreCircle) scoreCircle.style.setProperty('--score-percent', `${percentage}%`);
+
 
         reviewAnswersArea.innerHTML = '<h4>Xem lại câu sai:</h4>';
         const incorrectAnswers = answeredQuestions.filter(aq => !aq.isCorrect);
         if (incorrectAnswers.length > 0) {
             const ul = document.createElement('ul');
+            ul.classList.add('review-answer-list'); // Thêm class để style
             incorrectAnswers.forEach(aq => {
                 const li = document.createElement('li');
-                li.innerHTML = `<b>Câu hỏi:</b> ${aq.questionText}<br/><b>Bạn chọn:</b> <span class="text-danger-color">${aq.selectedAnswer}</span><br/><b>Đáp án đúng:</b> <span class="text-success-color">${aq.correctAnswer}</span>`;
+                li.innerHTML = `<b>Câu hỏi:</b> ${escapeHTML(aq.questionText)}<br/>
+                                <b>Bạn chọn:</b> <span class="text-danger-color">${escapeHTML(aq.selectedAnswer)}</span><br/>
+                                <b>Đáp án đúng:</b> <span class="text-success-color">${escapeHTML(aq.correctAnswer)}</span>`;
                 ul.appendChild(li);
             });
             reviewAnswersArea.appendChild(ul);
@@ -1028,20 +1024,20 @@ async function prepareInitialSetup() {
     function retakeTestWithSameSettings() {
         if (currentTestConfig.numQuestions) {
             let vocabSourceForRetake;
-            if (currentTestConfig.sourceSetName && currentStudyingSet && currentStudyingSet.name === currentTestConfig.sourceSetName) {
-                vocabSourceForRetake = fullVocabulary.slice(currentStudyingSet.start - 1, currentStudyingSet.end);
-            } else if (currentTestConfig.sourceSetName) {
+            if (currentTestConfig.sourceSetName) { // Nếu test từ một bộ cụ thể
+                // currentStudyingSet nên được giữ lại từ lần test trước hoặc tìm lại
                 const originalSet = wordSets.find(s => s.name === currentTestConfig.sourceSetName);
                 if (originalSet) {
                     vocabSourceForRetake = fullVocabulary.slice(originalSet.start - 1, originalSet.end);
-                    currentStudyingSet = originalSet;
+                    currentStudyingSet = originalSet; // Đảm bảo currentStudyingSet là đúng
                 } else {
                     alert("Không tìm thấy bộ từ gốc để làm lại bài kiểm tra. Vui lòng cài đặt lại.");
                     showScreen('wordSetManager');
                     return;
                 }
-            } else {
+            } else { // Test từ khoảng tùy chọn
                 vocabSourceForRetake = fullVocabulary.slice(currentTestConfig.start - 1, currentTestConfig.end);
+                currentStudyingSet = null; // Không có bộ cụ thể
             }
 
             testQuestions = generateTestQuestions(vocabSourceForRetake, currentTestConfig.numQuestions, currentTestConfig.type);
@@ -1060,20 +1056,18 @@ async function prepareInitialSetup() {
 
             const testInterfaceTitle = document.querySelector('#testInterface h2');
             if (currentTestConfig.sourceSetName && testInterfaceTitle) {
-                testInterfaceTitle.textContent = `Bài Kiểm Tra - Bộ: ${currentTestConfig.sourceSetName}`;
+                testInterfaceTitle.textContent = `Bài Kiểm Tra - Bộ: ${escapeHTML(currentTestConfig.sourceSetName)}`;
             } else if (testInterfaceTitle) {
                 testInterfaceTitle.textContent = `Bài Kiểm Tra`;
             }
-            
             displayTestQuestion();
-        } else {
+        } else { // Nếu không có config cũ, về màn hình setup
             showScreen(currentStudyingSet ? 'wordSetDetail' : 'testSetup');
         }
     }
 
     // Screen Management
     function showScreen(screenName) {
-        // Hide all main screens
         initialSetupDiv.classList.add('hidden');
         flashcardApp.classList.add('hidden');
         testSetupDiv.classList.add('hidden');
@@ -1082,27 +1076,24 @@ async function prepareInitialSetup() {
         wordSetManagerDiv.classList.add('hidden');
         wordSetDetailViewDiv.classList.add('hidden');
         loadingMessage.classList.add('hidden');
-        errorMessage.classList.add('hidden');
+        if(errorMessage) errorMessage.classList.add('hidden');
 
-        // Hide "back to word set manager" buttons
-        backToWordSetManagerFromFlashcardBtn.classList.add('hidden');
-        backToWordSetManagerFromTestSetupBtn.classList.add('hidden');
+        if(backToWordSetManagerFromFlashcardBtn) backToWordSetManagerFromFlashcardBtn.classList.add('hidden');
+        if(backToWordSetManagerFromTestSetupBtn) backToWordSetManagerFromTestSetupBtn.classList.add('hidden');
 
-        // Update active state in mode switcher
         document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
 
-        // Show requested screen
         switch (screenName) {
             case 'initialSetup':
                 initialSetupDiv.classList.remove('hidden');
                 switchToFlashcardSetupBtn.classList.add('active');
-                if (fullVocabulary.length > 0) totalWordsMessage.textContent = `Tổng số từ trong file: ${fullVocabulary.length}`;
+                if (fullVocabulary.length > 0 && totalWordsMessage) totalWordsMessage.textContent = `Tổng số từ trong file: ${fullVocabulary.length}`;
                 currentStudyingSet = null;
                 break;
             case 'flashcardApp':
                 flashcardApp.classList.remove('hidden');
                 switchToFlashcardSetupBtn.classList.add('active');
-                if (currentStudyingSet) {
+                if (currentStudyingSet && backToWordSetManagerFromFlashcardBtn) {
                     backToWordSetManagerFromFlashcardBtn.classList.remove('hidden');
                 }
                 break;
@@ -1110,19 +1101,24 @@ async function prepareInitialSetup() {
                 testSetupDiv.classList.remove('hidden');
                 switchToTestSetupBtn.classList.add('active');
                 if (fullVocabulary.length > 0) {
-                    testEndWordInput.value = fullVocabulary.length;
-                    numTestQuestionsInput.max = fullVocabulary.length;
+                    if(testEndWordInput && !testEndWordInput.value) testEndWordInput.value = fullVocabulary.length;
+                    if(numTestQuestionsInput) numTestQuestionsInput.max = fullVocabulary.length;
                 }
-                if (currentStudyingSet) {
+                if (currentStudyingSet) { // Nếu đang từ chi tiết bộ từ
                     testStartWordInput.value = currentStudyingSet.start;
                     testEndWordInput.value = currentStudyingSet.end;
                     numTestQuestionsInput.max = currentStudyingSet.end - currentStudyingSet.start + 1;
+                    if(!numTestQuestionsInput.value || parseInt(numTestQuestionsInput.value) > numTestQuestionsInput.max) {
+                        numTestQuestionsInput.value = Math.min(10, numTestQuestionsInput.max); // Gợi ý số câu
+                    }
                     testStartWordInput.disabled = true;
                     testEndWordInput.disabled = true;
-                    backToWordSetManagerFromTestSetupBtn.classList.remove('hidden');
-                } else {
+                    if(backToWordSetManagerFromTestSetupBtn) backToWordSetManagerFromTestSetupBtn.classList.remove('hidden');
+                } else { // Nếu từ menu chính
                     testStartWordInput.disabled = false;
                     testEndWordInput.disabled = false;
+                    if(testStartWordInput) testStartWordInput.value = 1; // Reset nếu cần
+                    if(testEndWordInput && fullVocabulary.length > 0) testEndWordInput.value = fullVocabulary.length;
                 }
                 break;
             case 'testInterface':
@@ -1136,39 +1132,46 @@ async function prepareInitialSetup() {
             case 'wordSetManager':
                 wordSetManagerDiv.classList.remove('hidden');
                 switchToWordSetManagerBtn.classList.add('active');
-                renderWordSetList();
+                if (searchWordSetInput) searchWordSetInput.value = ''; // Xóa tìm kiếm cũ
+                filterAndDisplayWordSets(); // Luôn gọi để hiển thị danh sách
                 updateWordSetTotalMessage();
-                currentStudyingSet = null;
+                // currentStudyingSet = null; // Không reset ở đây, vì có thể quay lại từ flashcard/test của một bộ
                 break;
             case 'wordSetDetail':
                 wordSetDetailViewDiv.classList.remove('hidden');
-                switchToWordSetManagerBtn.classList.add('active');
+                switchToWordSetManagerBtn.classList.add('active'); // Vẫn là mode quản lý
+                // currentStudyingSet đã được set bởi viewWordSetDetail
                 break;
             case 'loading':
                 loadingMessage.classList.remove('hidden');
                 break;
             case 'error':
-                errorMessage.classList.remove('hidden');
+                if(errorMessage) errorMessage.classList.remove('hidden');
                 break;
         }
     }
 
     // Event Listeners
-    loadRangeButton.addEventListener('click', () => initializeAppWithRange());
-    restartButton.addEventListener('click', handleRestart);
-    reviewModeSelect.addEventListener('change', applyReviewMode);
-    clearAllMarksButton.addEventListener('click', handleClearAllMarks);
+    if(loadRangeButton) loadRangeButton.addEventListener('click', () => initializeAppWithRange());
+    if(restartButton) restartButton.addEventListener('click', handleRestart);
+    if(reviewModeSelect) reviewModeSelect.addEventListener('change', applyReviewMode);
+    if(clearAllMarksButton) clearAllMarksButton.addEventListener('click', handleClearAllMarks);
 
-    flashcardContainer.addEventListener('click', () => { if (!flipButton.disabled) flipCard(); });
-    flipButton.addEventListener('click', () => flipCard());
-    prevButton.addEventListener('click', () => { if (!prevButton.disabled) showPreviousCard(); });
-    nextButton.addEventListener('click', () => { if (!nextButton.disabled) showNextCard(); });
+    if(flashcardContainer) flashcardContainer.addEventListener('click', (e) => { 
+        // Chỉ lật nếu click vào flashcardContainer, không phải nút bên trong nó
+        if (e.target === flashcardContainer || e.target.closest('.flashcard') && !e.target.closest('button')) {
+            if (!flipButton.disabled) flipCard();
+        }
+    });
+    if(flipButton) flipButton.addEventListener('click', () => flipCard());
+    if(prevButton) prevButton.addEventListener('click', () => { if (!prevButton.disabled) showPreviousCard(); });
+    if(nextButton) nextButton.addEventListener('click', () => { if (!nextButton.disabled) showNextCard(); });
     
-    markKnownButton.addEventListener('click', () => markCurrentCard('known'));
-    markUnknownButton.addEventListener('click', () => markCurrentCard('unknown'));
-    clearMarkButton.addEventListener('click', () => markCurrentCard(null));
+    if(markKnownButton) markKnownButton.addEventListener('click', () => markCurrentCard('known'));
+    if(markUnknownButton) markUnknownButton.addEventListener('click', () => markCurrentCard('unknown'));
+    if(clearMarkButton) clearMarkButton.addEventListener('click', () => markCurrentCard(null));
 
-    intervalSelect.addEventListener('change', (event) => { 
+    if(intervalSelect) intervalSelect.addEventListener('change', (event) => { 
         autoNextDuration = parseInt(event.target.value);
         if (activeVocabulary.length > 0 && currentCardIndex < activeVocabulary.length) { 
             clearTimeout(autoNextInterval); resetProgressBar(); startProgressBar(); setupAutoNext();
@@ -1177,108 +1180,142 @@ async function prepareInitialSetup() {
     });
 
     // Mode switcher listeners
-    switchToFlashcardSetupBtn.addEventListener('click', () => showScreen('initialSetup'));
-    switchToWordSetManagerBtn.addEventListener('click', () => showScreen('wordSetManager'));
-    switchToTestSetupBtn.addEventListener('click', () => {
-        currentStudyingSet = null;
+    if(switchToFlashcardSetupBtn) switchToFlashcardSetupBtn.addEventListener('click', () => {
+        currentStudyingSet = null; // Reset khi chuyển về setup chung
+        showScreen('initialSetup');
+    });
+    if(switchToWordSetManagerBtn) switchToWordSetManagerBtn.addEventListener('click', () => {
+        // currentStudyingSet KHÔNG reset ở đây, để có thể quay về từ chi tiết bộ
+        showScreen('wordSetManager');
+    });
+    if(switchToTestSetupBtn) switchToTestSetupBtn.addEventListener('click', () => {
+        currentStudyingSet = null; // Reset khi vào test setup chung
         showScreen('testSetup');
     });
 
     // Word set manager listeners
-    createWordSetButton.addEventListener('click', createWordSet);
-    studySetFlashcardButton.addEventListener('click', () => {
+    if(createWordSetButton) createWordSetButton.addEventListener('click', createWordSet);
+    if(searchWordSetInput) searchWordSetInput.addEventListener('input', filterAndDisplayWordSets);
+
+    // Word set detail view listeners
+    if(studySetFlashcardButton) studySetFlashcardButton.addEventListener('click', () => {
         if (currentStudyingSet) {
             const words = fullVocabulary.slice(currentStudyingSet.start - 1, currentStudyingSet.end);
             initializeAppWithRange(words, currentStudyingSet.name);
         }
     });
-    testSetButton.addEventListener('click', () => {
+    if(testSetButton) testSetButton.addEventListener('click', () => {
         if (currentStudyingSet) {
-            showScreen('testSetup');
-            const numWordsInSet = currentStudyingSet.end - currentStudyingSet.start + 1;
-            numTestQuestionsInput.value = Math.min(10, numWordsInSet);
-            numTestQuestionsInput.max = numWordsInSet;
+            showScreen('testSetup'); // currentStudyingSet đã được set, showScreen sẽ dùng nó
         }
     });
-    backToSetManagerButton.addEventListener('click', () => showScreen('wordSetManager'));
-    backToWordSetManagerFromFlashcardBtn.addEventListener('click', () => {
-        if(currentStudyingSet) viewWordSetDetail(wordSets.findIndex(s => s.id === currentStudyingSet.id));
-        else showScreen('wordSetManager');
+    if(backToSetManagerButton) backToSetManagerButton.addEventListener('click', () => {
+        // currentStudyingSet = null; // Không reset ở đây, để nút "Quản lý bộ từ" luôn về màn hình list
+        showScreen('wordSetManager');
     });
-    backToWordSetManagerFromTestSetupBtn.addEventListener('click', () => {
-        if(currentStudyingSet) viewWordSetDetail(wordSets.findIndex(s => s.id === currentStudyingSet.id));
-        else showScreen('wordSetManager');
+
+    // "Back to Word Set Manager" or Detail View buttons
+    if(backToWordSetManagerFromFlashcardBtn) backToWordSetManagerFromFlashcardBtn.addEventListener('click', () => {
+        if(currentStudyingSet) {
+            const setIndex = wordSets.findIndex(s => s.id === currentStudyingSet.id);
+            if (setIndex !== -1) viewWordSetDetail(wordSets[setIndex]);
+            else showScreen('wordSetManager');
+        } else {
+            showScreen('wordSetManager');
+        }
+    });
+    if(backToWordSetManagerFromTestSetupBtn) backToWordSetManagerFromTestSetupBtn.addEventListener('click', () => {
+         if(currentStudyingSet) {
+            const setIndex = wordSets.findIndex(s => s.id === currentStudyingSet.id);
+            if (setIndex !== -1) viewWordSetDetail(wordSets[setIndex]);
+            else showScreen('wordSetManager');
+        } else {
+            showScreen('wordSetManager');
+        }
     });
 
     // Test listeners
-    startTestButton.addEventListener('click', () => {
-        if (currentStudyingSet && testStartWordInput.disabled) {
+    if(startTestButton) startTestButton.addEventListener('click', () => {
+        if (currentStudyingSet && testStartWordInput.disabled) { // Đang ở test setup cho một bộ cụ thể
             const words = fullVocabulary.slice(currentStudyingSet.start - 1, currentStudyingSet.end);
             startTest(words, currentStudyingSet.name);
-        } else {
+        } else { // Test setup chung
             startTest();
         }
     });
-    nextQuestionButton.addEventListener('click', nextTestQuestion);
-    finishTestButton.addEventListener('click', () => {
+    if(nextQuestionButton) nextQuestionButton.addEventListener('click', nextTestQuestion);
+    if(finishTestButton) finishTestButton.addEventListener('click', () => {
         if(confirm("Bạn có chắc muốn kết thúc bài kiểm tra sớm?")) {
             finishTest();
         }
     });
-    retakeTestButton.addEventListener('click', retakeTestWithSameSettings);
-    backToTestSetupButton.addEventListener('click', () => {
+    if(retakeTestButton) retakeTestButton.addEventListener('click', retakeTestWithSameSettings);
+    
+    if(backToTestSetupButton) backToTestSetupButton.addEventListener('click', () => {
+        // currentStudyingSet sẽ được giữ hoặc reset dựa trên currentTestConfig trong retakeTestWithSameSettings
+        // Hoặc nếu không có config, nó sẽ là null. showScreen('testSetup') sẽ xử lý
         if (currentTestConfig && currentTestConfig.sourceSetName) {
-            const originalSet = wordSets.find(s => s.name === currentTestConfig.sourceSetName);
-            if (originalSet) {
-                currentStudyingSet = originalSet;
-            } else {
-                currentStudyingSet = null;
-            }
+             const originalSet = wordSets.find(s => s.name === currentTestConfig.sourceSetName);
+             currentStudyingSet = originalSet || null;
         } else {
             currentStudyingSet = null;
         }
         showScreen('testSetup');
     });
-    backToFlashcardFromResultsButton.addEventListener('click', () => {
+
+    if(backToFlashcardFromResultsButton) backToFlashcardFromResultsButton.addEventListener('click', () => {
+        // Mục đích: quay lại màn hình quản lý hoặc chi tiết bộ từ
         if (currentTestConfig && currentTestConfig.sourceSetName) {
             const originalSet = wordSets.find(s => s.name === currentTestConfig.sourceSetName);
             if (originalSet) {
-                currentStudyingSet = originalSet;
-                viewWordSetDetail(wordSets.indexOf(originalSet));
+                currentStudyingSet = originalSet; // Set lại để viewWordSetDetail dùng
+                viewWordSetDetail(originalSet);
             } else {
+                currentStudyingSet = null;
                 showScreen('wordSetManager');
             }
         } else {
-            showScreen('wordSetManager');
+            currentStudyingSet = null;
+            showScreen('wordSetManager'); // Mặc định về quản lý bộ từ
         }
     });
-    backToFlashcardModeButton.addEventListener('click', () => {
-        if (currentStudyingSet) {
-            viewWordSetDetail(wordSets.findIndex(s => s.id === currentStudyingSet.id));
-        } else {
-            showScreen('wordSetManager');
+    if(backToFlashcardModeButton) backToFlashcardModeButton.addEventListener('click', () => { // Nút "Quay lại Flashcard" từ TestSetup
+        if (currentStudyingSet) { // Nếu đang config test cho 1 bộ cụ thể
+            const setIndex = wordSets.findIndex(s => s.id === currentStudyingSet.id);
+            if (setIndex !== -1) viewWordSetDetail(wordSets[setIndex]); // Quay lại chi tiết bộ đó
+            else showScreen('wordSetManager');
+        } else { // Nếu đang ở test setup chung
+            showScreen('wordSetManager'); // Quay lại màn hình quản lý bộ từ (hoặc initialSetup nếu muốn)
         }
     });
+
 
     // Keyboard shortcuts
     document.addEventListener('keydown', (event) => {
         if (flashcardApp.classList.contains('hidden')) return; 
 
         const activeEl = document.activeElement;
-        const inInput = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'SELECT');
+        const inInput = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'SELECT' || activeEl.tagName === 'TEXTAREA');
 
-        if (inInput && ['ArrowLeft', 'ArrowRight', ' ', 'o', 'x'].includes(event.key.toLowerCase())) {
-            if (event.key === ' ' && activeEl.tagName === 'SELECT') return;
+        if (inInput && ['ArrowLeft', 'ArrowRight', ' ', 'o', 'x', 'O', 'X'].includes(event.key)) {
+            if (event.key === ' ' && activeEl.tagName === 'SELECT') return; // Cho phép space mở select
             if (event.key.toLowerCase() === 'o' || event.key.toLowerCase() === 'x') { /* allow */ }
-            else if (event.key !== ' ') return;
+            else if (event.key !== ' ') return; // Chỉ cho phép space nếu không phải o/x
         }
         
-        if (event.key === ' ' && (!inInput || (inInput && activeEl.type !== "text" && activeEl.type !== "number"))) {
+        if (event.key === ' ' && (!inInput || (inInput && activeEl.type !== "text" && activeEl.type !== "number" && activeEl.tagName !== 'TEXTAREA'))) {
             event.preventDefault();
         }
-        if (['ArrowLeft', 'ArrowRight'].includes(event.key)) {
+        if (['ArrowLeft', 'ArrowRight'].includes(event.key) && !inInput) { // Chỉ preventDefault nếu không ở trong input
             event.preventDefault();
         }
+
+        if (inInput && (event.key.toLowerCase() === 'o' || event.key.toLowerCase() === 'x')) {
+            // Cho phép gõ 'o', 'x' trong input
+        } else if (inInput) {
+            return; // Không xử lý phím tắt khác nếu đang trong input
+        }
+
 
         switch (event.key.toLowerCase()) {
             case ' ': 

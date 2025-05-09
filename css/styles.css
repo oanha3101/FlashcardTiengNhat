@@ -1113,3 +1113,59 @@ button:disabled {
     padding-top: 15px;
     border-top: 1px dashed rgba(99, 102, 241, 0.3);
 }
+/* ... các style hiện có của bạn ... */
+
+.search-word-set-container {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 10px; /* Thêm padding nếu cần */
+}
+
+.search-word-set-container label {
+    font-weight: 500;
+    color: var(--text-color-secondary);
+    flex-shrink: 0; /* Ngăn label bị co lại */
+}
+
+.search-word-set-container input[type="text"] {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    font-size: 0.95rem; /* Điều chỉnh kích thước font nếu cần */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-word-set-container input[type="text"]:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px var(--primary-color-light);
+}
+
+.empty-message { /* Đảm bảo style này đã có và phù hợp */
+    text-align: center;
+    color: var(--text-color-secondary);
+    padding: 20px;
+    font-style: italic;
+}
+.empty-message.hidden {
+    display: none;
+}
+
+/* Điều chỉnh style cho word-set-item nếu cần để đồng nhất */
+.word-set-item {
+    /* ... các style hiện có ... */
+    padding: 15px; /* Ví dụ */
+}
+
+.word-set-info h4 {
+    font-size: 1.1em; /* Ví dụ */
+    margin-bottom: 5px;
+}
+.word-set-info p {
+    font-size: 0.9em; /* Ví dụ */
+}

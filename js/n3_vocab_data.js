@@ -3174,5 +3174,2425 @@ const N3_VOCAB_DATA = [
         "kanji": "もっと", // Bỏ "599 "
         "hiragana": "もっと",
         "nghiatiengviet": "hơn nữa/thêm nữa"
-    }
+    },
+    // từ đây sẽ là kanji 
+    {
+        "kanji": "起こる",
+        "hiragana": "おこる",
+        "nghiatiengviet": "xảy ra, xảy ra"
+    },
+    {
+        "kanji": "起きる",
+        "hiragana": "おきる",
+        "nghiatiengviet": "thức dậy"
+    },
+    {
+        "kanji": "起こす",
+        "hiragana": "おこす",
+        "nghiatiengviet": "đánh thức"
+    },
+    {
+        "kanji": "起動",
+        "hiragana": "きどう",
+        "nghiatiengviet": "Khởi động"
+    },
+    {
+        "kanji": "昼寝",
+        "hiragana": "ひるね",
+        "nghiatiengviet": "ngủ trưa"
+    },
+    {
+        "kanji": "寝坊",
+        "hiragana": "ねぼう",
+        "nghiatiengviet": "ngủ muộn"
+    },
+    {
+        "kanji": "海水浴",
+        "hiragana": "かいすいよく",
+        "nghiatiengviet": "tắm biển"
+    },
+    {
+        "kanji": "浴衣",
+        "hiragana": "ゆかた",
+        "nghiatiengviet": "áo choàng tắm, kimono mùa hè"
+    },
+    {
+        "kanji": "浴びる",
+        "hiragana": "あびる",
+        "nghiatiengviet": "tắm, phơi nắng, tắm"
+    },
+    {
+        "kanji": "湯気",
+        "hiragana": "ゆげ",
+        "nghiatiengviet": "hơi nước, hơi nước"
+    },
+    {
+        "kanji": "お湯",
+        "hiragana": "おゆ",
+        "nghiatiengviet": "nước nóng"
+    },
+    {
+        "kanji": "洗濯",
+        "hiragana": "せんたく",
+        "nghiatiengviet": "Giặt"
+    },
+    {
+        "kanji": "洗剤",
+        "hiragana": "せんざい",
+        "nghiatiengviet": "chất tẩy rửa, xà phòng"
+    },
+    {
+        "kanji": "手洗い",
+        "hiragana": "てあらい",
+        "nghiatiengviet": "nhà vệ sinh, rửa tay"
+    },
+    {
+        "kanji": "若干",
+        "hiragana": "じゃっかん",
+        "nghiatiengviet": "một số, ít ( số lượng)"
+    },
+    {
+        "kanji": "干物",
+        "hiragana": "ひもの",
+        "nghiatiengviet": "đồ phơi khô (cá khô, tôm khô…)"
+    },
+    {
+        "kanji": "干す",
+        "hiragana": "ほす",
+        "nghiatiengviet": "phơi"
+    },
+    {
+        "kanji": "活力",
+        "hiragana": "かつりょく",
+        "nghiatiengviet": "sức sống, năng lượng"
+    },
+    {
+        "kanji": "活気",
+        "hiragana": "かっき",
+        "nghiatiengviet": "năng lượng, sự sống động"
+    },
+    {
+        "kanji": "活動",
+        "hiragana": "かつどう",
+        "nghiatiengviet": "hành động"
+    },
+    {
+        "kanji": "活用",
+        "hiragana": "かつよう",
+        "nghiatiengviet": "vận dụng, tận dụng"
+    },
+    {
+        "kanji": "拾う",
+        "hiragana": "ひろう",
+        "nghiatiengviet": "nhặt"
+    },
+    {
+        "kanji": "拾得",
+        "hiragana": "しゅうとく",
+        "nghiatiengviet": "nhặt lấy, nhặt được"
+    },
+    {
+        "kanji": "捨てる",
+        "hiragana": "すてる",
+        "nghiatiengviet": "ném đi"
+    },
+    {
+        "kanji": "捨て子",
+        "hiragana": "すてご",
+        "nghiatiengviet": "đứa trẻ bị bỏ rơi"
+    },
+    
+    {
+        "kanji": "燃料",
+        "hiragana": "ねんりょう",
+        "nghiatiengviet": "nhiên liệu"
+    },
+    {
+        "kanji": "燃やす",
+        "hiragana": "もやす",
+        "nghiatiengviet": "đốt cháy"
+    },
+    {
+        "kanji": "燃える",
+        "hiragana": "もえる",
+        "nghiatiengviet": "cháy"
+    },
+    {
+        "kanji": "袋",
+        "hiragana": "ふくろ",
+        "nghiatiengviet": "túi, bao tải"
+    },
+    {
+        "kanji": "手袋",
+        "hiragana": "てぶくろ",
+        "nghiatiengviet": "găng tay"
+    },
+    {
+        "kanji": "木曜日",
+        "hiragana": "もくようび",
+        "nghiatiengviet": "Thứ năm"
+    },
+    {
+        "kanji": "曜日",
+        "hiragana": "ようび",
+        "nghiatiengviet": "ngày trong tuần"
+    },
+    {
+        "kanji": "月末",
+        "hiragana": "げつまつ",
+        "nghiatiengviet": "cuối tháng"
+    },
+    {
+        "kanji": "末っ子",
+        "hiragana": "すえっこ",
+        "nghiatiengviet": "con út"
+    },
+    {
+        "kanji": "一昨日",
+        "hiragana": "いっさくじつ",
+        "nghiatiengviet": "ngày hôm kia"
+    },
+    {
+        "kanji": "一昨年",
+        "hiragana": "いっさくねん",
+        "nghiatiengviet": "năm trước"
+    },
+    {
+        "kanji": "昨日",
+        "hiragana": "きのう",
+        "nghiatiengviet": "Hôm qua"
+    },
+    {
+        "kanji": "昨夜",
+        "hiragana": "さくや",
+        "nghiatiengviet": "tối hôm qua"
+    },
+    {
+        "kanji": "翌日",
+        "hiragana": "よくじつ",
+        "nghiatiengviet": "ngày hôm sau"
+    },
+    {
+        "kanji": "予算",
+        "hiragana": "よさん",
+        "nghiatiengviet": "ước tính, ngân sách"
+    },
+    {
+        "kanji": "予報",
+        "hiragana": "よほう",
+        "nghiatiengviet": "dự báo, dự đoán"
+    },
+    {
+        "kanji": "予防",
+        "hiragana": "よぼう",
+        "nghiatiengviet": "phòng ngừa, đề phòng"
+    },
+    {
+        "kanji": "予習",
+        "hiragana": "よしゅう",
+        "nghiatiengviet": "chuẩn bị bài"
+    },
+    {
+        "kanji": "予約",
+        "hiragana": "よやく",
+        "nghiatiengviet": "sự đặt chỗ"
+    },
+    {
+        "kanji": "安定",
+        "hiragana": "あんてい",
+        "nghiatiengviet": "ổn định, cân bằng"
+    },
+    {
+        "kanji": "決定",
+        "hiragana": "けってい",
+        "nghiatiengviet": "quyết định"
+    },
+    {
+        "kanji": "定期",
+        "hiragana": "ていき",
+        "nghiatiengviet": "định kì"
+    },
+    {
+        "kanji": "否定",
+        "hiragana": "ひてい",
+        "nghiatiengviet": "phủ định, từ chối, bác bỏ"
+    },
+    {
+        "kanji": "使用",
+        "hiragana": "しよう",
+        "nghiatiengviet": "sử dụng, ứng dụng"
+    },
+    {
+        "kanji": "信用",
+        "hiragana": "しんよう",
+        "nghiatiengviet": "niềm tin"
+    },
+    {
+        "kanji": "適用",
+        "hiragana": "てきよう",
+        "nghiatiengviet": "ứng dụng, áp dụng"
+    },
+    {
+        "kanji": "費用",
+        "hiragana": "ひよう",
+        "nghiatiengviet": "chi phí"
+    },
+    {
+        "kanji": "無事",
+        "hiragana": "ぶじ",
+        "nghiatiengviet": "an toàn, vô sự"
+    },
+    {
+        "kanji": "見事",
+        "hiragana": "みごと",
+        "nghiatiengviet": "lộng lẫy, đẹp đẽ"
+    },
+    {
+        "kanji": "物事",
+        "hiragana": "ものごと",
+        "nghiatiengviet": "mọi thứ"
+    },
+    {
+        "kanji": "事件",
+        "hiragana": "じけん",
+        "nghiatiengviet": "biến cố, vụ việc"
+    },
+    {
+        "kanji": "事実",
+        "hiragana": "じじつ",
+        "nghiatiengviet": "sự thật, thực tế"
+    },
+    
+    {
+        "kanji": "押し入れ",
+        "hiragana": "おしいれ",
+        "nghiatiengviet": "tủ đựng, tủ âm tường"
+    },
+    {
+        "kanji": "押す",
+        "hiragana": "おす",
+        "nghiatiengviet": "đẩy, đóng (dấu)"
+    },
+    {
+        "kanji": "引退",
+        "hiragana": "いんたい",
+        "nghiatiengviet": "về hưu, giải nghệ"
+    },
+    {
+        "kanji": "引用",
+        "hiragana": "いんよう",
+        "nghiatiengviet": "trích dẫn"
+    },
+    {
+        "kanji": "取り替える",
+        "hiragana": "とりかえる",
+        "nghiatiengviet": "trao đổi"
+    },
+    {
+        "kanji": "取る",
+        "hiragana": "とる",
+        "nghiatiengviet": "lấy (một cái gì đó)"
+    },
+    {
+        "kanji": "受け取る",
+        "hiragana": "うけとる",
+        "nghiatiengviet": "nhận"
+    },
+    {
+        "kanji": "消費",
+        "hiragana": "しょうひ",
+        "nghiatiengviet": "tiêu dùng, chi tiêu"
+    },
+    {
+        "kanji": "消防",
+        "hiragana": "しょうぼう",
+        "nghiatiengviet": "phòng cháy chữa cháy, cứu hỏa"
+    },
+    {
+        "kanji": "雨戸",
+        "hiragana": "あまど",
+        "nghiatiengviet": "cửa trượt"
+    },
+    {
+        "kanji": "戸",
+        "hiragana": "と",
+        "nghiatiengviet": "cửa kiểu nhật"
+    },
+    {
+        "kanji": "窓口",
+        "hiragana": "まどぐち",
+        "nghiatiengviet": "cửa bán vé"
+    },
+    {
+        "kanji": "窓",
+        "hiragana": "まど",
+        "nghiatiengviet": "cửa sổ"
+    },
+    {
+        "kanji": "段階",
+        "hiragana": "だんかい",
+        "nghiatiengviet": "giai đoạn"
+    },
+    {
+        "kanji": "二階建て",
+        "hiragana": "にかいだて",
+        "nghiatiengviet": "Nhà hai tầng"
+    },
+    {
+        "kanji": "階段",
+        "hiragana": "かいだん",
+        "nghiatiengviet": "Cầu thang"
+    },
+    {
+        "kanji": "手段",
+        "hiragana": "しゅだん",
+        "nghiatiengviet": "phương thức, cách thức"
+    },
+    {
+        "kanji": "値段",
+        "hiragana": "ねだん",
+        "nghiatiengviet": "gía tiền"
+    },
+    {
+        "kanji": "普段",
+        "hiragana": "ふだん",
+        "nghiatiengviet": "thông thường, thường xuyên"
+    },
+    {
+        "kanji": "植物",
+        "hiragana": "しょくぶつ",
+        "nghiatiengviet": "thực vật"
+    },
+    {
+        "kanji": "植える",
+        "hiragana": "うえる",
+        "nghiatiengviet": "trồng (cây, hoa…)"
+    },
+    {
+        "kanji": "葉",
+        "hiragana": "は",
+        "nghiatiengviet": "lá cây"
+    },
+    {
+        "kanji": "言葉",
+        "hiragana": "ことば",
+        "nghiatiengviet": "từ, ngôn ngữ"
+    },
+    {
+        "kanji": "紅葉",
+        "hiragana": "こうよう",
+        "nghiatiengviet": "cây phong, lá đỏ"
+    },
+
+    {
+        "kanji": "実現",
+        "hiragana": "じつげん",
+        "nghiatiengviet": "thực hiện"
+    },
+    {
+        "kanji": "実行",
+        "hiragana": "じっこう",
+        "nghiatiengviet": "thực hành, thực hiện"
+    },
+    {
+        "kanji": "実際",
+        "hiragana": "じっさい",
+        "nghiatiengviet": "thực tế, tình trạng thực tế"
+    },
+    {
+        "kanji": "実施",
+        "hiragana": "じっし",
+        "nghiatiengviet": "thi hành, đưa vào thực hiện"
+    },
+    {
+        "kanji": "実",
+        "hiragana": "み",
+        "nghiatiengviet": "hạt"
+    },
+    {
+        "kanji": "根",
+        "hiragana": "ね",
+        "nghiatiengviet": "cội, rễ, nguồn gốc"
+    },
+    {
+        "kanji": "屋根",
+        "hiragana": "やね",
+        "nghiatiengviet": "mái nhà"
+    },
+    {
+        "kanji": "建設",
+        "hiragana": "けんせつ",
+        "nghiatiengviet": "xây dựng, thành lập"
+    },
+    {
+        "kanji": "建築",
+        "hiragana": "けんちく",
+        "nghiatiengviet": "kiến trúc"
+    },
+    {
+        "kanji": "建てる",
+        "hiragana": "たてる",
+        "nghiatiengviet": "xây, xây dựng"
+    },
+    {
+        "kanji": "築く",
+        "hiragana": "きずく",
+        "nghiatiengviet": "xây dựng, tích lũy"
+    },
+    {
+        "kanji": "新築",
+        "hiragana": "しんちく",
+        "nghiatiengviet": "tòa nhà mới, công trình mới"
+    },
+    {
+        "kanji": "構う",
+        "hiragana": "かまう",
+        "nghiatiengviet": "để tâm đến, chăm sóc"
+    },
+    {
+        "kanji": "構成",
+        "hiragana": "こうせい",
+        "nghiatiengviet": "tổ chức, thành phần"
+    },
+    {
+        "kanji": "結構",
+        "hiragana": "けっこう",
+        "nghiatiengviet": "đủ/ khá, tương đối"
+    },
+    {
+        "kanji": "構造",
+        "hiragana": "こうぞう",
+        "nghiatiengviet": "cấu trúc, xây dựng"
+    },
+    {
+        "kanji": "人造",
+        "hiragana": "じんぞう",
+        "nghiatiengviet": "nhân tạo"
+    },
+    {
+        "kanji": "造る",
+        "hiragana": "つくる",
+        "nghiatiengviet": "làm, tạo ra"
+    },
+    {
+        "kanji": "建設",
+        "hiragana": "けんせつ",
+        "nghiatiengviet": "xây dựng, thành lập"
+    },
+    {
+        "kanji": "設計",
+        "hiragana": "せっけい",
+        "nghiatiengviet": "kế hoạch, thiết kế"
+    },
+    {
+        "kanji": "設備",
+        "hiragana": "せつび",
+        "nghiatiengviet": "thiết bị, cơ sở vật chất"
+    },
+    {
+        "kanji": "柱",
+        "hiragana": "はしら",
+        "nghiatiengviet": "cột điện, trụ, cột"
+    },
+    {
+        "kanji": "車庫",
+        "hiragana": "しゃこ",
+        "nghiatiengviet": "nhà để xe, nhà để xe"
+    },
+    {
+        "kanji": "倉庫",
+        "hiragana": "そうこ",
+        "nghiatiengviet": "nhà kho"
+    },
+    {
+        "kanji": "金庫",
+        "hiragana": "きんこ",
+        "nghiatiengviet": "kho tiền, kho bạc"
+    },
+    {
+        "kanji": "方向",
+        "hiragana": "ほうこう",
+        "nghiatiengviet": "phương hướng"
+    },
+    {
+        "kanji": "向かい",
+        "hiragana": "むかい",
+        "nghiatiengviet": "đối diện, bên kia đường"
+    },
+    {
+        "kanji": "向く",
+        "hiragana": "むく",
+        "nghiatiengviet": "đối mặt"
+    },
+    {
+        "kanji": "向ける",
+        "hiragana": "むける",
+        "nghiatiengviet": "hướng về phía"
+    },
+    {
+        "kanji": "向こう",
+        "hiragana": "むこう",
+        "nghiatiengviet": "đằng kia"
+    },
+
+    {
+        "kanji": "熱心",
+        "hiragana": "ねっしん",
+        "nghiatiengviet": "nhiệt tình, nhiệt tình"
+    },
+    {
+        "kanji": "熱帯",
+        "hiragana": "ねったい",
+        "nghiatiengviet": "vùng nhiệt đới"
+    },
+    {
+        "kanji": "熱",
+        "hiragana": "ねつ",
+        "nghiatiengviet": "sốt"
+    },
+    {
+        "kanji": "熱い",
+        "hiragana": "あつい",
+        "nghiatiengviet": "nóng khi chạm vào"
+    },
+    {
+        "kanji": "冷ます",
+        "hiragana": "さます",
+        "nghiatiengviet": "làm nguội, để nguội"
+    },
+    {
+        "kanji": "冷める",
+        "hiragana": "さめる",
+        "nghiatiengviet": "trở nên nguội, dịu đi, lắng xuống"
+    },
+    {
+        "kanji": "冷やす",
+        "hiragana": "ひやす",
+        "nghiatiengviet": "để nguội, để tủ lạnh"
+    },
+    {
+        "kanji": "冷凍",
+        "hiragana": "れいとう",
+        "nghiatiengviet": "cấp đông"
+    },
+    {
+        "kanji": "温暖",
+        "hiragana": "おんだん",
+        "nghiatiengviet": "sự ấm áp"
+    },
+    {
+        "kanji": "温度",
+        "hiragana": "おんど",
+        "nghiatiengviet": "nhiệt độ"
+    },
+    {
+        "kanji": "体温",
+        "hiragana": "たいおん",
+        "nghiatiengviet": "nhiệt độ (cơ thể)"
+    },
+    {
+        "kanji": "制度",
+        "hiragana": "せいど",
+        "nghiatiengviet": "thể chế, tổ chức"
+    },
+    {
+        "kanji": "速度",
+        "hiragana": "そくど",
+        "nghiatiengviet": "tốc độ"
+    },
+    {
+        "kanji": "態度",
+        "hiragana": "たいど",
+        "nghiatiengviet": "thái độ"
+    },
+    {
+        "kanji": "程度",
+        "hiragana": "ていど",
+        "nghiatiengviet": "mức độ"
+    },
+    {
+        "kanji": "木材",
+        "hiragana": "もくざい",
+        "nghiatiengviet": "gỗ"
+    },
+    {
+        "kanji": "材料",
+        "hiragana": "ざいりょう",
+        "nghiatiengviet": "thành phần, nguyên liệu"
+    },
+    {
+        "kanji": "模型",
+        "hiragana": "もけい",
+        "nghiatiengviet": "mô hình"
+    },
+    {
+        "kanji": "型",
+        "hiragana": "かた",
+        "nghiatiengviet": "khuôn mẫu, kiểu dáng"
+    },
+    {
+        "kanji": "日焼け",
+        "hiragana": "ひやけ",
+        "nghiatiengviet": "cháy nắng"
+    },
+    {
+        "kanji": "夕焼け",
+        "hiragana": "ゆうやけ",
+        "nghiatiengviet": "ánh hoàng hôn"
+    },
+    {
+        "kanji": "焼く",
+        "hiragana": "やく",
+        "nghiatiengviet": "nướng"
+    },
+    {
+        "kanji": "焼ける",
+        "hiragana": "やける",
+        "nghiatiengviet": "được nướng"
+    },
+    {
+        "kanji": "楽器",
+        "hiragana": "がっき",
+        "nghiatiengviet": "nhạc cụ"
+    },
+    {
+        "kanji": "器械",
+        "hiragana": "きかい",
+        "nghiatiengviet": "dụng cụ, công cụ"
+    },
+    {
+        "kanji": "器具",
+        "hiragana": "きぐ",
+        "nghiatiengviet": "đồ đạc, dụng cụ"
+    },
+    {
+        "kanji": "食器",
+        "hiragana": "しょっき",
+        "nghiatiengviet": "bát đũa, đồ dùng ăn uống"
+    },
+    {
+        "kanji": "卵",
+        "hiragana": "たまご",
+        "nghiatiengviet": "trứng"
+    },
+
+    {
+        "kanji": "牛乳",
+        "hiragana": "ぎゅうにゅう",
+        "nghiatiengviet": "Sữa bò"
+    },
+    {
+        "kanji": "母乳",
+        "hiragana": "ぼにゅう",
+        "nghiatiengviet": "Sữa mẹ"
+    },
+    {
+        "kanji": "花粉",
+        "hiragana": "かふん",
+        "nghiatiengviet": "phấn hoa"
+    },
+    {
+        "kanji": "粉",
+        "hiragana": "こな",
+        "nghiatiengviet": "bột"
+    },
+    {
+        "kanji": "小麦粉",
+        "hiragana": "こむぎこ",
+        "nghiatiengviet": "bột mì"
+    },
+    {
+        "kanji": "塩辛い",
+        "hiragana": "しおからい",
+        "nghiatiengviet": "cay, mặn (vị)"
+    },
+    {
+        "kanji": "食塩",
+        "hiragana": "しょくえん",
+        "nghiatiengviet": "muối ăn"
+    },
+    {
+        "kanji": "塩",
+        "hiragana": "しお",
+        "nghiatiengviet": "Muối"
+    },
+    {
+        "kanji": "結果",
+        "hiragana": "けっか",
+        "nghiatiengviet": "kết quả, hậu quả"
+    },
+    {
+        "kanji": "効果",
+        "hiragana": "こうか",
+        "nghiatiengviet": "tác dụng, hiệu lực"
+    },
+    {
+        "kanji": "果たす",
+        "hiragana": "はたす",
+        "nghiatiengviet": "hoàn thành (mục tiêu)"
+    },
+    {
+        "kanji": "豆",
+        "hiragana": "まめ",
+        "nghiatiengviet": "Đậu"
+    },
+    {
+        "kanji": "缶詰",
+        "hiragana": "かんづめ",
+        "nghiatiengviet": "đóng gói (trong lon), đồ hộp"
+    },
+    {
+        "kanji": "缶",
+        "hiragana": "かん",
+        "nghiatiengviet": "lon"
+    },
+    {
+        "kanji": "乾杯",
+        "hiragana": "かんぱい",
+        "nghiatiengviet": "cạn chén"
+    },
+    {
+        "kanji": "一杯",
+        "hiragana": "いっぱい",
+        "nghiatiengviet": "1 ly"
+    },
+    {
+        "kanji": "枚",
+        "hiragana": "まい",
+        "nghiatiengviet": "đếm cho các vật thể phẳng, mỏng (ví dụ: tờ giấy)"
+    },
+    {
+        "kanji": "枚数",
+        "hiragana": "まいすう",
+        "nghiatiengviet": "số tờ, tấm"
+    },
+    {
+        "kanji": "匹",
+        "hiragana": "ひき",
+        "nghiatiengviet": "đếm thú nhỏ"
+    },
+    {
+        "kanji": "匹敵",
+        "hiragana": "ひってき",
+        "nghiatiengviet": "so sánh với, đối thủ"
+    },
+    {
+        "kanji": "量る",
+        "hiragana": "はかる",
+        "nghiatiengviet": "đo, cân"
+    },
+    {
+        "kanji": "数量",
+        "hiragana": "すうりょう",
+        "nghiatiengviet": "số lượng"
+    },
+    {
+        "kanji": "質量",
+        "hiragana": "しつりょう",
+        "nghiatiengviet": "chất lượng"
+    },
+    {
+        "kanji": "野菜",
+        "hiragana": "やさい",
+        "nghiatiengviet": "rau củ"
+    },
+    
+    {
+        "kanji": "口頭",
+        "hiragana": "こうとう",
+        "nghiatiengviet": "miệng"
+    },
+    {
+        "kanji": "頭脳",
+        "hiragana": "ずのう",
+        "nghiatiengviet": "bộ não, trí tuệ"
+    },
+    {
+        "kanji": "先頭",
+        "hiragana": "せんとう",
+        "nghiatiengviet": "đứng đầu, dẫn đầu, tiên phong"
+    },
+    {
+        "kanji": "頭",
+        "hiragana": "あたま",
+        "nghiatiengviet": "cái đầu"
+    },
+    {
+        "kanji": "顔付き",
+        "hiragana": "かおつき",
+        "nghiatiengviet": "nét mặt"
+    },
+    {
+        "kanji": "笑顔",
+        "hiragana": "えがお",
+        "nghiatiengviet": "khuôn mặt tươi cười"
+    },
+    {
+        "kanji": "首相",
+        "hiragana": "しゅしょう",
+        "nghiatiengviet": "Thủ tướng"
+    },
+    {
+        "kanji": "首都",
+        "hiragana": "しゅと",
+        "nghiatiengviet": "thủ đô"
+    },
+    {
+        "kanji": "耳鼻科",
+        "hiragana": "じびか",
+        "nghiatiengviet": "khoa tai mũi họng"
+    },
+    {
+        "kanji": "鼻",
+        "hiragana": "はな",
+        "nghiatiengviet": "mũi"
+    },
+    {
+        "kanji": "呼び出す",
+        "hiragana": "よびだす",
+        "nghiatiengviet": "triệu tập"
+    },
+    {
+        "kanji": "呼吸",
+        "hiragana": "こきゅう",
+        "nghiatiengviet": "hơi thở, hô hấp"
+    },
+    {
+        "kanji": "呼びかける",
+        "hiragana": "よびかける",
+        "nghiatiengviet": "kêu gọi"
+    },
+    {
+        "kanji": "吸収",
+        "hiragana": "きゅうしゅう",
+        "nghiatiengviet": "sự hấp thụ, sức hút"
+    },
+    {
+        "kanji": "呼吸",
+        "hiragana": "こきゅう",
+        "nghiatiengviet": "hơi thở, hô hấp"
+    },
+    {
+        "kanji": "吸う",
+        "hiragana": "すう",
+        "nghiatiengviet": "hút"
+    },
+    {
+        "kanji": "溜息",
+        "hiragana": "ためいき",
+        "nghiatiengviet": "tiếng thở dài"
+    },
+    {
+        "kanji": "息",
+        "hiragana": "いき",
+        "nghiatiengviet": "hơi thở"
+    },
+    {
+        "kanji": "息子",
+        "hiragana": "むすこ",
+        "nghiatiengviet": "con trai"
+    },
+    {
+        "kanji": "汗",
+        "hiragana": "あせ",
+        "nghiatiengviet": "mồ hôi"
+    },
+    {
+        "kanji": "検査",
+        "hiragana": "けんさ",
+        "nghiatiengviet": "kiểm tra"
+    },
+    {
+        "kanji": "検討",
+        "hiragana": "けんとう",
+        "nghiatiengviet": "xem xét, cân nhắc"
+    },
+    {
+        "kanji": "調査",
+        "hiragana": "ちょうさ",
+        "nghiatiengviet": "điều tra, anket"
+    },
+    {
+        "kanji": "捜査",
+        "hiragana": "そうさ",
+        "nghiatiengviet": "tìm kiếm"
+    },
+    
+    {
+        "kanji": "虫歯",
+        "hiragana": "むしば",
+        "nghiatiengviet": "rang sâu"
+    },
+    {
+        "kanji": "歯医者",
+        "hiragana": "はいしゃ",
+        "nghiatiengviet": "nha sĩ"
+    },
+    {
+        "kanji": "歯",
+        "hiragana": "は",
+        "nghiatiengviet": "răng"
+    },
+    {
+        "kanji": "痛み",
+        "hiragana": "いたみ",
+        "nghiatiengviet": "cơn đau, nhức nhối"
+    },
+    {
+        "kanji": "苦痛",
+        "hiragana": "くつう",
+        "nghiatiengviet": "đau khổ, thống khổ"
+    },
+    {
+        "kanji": "頭痛",
+        "hiragana": "ずつう",
+        "nghiatiengviet": "đau đầu"
+    },
+    {
+        "kanji": "痛い",
+        "hiragana": "いたい",
+        "nghiatiengviet": "đau đớn"
+    },
+    {
+        "kanji": "血圧",
+        "hiragana": "けつあつ",
+        "nghiatiengviet": "huyết áp"
+    },
+    {
+        "kanji": "血",
+        "hiragana": "ち",
+        "nghiatiengviet": "máu"
+    },
+    {
+        "kanji": "液",
+        "hiragana": "えき",
+        "nghiatiengviet": "chất lỏng"
+    },
+    {
+        "kanji": "溶液",
+        "hiragana": "ようえき",
+        "nghiatiengviet": "dung dịch (chất lỏng)"
+    },
+    {
+        "kanji": "液体",
+        "hiragana": "えきたい",
+        "nghiatiengviet": "chất lỏng"
+    },
+    {
+        "kanji": "血液",
+        "hiragana": "けつえき",
+        "nghiatiengviet": "máu"
+    },
+    {
+        "kanji": "小包",
+        "hiragana": "こづつみ",
+        "nghiatiengviet": "bưu kiện"
+    },
+    {
+        "kanji": "包む",
+        "hiragana": "つつむ",
+        "nghiatiengviet": "quấn"
+    },
+    {
+        "kanji": "包帯",
+        "hiragana": "ほうたい",
+        "nghiatiengviet": "băng bó"
+    },
+    {
+        "kanji": "帯",
+        "hiragana": "おび",
+        "nghiatiengviet": "cái đai"
+    },
+    {
+        "kanji": "熱帯",
+        "hiragana": "ねったい",
+        "nghiatiengviet": "vùng nhiệt đới"
+    },
+    {
+        "kanji": "救う",
+        "hiragana": "すくう",
+        "nghiatiengviet": "sự giúp đỡ, viện trợ, cứu trợ"
+    },
+    {
+        "kanji": "救助",
+        "hiragana": "きゅうじょ",
+        "nghiatiengviet": "cứu trợ, viện trợ, cứu hộ"
+    },
+    {
+        "kanji": "助手",
+        "hiragana": "じょしゅ",
+        "nghiatiengviet": "người trợ giúp"
+    },
+    {
+        "kanji": "助ける",
+        "hiragana": "たすける",
+        "nghiatiengviet": "giúp, cứu"
+    },
+    {
+        "kanji": "自助",
+        "hiragana": "じじょ",
+        "nghiatiengviet": "tự lực"
+    },
+    {
+        "kanji": "死亡",
+        "hiragana": "しぼう",
+        "nghiatiengviet": "cái chết, tử vong"
+    },
+    {
+        "kanji": "必死",
+        "hiragana": "ひっし",
+        "nghiatiengviet": "cố hết sức"
+    },
+    {
+        "kanji": "死ぬ",
+        "hiragana": "しぬ",
+        "nghiatiengviet": "chết"
+    },
+    {
+        "kanji": "亡くす",
+        "hiragana": "なくす",
+        "nghiatiengviet": "để mất một ai đó"
+    },
+    {
+        "kanji": "亡くなる",
+        "hiragana": "なくなる",
+        "nghiatiengviet": "chết"
+    },
+    
+    {
+        "kanji": "戦う",
+        "hiragana": "たたかう",
+        "nghiatiengviet": "chiến đấu"
+    },
+    {
+        "kanji": "戦争",
+        "hiragana": "せんそう",
+        "nghiatiengviet": "chiến tranh"
+    },
+    {
+        "kanji": "解決",
+        "hiragana": "かいけつ",
+        "nghiatiengviet": "giải quyết, giải pháp"
+    },
+    {
+        "kanji": "決まり",
+        "hiragana": "きまり",
+        "nghiatiengviet": "quy định, quy tắc"
+    },
+    {
+        "kanji": "決心",
+        "hiragana": "けっしん",
+        "nghiatiengviet": "quyết tâm"
+    },
+    {
+        "kanji": "決定",
+        "hiragana": "けってい",
+        "nghiatiengviet": "quyết định"
+    },
+    {
+        "kanji": "決める",
+        "hiragana": "きめる",
+        "nghiatiengviet": "tự quyết định"
+    },
+    {
+        "kanji": "優勝",
+        "hiragana": "ゆうしょう",
+        "nghiatiengviet": "chiến thắng chung cuộc, vô địch"
+    },
+    {
+        "kanji": "勝つ",
+        "hiragana": "かつ",
+        "nghiatiengviet": "thắng"
+    },
+    {
+        "kanji": "負ける",
+        "hiragana": "まける",
+        "nghiatiengviet": "để thua"
+    },
+    {
+        "kanji": "勝負",
+        "hiragana": "しょうぶ",
+        "nghiatiengviet": "thắng bại"
+    },
+    {
+        "kanji": "現代",
+        "hiragana": "げんだい",
+        "nghiatiengviet": "ngày nay, thời hiện đại"
+    },
+    {
+        "kanji": "代金",
+        "hiragana": "だいきん",
+        "nghiatiengviet": "giá cả, thanh toán, chi phí, phí"
+    },
+    {
+        "kanji": "代表",
+        "hiragana": "だいひょう",
+        "nghiatiengviet": "đại diện"
+    },
+    {
+        "kanji": "表現",
+        "hiragana": "ひょうげん",
+        "nghiatiengviet": "biểu thức"
+    },
+    {
+        "kanji": "表情",
+        "hiragana": "ひょうじょう",
+        "nghiatiengviet": "nét mặt"
+    },
+    {
+        "kanji": "表面",
+        "hiragana": "ひょうめん",
+        "nghiatiengviet": "bề mặt, bên ngoài"
+    },
+    {
+        "kanji": "表",
+        "hiragana": "おもて",
+        "nghiatiengviet": "mặt trước"
+    },
+    {
+        "kanji": "第一",
+        "hiragana": "だいいち",
+        "nghiatiengviet": "đầu tiên, quan trọng nhất"
+    },
+    {
+        "kanji": "第",
+        "hiragana": "だい",
+        "nghiatiengviet": "thứ tự"
+    },
+    {
+        "kanji": "今回",
+        "hiragana": "こんかい",
+        "nghiatiengviet": "lần này"
+    },
+    {
+        "kanji": "回す",
+        "hiragana": "まわす",
+        "nghiatiengviet": "quay"
+    },
+    {
+        "kanji": "回り",
+        "hiragana": "まわり",
+        "nghiatiengviet": "xung quanh"
+    },
+    {
+        "kanji": "記事",
+        "hiragana": "きじ",
+        "nghiatiengviet": "bài báo, tin bài"
+    },
+    {
+        "kanji": "記者",
+        "hiragana": "きしゃ",
+        "nghiatiengviet": "phóng viên"
+    },
+    {
+        "kanji": "記入",
+        "hiragana": "きにゅう",
+        "nghiatiengviet": "điền vào"
+    },
+    {
+        "kanji": "記念",
+        "hiragana": "きねん",
+        "nghiatiengviet": "kỷ niệm, ký ức"
+    },
+    {
+        "kanji": "記録",
+        "hiragana": "きろく",
+        "nghiatiengviet": "ghi chép lại, lưu lại viết"
+    },
+    
+    {
+        "kanji": "優れる",
+        "hiragana": "すぐれる",
+        "nghiatiengviet": "vượt xa, vượt trội,ưu tú"
+    },
+    {
+        "kanji": "俳優",
+        "hiragana": "はいゆう",
+        "nghiatiengviet": "diễn viên, nữ diễn viên"
+    },
+    {
+        "kanji": "優秀",
+        "hiragana": "ゆうしゅう",
+        "nghiatiengviet": "ưu việt, xuất sắc"
+    },
+    {
+        "kanji": "優勝",
+        "hiragana": "ゆうしょう",
+        "nghiatiengviet": "chiến thắng chung cuộc, vô địch"
+    },
+    {
+        "kanji": "優先",
+        "hiragana": "ゆうせん",
+        "nghiatiengviet": "ưu tiên"
+    },
+    {
+        "kanji": "賞金",
+        "hiragana": "しょうきん",
+        "nghiatiengviet": "giải thưởng, tiền thưởng"
+    },
+    {
+        "kanji": "賞品",
+        "hiragana": "しょうひん",
+        "nghiatiengviet": "giải thưởng, danh hiệu"
+    },
+    {
+        "kanji": "賞",
+        "hiragana": "しょう",
+        "nghiatiengviet": "Giải thưởng"
+    },
+    {
+        "kanji": "賞状",
+        "hiragana": "しょうじょう",
+        "nghiatiengviet": "Giấy khen"
+    },
+    {
+        "kanji": "秒",
+        "hiragana": "びょう",
+        "nghiatiengviet": "giây"
+    },
+    {
+        "kanji": "毎秒",
+        "hiragana": "まいびょう",
+        "nghiatiengviet": "mỗi giây"
+    },
+    {
+        "kanji": "差",
+        "hiragana": "さ",
+        "nghiatiengviet": "khác biệt, cách biệt"
+    },
+    {
+        "kanji": "差別",
+        "hiragana": "さべつ",
+        "nghiatiengviet": "sự phân biệt"
+    },
+    {
+        "kanji": "日差し",
+        "hiragana": "ひざし",
+        "nghiatiengviet": "ánh sáng mặt trời"
+    },
+    {
+        "kanji": "時差",
+        "hiragana": "じさ",
+        "nghiatiengviet": "chênh lệch thời gian"
+    },
+    {
+        "kanji": "測量",
+        "hiragana": "そくりょう",
+        "nghiatiengviet": "đo đạc"
+    },
+    {
+        "kanji": "測る",
+        "hiragana": "はかる",
+        "nghiatiengviet": "đo, cân"
+    },
+    {
+        "kanji": "予測",
+        "hiragana": "よそく",
+        "nghiatiengviet": "dự đoán, ước tính"
+    },
+    {
+        "kanji": "計測",
+        "hiragana": "けいそく",
+        "nghiatiengviet": "đo lường, phép đo"
+    },
+    {
+        "kanji": "順調",
+        "hiragana": "じゅんちょう",
+        "nghiatiengviet": "thuận lợi"
+    },
+    {
+        "kanji": "順番",
+        "hiragana": "じゅんばん",
+        "nghiatiengviet": "lần lượt (trong hàng), thứ tự"
+    },
+    {
+        "kanji": "不順",
+        "hiragana": "ふじゅん",
+        "nghiatiengviet": "không thuận lợi"
+    },
+    {
+        "kanji": "順序",
+        "hiragana": "じゅんじょ",
+        "nghiatiengviet": "thứ tự"
+    },
+    {
+        "kanji": "球",
+        "hiragana": "たま",
+        "nghiatiengviet": "quả cầu, quả bóng"
+    },
+    {
+        "kanji": "地球",
+        "hiragana": "ちきゅう",
+        "nghiatiengviet": "trái đất"
+    },
+    {
+        "kanji": "野球",
+        "hiragana": "やきゅう",
+        "nghiatiengviet": "bóng chày"
+    },
+    {
+        "kanji": "打つ",
+        "hiragana": "うつ",
+        "nghiatiengviet": "đánh"
+    },
+    {
+        "kanji": "打合せ",
+        "hiragana": "うちあわせ",
+        "nghiatiengviet": "cuộc họp"
+    },
+    {
+        "kanji": "投票",
+        "hiragana": "とうひょう",
+        "nghiatiengviet": "bỏ phiếu"
+    },
+    {
+        "kanji": "投げる",
+        "hiragana": "なげる",
+        "nghiatiengviet": "ném"
+    },
+    {
+        "kanji": "欠点",
+        "hiragana": "けってん",
+        "nghiatiengviet": "lỗi, khiếm khuyết, điểm yếu"
+    },
+    {
+        "kanji": "要点",
+        "hiragana": "ようてん",
+        "nghiatiengviet": "ý chính, điểm chính"
+    },
+    {
+        "kanji": "同点",
+        "hiragana": "どうてん",
+        "nghiatiengviet": "đồng điểm"
+    },
+    {
+        "kanji": "満点",
+        "hiragana": "まんてん",
+        "nghiatiengviet": "điểm tuyệt đối"
+    },
+    {
+        "kanji": "重点",
+        "hiragana": "じゅうてん",
+        "nghiatiengviet": "điểm quan trọng"
+    },
+    
+    {
+        "kanji": "感じる",
+        "hiragana": "かんじる",
+        "nghiatiengviet": "cảm nhận, cảm nhận"
+    },
+    {
+        "kanji": "感心",
+        "hiragana": "かんしん",
+        "nghiatiengviet": "ngưỡng mộ"
+    },
+    {
+        "kanji": "感動",
+        "hiragana": "かんどう",
+        "nghiatiengviet": "xúc động"
+    },
+    {
+        "kanji": "感情",
+        "hiragana": "かんじょう",
+        "nghiatiengviet": "cảm tình"
+    },
+    {
+        "kanji": "感想",
+        "hiragana": "かんそう",
+        "nghiatiengviet": "cảm tưởng"
+    },
+    {
+        "kanji": "事情",
+        "hiragana": "じじょう",
+        "nghiatiengviet": "hoàn cảnh"
+    },
+    {
+        "kanji": "情報",
+        "hiragana": "じょうほう",
+        "nghiatiengviet": "thông tin"
+    },
+    {
+        "kanji": "表情",
+        "hiragana": "ひょうじょう",
+        "nghiatiengviet": "nét mặt"
+    },
+    {
+        "kanji": "情け",
+        "hiragana": "なさけ",
+        "nghiatiengviet": "cảm thông, lòng trắc ẩn"
+    },
+    {
+        "kanji": "恋",
+        "hiragana": "こい",
+        "nghiatiengviet": "tình yêu"
+    },
+    {
+        "kanji": "恋人",
+        "hiragana": "こいびと",
+        "nghiatiengviet": "người yêu"
+    },
+    {
+        "kanji": "愛情",
+        "hiragana": "あいじょう",
+        "nghiatiengviet": "yêu mến"
+    },
+    {
+        "kanji": "愛する",
+        "hiragana": "あいする",
+        "nghiatiengviet": "yêu"
+    },
+    {
+        "kanji": "愛用",
+        "hiragana": "あいよう",
+        "nghiatiengviet": "được ưa thích, ưa dùng"
+    },
+    {
+        "kanji": "信じる",
+        "hiragana": "しんじる",
+        "nghiatiengviet": "tin tưởng, đặt niềm tin vào"
+    },
+    {
+        "kanji": "信用",
+        "hiragana": "しんよう",
+        "nghiatiengviet": "sự tự tin, sự phụ thuộc"
+    },
+    {
+        "kanji": "信頼",
+        "hiragana": "しんらい",
+        "nghiatiengviet": "sự tin cậy, sự tin tưởng"
+    },
+    {
+        "kanji": "通信",
+        "hiragana": "つうしん",
+        "nghiatiengviet": "thư từ, thông tin liên lạc"
+    },
+    {
+        "kanji": "信号",
+        "hiragana": "しんごう",
+        "nghiatiengviet": "tín hiệu"
+    },
+    {
+        "kanji": "想像",
+        "hiragana": "そうぞう",
+        "nghiatiengviet": "trí tưởng tượng, đoán"
+    },
+    {
+        "kanji": "理想",
+        "hiragana": "りそう",
+        "nghiatiengviet": "lý tưởng"
+    },
+    {
+        "kanji": "連想",
+        "hiragana": "れんそう",
+        "nghiatiengviet": "sự liên tưởng"
+    },
+    {
+        "kanji": "愛想",
+        "hiragana": "あいそう",
+        "nghiatiengviet": "dễ gây thiện cảm"
+    },
+    {
+        "kanji": "手伝い",
+        "hiragana": "てつだい",
+        "nghiatiengviet": "giúp đỡ"
+    },
+    {
+        "kanji": "伝統",
+        "hiragana": "でんとう",
+        "nghiatiengviet": "truyền thống"
+    },
+    {
+        "kanji": "伝える",
+        "hiragana": "つたえる",
+        "nghiatiengviet": "truyền đạt"
+    },
+    {
+        "kanji": "伝わる",
+        "hiragana": "つたわる",
+        "nghiatiengviet": "được truyền, được chuyển giao"
+    },
+    {
+        "kanji": "伝言",
+        "hiragana": "でんごん",
+        "nghiatiengviet": "lời nhắn"
+    },
+    {
+        "kanji": "食欲",
+        "hiragana": "しょくよく",
+        "nghiatiengviet": "sự thèm ăn"
+    },
+    {
+        "kanji": "欲しい",
+        "hiragana": "ほしい",
+        "nghiatiengviet": "muốn"
+    },
+    {
+        "kanji": "意欲",
+        "hiragana": "いよく",
+        "nghiatiengviet": "ý chí, mong muốn, tham vọng"
+    },
+    {
+        "kanji": "苦しい",
+        "hiragana": "くるしい",
+        "nghiatiengviet": "đau đớn, khó khăn"
+    },
+    {
+        "kanji": "苦しむ",
+        "hiragana": "くるしむ",
+        "nghiatiengviet": "đau khổ, lo lắng"
+    },
+    {
+        "kanji": "苦労",
+        "hiragana": "くろう",
+        "nghiatiengviet": "rắc rối, khó khăn"
+    },
+    {
+        "kanji": "苦手",
+        "hiragana": "にがて",
+        "nghiatiengviet": "kém (ở), yếu (ở)"
+    },
+    {
+        "kanji": "苦い",
+        "hiragana": "にがい",
+        "nghiatiengviet": "đắng"
+    },
+    {
+        "kanji": "苦心",
+        "hiragana": "くしん",
+        "nghiatiengviet": "khổ tâm, hao tâm khổ tứ"
+    },
+    {
+        "kanji": "悩み",
+        "hiragana": "なやみ",
+        "nghiatiengviet": "rắc rối, lo lắng"
+    },
+    {
+        "kanji": "悩む",
+        "hiragana": "なやむ",
+        "nghiatiengviet": "trở nên lo lắng"
+    },
+    
+    {
+        "kanji": "困難",
+        "hiragana": "こんなん",
+        "nghiatiengviet": "khó khăn, đau khổ"
+    },
+    {
+        "kanji": "困る",
+        "hiragana": "こまる",
+        "nghiatiengviet": "trở nên lo lắng"
+    },
+    {
+        "kanji": "困難",
+        "hiragana": "こんなん",
+        "nghiatiengviet": "khó khăn, đau khổ"
+    },
+    {
+        "kanji": "難しい",
+        "hiragana": "むずかしい",
+        "nghiatiengviet": "Khó, khó khăn"
+    },
+    {
+        "kanji": "難問",
+        "hiragana": "なんもん",
+        "nghiatiengviet": "vấn đề nan giải, câu hỏi khó"
+    },
+    {
+        "kanji": "怒る",
+        "hiragana": "おこる",
+        "nghiatiengviet": "tức giận"
+    },
+    {
+        "kanji": "怒り",
+        "hiragana": "いかり",
+        "nghiatiengviet": "cơn giận"
+    },
+    {
+        "kanji": "激怒",
+        "hiragana": "げきど",
+        "nghiatiengviet": "sự tức giận"
+    },
+    {
+        "kanji": "悲しむ",
+        "hiragana": "かなしむ",
+        "nghiatiengviet": "buồn, để thương tiếc"
+    },
+    {
+        "kanji": "悲劇",
+        "hiragana": "ひげき",
+        "nghiatiengviet": "bi kịch"
+    },
+    {
+        "kanji": "悲しい",
+        "hiragana": "かなしい",
+        "nghiatiengviet": "buồn, tiếc"
+    },
+    {
+        "kanji": "笑い",
+        "hiragana": "わらい",
+        "nghiatiengviet": "nụ cười"
+    },
+    {
+        "kanji": "笑う",
+        "hiragana": "わらう",
+        "nghiatiengviet": "cười"
+    },
+    {
+        "kanji": "笑顔",
+        "hiragana": "えがお",
+        "nghiatiengviet": "khuôn mặt cười"
+    },
+    {
+        "kanji": "笑い声",
+        "hiragana": "わらいごえ",
+        "nghiatiengviet": "tiếng cười"
+    },
+    {
+        "kanji": "喜ぶ",
+        "hiragana": "よろこぶ",
+        "nghiatiengviet": "vui mừng"
+    },
+    {
+        "kanji": "喜び",
+        "hiragana": "よろこび",
+        "nghiatiengviet": "niềm vui, hân hoan"
+    },
+    {
+        "kanji": "残す",
+        "hiragana": "のこす",
+        "nghiatiengviet": "để lại, để dành"
+    },
+    {
+        "kanji": "残り",
+        "hiragana": "のこり",
+        "nghiatiengviet": "phần còn lại"
+    },
+    {
+        "kanji": "残業",
+        "hiragana": "ざんぎょう",
+        "nghiatiengviet": "tăng ca"
+    },
+    {
+        "kanji": "記念",
+        "hiragana": "きねん",
+        "nghiatiengviet": "kỷ niệm, ký ức"
+    },
+    {
+        "kanji": "残念",
+        "hiragana": "ざんねん",
+        "nghiatiengviet": "thất vọng, đáng tiếc"
+    },
+    {
+        "kanji": "信念",
+        "hiragana": "しんねん",
+        "nghiatiengviet": "Lòng tin"
+    },
+    {
+        "kanji": "泣く",
+        "hiragana": "なく",
+        "nghiatiengviet": "rơi nước mắt"
+    },
+    {
+        "kanji": "涙",
+        "hiragana": "なみだ",
+        "nghiatiengviet": "nước mắt"
+    },
+    
+    {
+        "kanji": "結果",
+        "hiragana": "けっか",
+        "nghiatiengviet": "kết quả, hậu quả"
+    },
+    {
+        "kanji": "結局",
+        "hiragana": "けっきょく",
+        "nghiatiengviet": "sau tất cả, cuối cùng"
+    },
+    {
+        "kanji": "結論",
+        "hiragana": "けつろん",
+        "nghiatiengviet": "Phần kết luận"
+    },
+    {
+        "kanji": "結ぶ",
+        "hiragana": "むすぶ",
+        "nghiatiengviet": "buộc"
+    },
+    {
+        "kanji": "婚約",
+        "hiragana": "こんやく",
+        "nghiatiengviet": "đính hôn"
+    },
+    {
+        "kanji": "離婚",
+        "hiragana": "りこん",
+        "nghiatiengviet": "ly hôn"
+    },
+    {
+        "kanji": "紹介",
+        "hiragana": "しょうかい",
+        "nghiatiengviet": "giới thiệu"
+    },
+    {
+        "kanji": "仲介",
+        "hiragana": "ちゅうかい",
+        "nghiatiengviet": "Mô giới, trung gian"
+    },
+    {
+        "kanji": "紹介",
+        "hiragana": "しょうかい",
+        "nghiatiengviet": "giới thiệu"
+    },
+    {
+        "kanji": "独身",
+        "hiragana": "どくしん",
+        "nghiatiengviet": "độc thân"
+    },
+    {
+        "kanji": "独特",
+        "hiragana": "どくとく",
+        "nghiatiengviet": "tính đặc thù"
+    },
+    {
+        "kanji": "独立",
+        "hiragana": "どくりつ",
+        "nghiatiengviet": "độc lập"
+    },
+    {
+        "kanji": "独り",
+        "hiragana": "ひとり",
+        "nghiatiengviet": "một mình"
+    },
+    {
+        "kanji": "自身",
+        "hiragana": "じしん",
+        "nghiatiengviet": "tự thân, cá nhân"
+    },
+    {
+        "kanji": "出身",
+        "hiragana": "しゅっしん",
+        "nghiatiengviet": "xuất thân, đến từ"
+    },
+    {
+        "kanji": "身長",
+        "hiragana": "しんちょう",
+        "nghiatiengviet": "chiều cao"
+    },
+    {
+        "kanji": "身分",
+        "hiragana": "みぶん",
+        "nghiatiengviet": "vị trí xã hội, thân phận"
+    },
+    {
+        "kanji": "貯金",
+        "hiragana": "ちょきん",
+        "nghiatiengviet": "tiền tiết kiệm"
+    },
+    {
+        "kanji": "学期",
+        "hiragana": "がっき",
+        "nghiatiengviet": "học kì"
+    },
+    {
+        "kanji": "期間",
+        "hiragana": "きかん",
+        "nghiatiengviet": "giai đoạn, kỳ hạn"
+    },
+    {
+        "kanji": "期待",
+        "hiragana": "きたい",
+        "nghiatiengviet": "mong đợi, hy vọng"
+    },
+    {
+        "kanji": "時期",
+        "hiragana": "じき",
+        "nghiatiengviet": "thời gian, mùa, thời kỳ"
+    },
+    {
+        "kanji": "長期",
+        "hiragana": "ちょうき",
+        "nghiatiengviet": "khoảng thời gian dài"
+    },
+    {
+        "kanji": "期末",
+        "hiragana": "きまつ",
+        "nghiatiengviet": "cuối kỳ"
+    },
+    {
+        "kanji": "節約",
+        "hiragana": "せつやく",
+        "nghiatiengviet": "tiết kiệm, tiết kiệm"
+    },
+    {
+        "kanji": "約",
+        "hiragana": "やく",
+        "nghiatiengviet": "xấp xỉ, khoảng"
+    },
+    {
+        "kanji": "予約",
+        "hiragana": "よやく",
+        "nghiatiengviet": "sự đặt chỗ"
+    },
+    {
+        "kanji": "束",
+        "hiragana": "たば",
+        "nghiatiengviet": "bó (rau, hoa)"
+    },
+    {
+        "kanji": "約束",
+        "hiragana": "やくそく",
+        "nghiatiengviet": "lời hứa"
+    },
+    {
+        "kanji": "束縛",
+        "hiragana": "そくばく",
+        "nghiatiengviet": "kiềm chế, bó buộc, giam cầm"
+    },
+    {
+    "kanji": "必要",
+    "hiragana": "ひつよう",
+    "nghiatiengviet": "cần thiết"
+},
+{
+    "kanji": "必須",
+    "hiragana": "ひっす",
+    "nghiatiengviet": "cần thiết"
+},
+{
+    "kanji": "必死",
+    "hiragana": "ひっし",
+    "nghiatiengviet": "quyết tâm"
+},
+{
+    "kanji": "守",
+    "hiragana": "まもる",
+    "nghiatiengviet": "bảo vệ, tuân theo"
+},
+{
+    "kanji": "留守",
+    "hiragana": "るす",
+    "nghiatiengviet": "vắng nhà"
+},
+{
+    "kanji": "厳守",
+    "hiragana": "げんしゅ",
+    "nghiatiengviet": "tuân thủ nghiêm ngặt"
+},
+{
+    "kanji": "式",
+    "hiragana": "しき",
+    "nghiatiengviet": "phương trình, công thức"
+},
+{
+    "kanji": "正式",
+    "hiragana": "せいしき",
+    "nghiatiengviet": "chính thức, hình thức"
+},
+{
+    "kanji": "結婚式",
+    "hiragana": "けっこんしき",
+    "nghiatiengviet": "lễ kết hôn"
+},
+{
+    "kanji": "卒業式",
+    "hiragana": "そつぎょうしき",
+    "nghiatiengviet": "lễ tốt nghiệp"
+},
+{
+    "kanji": "列島",
+    "hiragana": "れっとう",
+    "nghiatiengviet": "chuỗi đảo"
+},
+{
+    "kanji": "列",
+    "hiragana": "れつ",
+    "nghiatiengviet": "hàng"
+},
+{
+    "kanji": "行列",
+    "hiragana": "ぎょうれつ",
+    "nghiatiengviet": "hàng (người)"
+},
+{
+    "kanji": "列車",
+    "hiragana": "れっしゃ",
+    "nghiatiengviet": "xe lửa, tàu hỏa"
+},
+{
+    "kanji": "祝日",
+    "hiragana": "しゅくじつ",
+    "nghiatiengviet": "ngày lễ"
+},
+{
+    "kanji": "祝",
+    "hiragana": "いわう",
+    "nghiatiengviet": "chúc mừng"
+},
+{
+    "kanji": "酔",
+    "hiragana": "よう",
+    "nghiatiengviet": "say"
+},
+{
+    "kanji": "酔っぱらい",
+    "hiragana": "よっぱらい",
+    "nghiatiengviet": "say xỉn"
+},
+{
+    "kanji": "永遠",
+    "hiragana": "えいえん",
+    "nghiatiengviet": "sự vĩnh hằng, sự trường tồn"
+},
+{
+    "kanji": "永久",
+    "hiragana": "えいきゅう",
+    "nghiatiengviet": "sự vĩnh cửu"
+},
+{
+    "kanji": "願",
+    "hiragana": "ねがい",
+    "nghiatiengviet": "mong muốn, yêu cầu"
+},
+{
+    "kanji": "願",
+    "hiragana": "ねがう",
+    "nghiatiengviet": "mong muốn"
+},
+{
+    "kanji": "念願",
+    "hiragana": "ねんがん",
+    "nghiatiengviet": "tâm nguyện, nguyện vọng"
+},
+{
+    "kanji": "幸",
+    "hiragana": "さいわい",
+    "nghiatiengviet": "hạnh phúc"
+},
+{
+    "kanji": "幸",
+    "hiragana": "しあわせ",
+    "nghiatiengviet": "hạnh phúc, may mắn"
+},
+{
+    "kanji": "不幸",
+    "hiragana": "ふこう",
+    "nghiatiengviet": "bất hạnh, đau khổ"
+},
+{
+    "kanji": "幸運",
+    "hiragana": "こううん",
+    "nghiatiengviet": "vận may, may mắn"
+},
+{
+    "kanji": "福祉",
+    "hiragana": "ふくし",
+    "nghiatiengviet": "phúc lợi"
+},
+{
+    "kanji": "幸福",
+    "hiragana": "こうふく",
+    "nghiatiengviet": "hạnh phúc"
+},
+{
+    "kanji": "感じる",
+    "hiragana": "かんじる",
+    "nghiatiengviet": "cảm nhận, cảm nhận"
+},
+{
+    "kanji": "関心",
+    "hiragana": "かんしん",
+    "nghiatiengviet": "quan tâm"
+},
+{
+    "kanji": "関する",
+    "hiragana": "かんする",
+    "nghiatiengviet": "có liên quan"
+},
+{
+    "kanji": "関連",
+    "hiragana": "かんれん",
+    "nghiatiengviet": "quan hệ, kết nối"
+},
+{
+    "kanji": "関係",
+    "hiragana": "かんけい",
+    "nghiatiengviet": "quan hệ"
+},
+{
+    "kanji": "関わる",
+    "hiragana": "かかわる",
+    "nghiatiengviet": "liên quan"
+},
+{
+    "kanji": "係",
+    "hiragana": "かかり",
+    "nghiatiengviet": "người phụ trách"
+},
+{
+    "kanji": "関係",
+    "hiragana": "かんけい",
+    "nghiatiengviet": "mối quan hệ"
+},
+{
+    "kanji": "係員",
+    "hiragana": "かかりいん",
+    "nghiatiengviet": "người phụ trách, người chịu trách nhiệm"
+},
+{
+    "kanji": "平和",
+    "hiragana": "へいわ",
+    "nghiatiengviet": "hòa bình"
+},
+{
+    "kanji": "和らげる",
+    "hiragana": "やわらげる",
+    "nghiatiengviet": "làm dịu"
+},
+{
+    "kanji": "和やか",
+    "hiragana": "なごやか",
+    "nghiatiengviet": "hòa nhã, dịu dàng"
+},
+{
+    "kanji": "和食",
+    "hiragana": "わしょく",
+    "nghiatiengviet": "đồ ăn Nhật"
+},
+{
+    "kanji": "付き合い",
+    "hiragana": "つきあい",
+    "nghiatiengviet": "giao lưu, làm bạn, hẹn hò"
+},
+{
+    "kanji": "付ける",
+    "hiragana": "つける",
+    "nghiatiengviet": "để đính kèm"
+},
+{
+    "kanji": "娘",
+    "hiragana": "むすめ",
+    "nghiatiengviet": "(khiêm tốn) con gái"
+},
+{
+    "kanji": "老い",
+    "hiragana": "おい",
+    "nghiatiengviet": "tuổi già, già"
+},
+{
+    "kanji": "老人",
+    "hiragana": "ろうじん",
+    "nghiatiengviet": "người già"
+},
+{
+    "kanji": "老後",
+    "hiragana": "ろうご",
+    "nghiatiengviet": "tuổi già"
+},
+{
+    "kanji": "主婦",
+    "hiragana": "しゅふ",
+    "nghiatiengviet": "bà nội trợ"
+},
+{
+    "kanji": "夫婦",
+    "hiragana": "ふうふ",
+    "nghiatiengviet": "vợ chồng"
+},
+{
+    "kanji": "婦人",
+    "hiragana": "ふじん",
+    "nghiatiengviet": "phụ nữ"
+},
+{
+    "kanji": "姓",
+    "hiragana": "せい",
+    "nghiatiengviet": "họ"
+},
+{
+    "kanji": "仲良し",
+    "hiragana": "なかよし",
+    "nghiatiengviet": "bạn thân, bạn tâm giao"
+},
+{
+    "kanji": "仲間",
+    "hiragana": "なかま",
+    "nghiatiengviet": "đồng nghiệp, cộng sự"
+},
+{
+    "kanji": "君",
+    "hiragana": "きみ",
+    "nghiatiengviet": "Cậu, bạn, em"
+},
+{
+    "kanji": "君",
+    "hiragana": "くん",
+    "nghiatiengviet": "hậu tố cho nam"
+},
+
+    {
+        "kanji": "彼女",
+        "hiragana": "かのじょ",
+        "nghiatiengviet": "cô ấy, bạn gái"
+    },
+    {
+        "kanji": "彼",
+        "hiragana": "かれ",
+        "nghiatiengviet": "anh ấy, bạn trai"
+    },
+    {
+        "kanji": "彼ら",
+        "hiragana": "かれら",
+        "nghiatiengviet": "họ, những người đó"
+    },
+    {
+        "kanji": "他人",
+        "hiragana": "たにん",
+        "nghiatiengviet": "người khác"
+    },
+    {
+        "kanji": "他",
+        "hiragana": "ほか",
+        "nghiatiengviet": "khác"
+    },
+    {
+        "kanji": "初めて",
+        "hiragana": "はじめて",
+        "nghiatiengviet": "lần đầu tiên"
+    },
+    {
+        "kanji": "最初",
+        "hiragana": "さいしょ",
+        "nghiatiengviet": "bắt đầu, đầu tiên"
+    },
+    {
+        "kanji": "初回",
+        "hiragana": "しょかい",
+        "nghiatiengviet": "lần đầu"
+    },
+    {
+        "kanji": "再来週",
+        "hiragana": "さらいしゅう",
+        "nghiatiengviet": "tuần sau nữa"
+    },
+    {
+        "kanji": "再来年",
+        "hiragana": "さらいねん",
+        "nghiatiengviet": "năm sau tiếp theo"
+    },
+    {
+        "kanji": "再び",
+        "hiragana": "ふたたび",
+        "nghiatiengviet": "một lần nữa"
+    },
+    {
+        "kanji": "久しぶり",
+        "hiragana": "ひさしぶり",
+        "nghiatiengviet": "sau một thời gian dài"
+    },
+    {
+        "kanji": "配達",
+        "hiragana": "はいたつ",
+        "nghiatiengviet": "giao hàng, phân phối"
+    },
+    {
+        "kanji": "発達",
+        "hiragana": "はったつ",
+        "nghiatiengviet": "phát triển"
+    },
+    {
+        "kanji": "友達",
+        "hiragana": "ともだち",
+        "nghiatiengviet": "bạn bè"
+    },
+    {
+        "kanji": "個人",
+        "hiragana": "こじん",
+        "nghiatiengviet": "cá nhân"
+    },
+    {
+        "kanji": "個性",
+        "hiragana": "こせい",
+        "nghiatiengviet": "cá tính"
+    },
+    {
+        "kanji": "個別",
+        "hiragana": "こべつ",
+        "nghiatiengviet": "trường hợp đặc biệt"
+    },
+    {
+        "kanji": "性格",
+        "hiragana": "せいかく",
+        "nghiatiengviet": "nhân vật, cá tính"
+    },
+    {
+        "kanji": "女性",
+        "hiragana": "じょせい",
+        "nghiatiengviet": "đàn bà"
+    },
+    {
+        "kanji": "男性",
+        "hiragana": "だんせい",
+        "nghiatiengviet": "nam giới"
+    },
+    {
+        "kanji": "性別",
+        "hiragana": "せいべつ",
+        "nghiatiengviet": "giới tính"
+    },
+    {
+        "kanji": "各自",
+        "hiragana": "かくじ",
+        "nghiatiengviet": "cá nhân, từng người"
+    },
+    {
+        "kanji": "各地",
+        "hiragana": "かくち",
+        "nghiatiengviet": "mọi nơi, nhiều nơi"
+    },
+    {
+        "kanji": "価格",
+        "hiragana": "かかく",
+        "nghiatiengviet": "giá cả"
+    },
+    {
+        "kanji": "合格",
+        "hiragana": "ごうかく",
+        "nghiatiengviet": "đỗ, đậu vào"
+    },
+    {
+        "kanji": "性格",
+        "hiragana": "せいかく",
+        "nghiatiengviet": "tính cách"
+    },
+    {
+    "kanji": "簡単",
+    "hiragana": "かんたん",
+    "nghiatiengviet": "đơn giản"
+},
+{
+    "kanji": "単位",
+    "hiragana": "たんい",
+    "nghiatiengviet": "đơn vị, tín chỉ"
+},
+{
+    "kanji": "単純",
+    "hiragana": "たんじゅん",
+    "nghiatiengviet": "đơn thuần"
+},
+{
+    "kanji": "複数",
+    "hiragana": "ふくすう",
+    "nghiatiengviet": "số nhiều, nhiều"
+},
+{
+    "kanji": "複雑",
+    "hiragana": "ふくざつ",
+    "nghiatiengviet": "sự phức tạp"
+},
+{
+    "kanji": "全然",
+    "hiragana": "ぜんぜん",
+    "nghiatiengviet": "hoàn toàn"
+},
+{
+    "kanji": "全体",
+    "hiragana": "ぜんたい",
+    "nghiatiengviet": "toàn bộ"
+},
+{
+    "kanji": "安全",
+    "hiragana": "あんぜん",
+    "nghiatiengviet": "sự an toàn"
+},
+{
+    "kanji": "全部",
+    "hiragana": "ぜんぶ",
+    "nghiatiengviet": "Tất cả"
+},
+{
+    "kanji": "以来",
+    "hiragana": "いらい",
+    "nghiatiengviet": "kể từ đó trở đi"
+},
+{
+    "kanji": "以下",
+    "hiragana": "いか",
+    "nghiatiengviet": "ít hơn, dưới"
+},
+{
+    "kanji": "以外",
+    "hiragana": "いがい",
+    "nghiatiengviet": "ngoại trừ"
+},
+{
+    "kanji": "以上",
+    "hiragana": "いじょう",
+    "nghiatiengviet": "trở lên, nhiều hơn"
+},
+{
+    "kanji": "以内",
+    "hiragana": "いない",
+    "nghiatiengviet": "ở trong"
+},
+{
+    "kanji": "未満",
+    "hiragana": "みまん",
+    "nghiatiengviet": "ít hơn, không đủ"
+},
+{
+    "kanji": "不満",
+    "hiragana": "ふまん",
+    "nghiatiengviet": "sự không bằng lòng"
+},
+{
+    "kanji": "満足",
+    "hiragana": "まんぞく",
+    "nghiatiengviet": "sự hài lòng"
+},
+{
+    "kanji": "満点",
+    "hiragana": "まんてん",
+    "nghiatiengviet": "điểm tối đa"
+},
+{
+    "kanji": "未来",
+    "hiragana": "みらい",
+    "nghiatiengviet": "tương lai"
+},
+{
+    "kanji": "未婚",
+    "hiragana": "みこん",
+    "nghiatiengviet": "chưa lập gia đình"
+},
+{
+    "kanji": "無駄",
+    "hiragana": "むだ",
+    "nghiatiengviet": "sự vô ích"
+},
+{
+    "kanji": "無料",
+    "hiragana": "むりょう",
+    "nghiatiengviet": "miễn phí"
+},
+{
+    "kanji": "無事",
+    "hiragana": "ぶじ",
+    "nghiatiengviet": "vô sự, bình an"
+},
+{
+    "kanji": "非常に",
+    "hiragana": "ひじょうに",
+    "nghiatiengviet": "vô cùng"
+}
+
+
+
+
+
+
+
+
 ];
+//từ đây sẽ là kanji 
+
+    
