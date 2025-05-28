@@ -49,6 +49,7 @@
     --border-color: #374151;
 }
 
+
 * {
     margin: 0;
     padding: 0;
@@ -74,15 +75,15 @@ body {
 
 .app-wrapper {
     width: 100%;
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
     position: relative;
 }
 
 .glass-container {
     background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     border-radius: var(--border-radius-lg);
     border: 1px solid rgba(255, 255, 255, 0.18);
     box-shadow: var(--shadow-xl);
@@ -792,7 +793,7 @@ button:disabled {
     margin-bottom: 25px;
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--border-color);
-    max-width: 500px;
+   
     margin: 0 auto;
 }
 
@@ -1168,4 +1169,643 @@ button:disabled {
 }
 .word-set-info p {
     font-size: 0.9em; /* Ví dụ */
+}
+/* Word Detail Fullscreen Modal Styles */
+.word-fullscreen-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Nền mờ */
+    display: none; /* Ẩn ban đầu */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Đảm bảo modal ở trên cùng */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.word-fullscreen-modal.active {
+    display: flex; /* Hiện khi active */
+}
+
+.word-fullscreen-content {
+    background-color: var(--background-color); /* Lấy màu nền từ biến CSS */
+    color: var(--text-color); /* Lấy màu chữ từ biến CSS */
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 90vw; /* Chiều rộng tối đa */
+    max-height: 90vh; /* Chiều cao tối đa */
+    overflow-y: auto; /* Cho phép cuộn nếu nội dung quá dài */
+    position: relative; /* Để định vị nút đóng */
+    animation: fadeInModal 0.3s ease-out;
+}
+
+@keyframes fadeInModal {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.word-fullscreen-kanji {
+    font-size: 4rem; /* Kích thước lớn cho Kanji */
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+    line-height: 1.2;
+}
+
+.word-fullscreen-hiragana {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: var(--secondary-text-color);
+}
+
+.word-fullscreen-meaning {
+    font-size: 1.8rem;
+    margin-top: 20px;
+}
+
+.word-fullscreen-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: var(--secondary-text-color);
+    cursor: pointer;
+    padding: 5px;
+    line-height: 1;
+}
+ .word-fullscreen-close-btn:hover {
+     color: var(--primary-color);
+ }
+
+/* Nút phóng to trong bảng chi tiết */
+.view-word-fullscreen-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    color: var(--primary-color); /* Hoặc màu bạn muốn */
+}
+.view-word-fullscreen-btn svg {
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+}
+.view-word-fullscreen-btn:hover {
+    opacity: 0.7;
+}
+
+ /* Thêm style cho cột Action trong bảng */
+ .word-detail-table th:last-child,
+ .word-detail-table td:last-child {
+     text-align: center; /* Căn giữa nút trong cột Action */
+ }
+ .mode-switcher button,
+.mode-switcher a.mode-btn { /* Hoặc chỉ .mode-btn nếu nó áp dụng chung */
+    display: inline-flex; /* Để icon và text căn chỉnh */
+    align-items: center;
+    /* ... các style khác như padding, margin, border, background, color, text-decoration: none; ... */
+}
+
+.mode-switcher a.mode-btn svg { /* Style cho icon bên trong thẻ a */
+    margin-right: 8px; /* Khoảng cách giữa icon và text */
+}
+
+/* Đảm bảo thẻ a không có gạch chân mặc định nếu không muốn */
+.mode-switcher a.mode-btn {
+    text-decoration: none;
+    color: inherit; /* Kế thừa màu từ parent hoặc style chung của mode-btn */
+}/* =============================================== */
+/*             Test Interface Styles               */
+/*      (Cập nhật cho Dark Mode & Viền)          */
+/* =============================================== */
+
+/* Main container for the test interface screen */
+.test-mode-interface {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+    /* Màu nền chung cho dark mode, nếu glass-container không bao phủ hoàn toàn */
+    /* background-color: var(--dm-background-color, #1a1a2e);  */
+}
+
+.test-mode-interface h2 {
+    text-align: center;
+    color: var(--dm-text-color-light, #e0e0e0); /* Màu chữ tiêu đề cho dark mode */
+    margin-bottom: 20px;
+    font-size: 1.8em;
+}
+
+/* Timer display */
+.test-timer-display {
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: 500;
+    margin-bottom: 15px;
+    color: var(--dm-text-color-medium, #b0b0b0);
+}
+
+#timeLeftDisplay {
+    font-weight: bold;
+    color: var(--dm-primary-color-light, #9081f4); /* Màu nhấn cho thời gian ở dark mode */
+}
+
+/* Area containing main panel and question navigator */
+.test-content-area {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+/* Main panel for question and options */
+.test-main-panel {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: var(--dm-card-bg-color, #2c2c44); /* Nền panel chính ở dark mode */
+    padding: 20px;
+    border-radius: var(--card-border-radius, 12px); /* Giữ nguyên hoặc điều chỉnh */
+    /* box-shadow: var(--dm-card-shadow, 0 4px 15px rgba(0, 0, 0, 0.2)); */ /* Shadow cho dark mode */
+    border: 1px solid var(--dm-border-color-light, #4a4a6a); /* VIỀN CHO PANEL CHÍNH */
+}
+
+/* Header for the current question (e.g., Câu 1/10) */
+.test-question-header {
+    text-align: right;
+    font-size: 0.9em;
+    color: var(--dm-text-color-light, #c0c0c0);
+    margin-bottom: 5px;
+}
+
+/* Display area for the question text */
+.question-text-display {
+    font-size: 1.8em;
+    font-weight: 500;
+    text-align: center;
+    padding: 20px 10px;
+    background-color: var(--dm-input-bg-color, #1f1f32); /* Nền câu hỏi ở dark mode */
+    border-radius: var(--input-border-radius, 8px);
+    color: var(--dm-text-color-very-light, #f0f0f0); /* Chữ câu hỏi sáng hơn */
+    min-height: 100px; /* Tăng chiều cao tối thiểu một chút */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    word-break: break-word;
+    border: 1px solid var(--dm-border-color-medium, #5a5a7a); /* VIỀN CHO KHUNG CÂU HỎI */
+}
+
+/* Grid for option buttons */
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px; /* Tăng gap một chút */
+}
+
+/* Individual option button */
+.option-button {
+    padding: 15px; /* Tăng padding */
+    font-size: 1.1em;
+    border: 1px solid var(--dm-border-color-light, #4a4a6a); /* VIỀN CHO NÚT LỰA CHỌN */
+    border-radius: var(--button-border-radius, 8px);
+    background-color: var(--dm-button-bg-color, #353552); /* Nền nút ở dark mode */
+    color: var(--dm-button-text-color, #d0d0d0); /* Chữ nút ở dark mode */
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.1s ease;
+    text-align: center;
+}
+
+.option-button:hover {
+    background-color: var(--dm-button-hover-bg-color, #4a4a6a);
+    border-color: var(--dm-primary-color, #7b68ee); /* Viền khi hover */
+}
+
+.option-button:active {
+    transform: translateY(1px);
+}
+
+.option-button.selected {
+    background-color: var(--dm-primary-color, #7b68ee); /* Màu nền khi được chọn ở dark mode */
+    color: var(--dm-primary-color-text, white); /* Màu chữ khi được chọn ở dark mode */
+    border-color: var(--dm-primary-color-dark, #5a4abd);
+    font-weight: bold;
+}
+
+/* Navigation buttons (Prev/Next Question) and Finish button container */
+.test-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px; /* Tăng margin */
+}
+
+.action-btn {
+    padding: 10px 20px;
+    font-size: 1em;
+    border-radius: var(--button-border-radius, 8px);
+    cursor: pointer;
+    transition: background-color 0.2s ease, opacity 0.2s ease;
+    border: 1px solid transparent; /* Mặc định trong suốt, sẽ đổi màu khi hover/active nếu cần */
+    color: var(--dm-button-text-color, #d0d0d0); /* Màu chữ nút */
+}
+#prevTestQuestionButton, #nextTestQuestionButton {
+    background-color: var(--dm-secondary-button-bg, #40405f); /* Màu cho nút prev/next */
+    border-color: var(--dm-border-color-light, #4a4a6a);
+}
+#prevTestQuestionButton:hover, #nextTestQuestionButton:hover {
+    background-color: var(--dm-secondary-button-hover-bg, #505072);
+}
+
+.action-btn:disabled {
+    background-color: var(--dm-button-disabled-bg, #303045) !important; /* Nền khi bị disable */
+    color: var(--dm-text-color-disabled, #6c6c82) !important; /* Chữ khi bị disable */
+    border-color: var(--dm-border-color-disabled, #404055) !important;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Nút Nộp Bài */
+#finishTestButton.primary-btn {
+    background-color: var(--dm-accent-color, #6A5ACD); /* Màu chính cho nút Nộp Bài ở dark mode (ví dụ: màu tím đậm hơn) */
+    color: white;
+    border: 1px solid var(--dm-accent-color-border, #503CA0); /* Viền cho nút nộp bài */
+    width: 100%; /* Nút nộp bài chiếm hết chiều rộng */
+    margin-top: 15px; /* Khoảng cách với các nút prev/next nếu chúng ở trên */
+    padding: 12px 20px; /* Tăng padding */
+}
+
+#finishTestButton.primary-btn:hover {
+    background-color: var(--dm-accent-color-dark, #503CA0);
+}
+
+/* Navigator for jumping between questions */
+.test-question-navigator {
+    width: 220px;
+    flex-shrink: 0;
+    background-color: var(--dm-card-bg-color-light, #25253b); /* Nền navigator ở dark mode */
+    padding: 15px;
+    border-radius: var(--card-border-radius, 12px);
+    /* box-shadow: var(--dm-subtle-shadow, 0 2px 8px rgba(0, 0, 0, 0.15)); */
+    height: fit-content;
+    max-height: 480px; /* Điều chỉnh chiều cao max */
+    overflow-y: auto;
+    border: 1px solid var(--dm-border-color-light, #4a4a6a); /* VIỀN CHO NAVIGATOR */
+}
+
+.test-question-navigator h4 {
+    margin-top: 0;
+    margin-bottom: 15px; /* Tăng margin */
+    text-align: center;
+    color: var(--dm-text-color-medium, #b0b0b0);
+    font-size: 1.1em;
+}
+
+/* List of question number buttons */
+.test-question-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-start; /* Căn trái cho các nút số */
+}
+
+/* Individual question number button */
+.test-question-list-item {
+    width: 38px; /* Tăng kích thước nút số */
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95em; /* Tăng font chữ nút số */
+    border: 1px solid var(--dm-border-color-medium, #5a5a7a); /* VIỀN CHO NÚT SỐ */
+    border-radius: 50%;
+    background-color: var(--dm-button-bg-color, #353552);
+    color: var(--dm-button-text-color, #d0d0d0);
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.test-question-list-item:hover {
+    background-color: var(--dm-button-hover-bg-color, #4a4a6a);
+    border-color: var(--dm-primary-color, #7b68ee);
+}
+
+.test-question-list-item.current {
+    background-color: var(--dm-primary-color, #7b68ee); /* Màu nút hiện tại ở dark mode */
+    color: var(--dm-primary-color-text, white);
+    border-color: var(--dm-primary-color-dark, #5a4abd);
+    font-weight: bold;
+}
+
+.test-question-list-item.answered {
+    background-color: var(--dm-secondary-color-light, #454562); /* Màu nút đã trả lời ở dark mode */
+    border-color: var(--dm-secondary-color, #5c5c7d);
+    /* color: var(--dm-text-color-light); */ /* Có thể giữ màu chữ mặc định hoặc đổi */
+}
+
+.test-question-list-item.answered.current {
+    /* Giữ style của .current nếu vừa answered vừa current */
+    background-color: var(--dm-primary-color, #7b68ee);
+    color: var(--dm-primary-color-text, white);
+    border-color: var(--dm-primary-color-dark, #5a4abd);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .test-content-area {
+        flex-direction: column;
+    }
+
+    .test-question-navigator {
+        width: 100%;
+        max-height: 180px; /* Giảm chiều cao navigator trên mobile */
+        margin-bottom: 15px; /* Thêm khoảng cách nếu navigator ở trên */
+    }
+    .test-main-panel {
+        order: 2; /* Đẩy panel chính xuống dưới navigator trên mobile nếu muốn */
+    }
+    .test-question-navigator {
+        order: 1;
+    }
+
+    .options-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .question-text-display {
+        font-size: 1.6em; /* Điều chỉnh lại font size */
+        min-height: 80px;
+    }
+    .test-navigation {
+        flex-direction: column; /* Nút prev/next xếp dọc */
+        gap: 10px;
+    }
+    #prevTestQuestionButton, #nextTestQuestionButton {
+        width: 100%; /* Nút prev/next chiếm hết chiều rộng */
+    }
+}/* CSS cho file styles.css của bạn */
+
+/* --- Trong phần định nghĩa biến màu (ví dụ :root hoặc html.dark-mode) --- */
+:root {
+    /* ... các biến màu light mode khác ... */
+    --answered-question-bg-light: #e6ffed; /* Nền xanh lá nhạt cho light mode */
+    --answered-question-border-light: #a0e0a0; /* Viền xanh lá cho light mode */
+    --answered-question-text-light: #207020; /* Chữ xanh lá đậm cho light mode */
+}
+
+html.dark-mode { /* Hoặc :root.dark-mode */
+    /* ... các biến màu dark mode khác ... */
+    --dm-answered-question-bg: #2a4a3a; /* Nền xanh lá đậm cho dark mode */
+    --dm-answered-question-border: #3c7a5a; /* Viền xanh lá cho dark mode */
+    --dm-answered-question-text: #a0e0c0; /* Chữ xanh lá nhạt cho dark mode */
+}
+
+
+/* --- Trong phần CSS cho .test-question-list-item --- */
+
+/* Individual question number button in the navigator */
+.test-question-list-item {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95em;
+    border: 1px solid var(--border-color-medium, #ccc); /* Viền mặc định light mode */
+    border-radius: 50%;
+    background-color: var(--button-bg-color, #f0f0f0); /* Nền mặc định light mode */
+    color: var(--button-text-color, #333); /* Chữ mặc định light mode */
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+html.dark-mode .test-question-list-item { /* Dark mode overrides */
+    border-color: var(--dm-border-color-medium, #5a5a7a);
+    background-color: var(--dm-button-bg-color, #353552);
+    color: var(--dm-button-text-color, #d0d0d0);
+}
+
+
+.test-question-list-item:hover {
+    background-color: var(--button-hover-bg-color, #e0e0e0);
+    border-color: var(--primary-color, #6A5ACD); /* Màu primary khi hover */
+}
+html.dark-mode .test-question-list-item:hover {
+    background-color: var(--dm-button-hover-bg-color, #4a4a6a);
+    border-color: var(--dm-primary-color, #7b68ee);
+}
+
+
+/* Style for an ANSWERED question in the navigator */
+.test-question-list-item.answered {
+    background-color: var(--answered-question-bg-light);
+    border-color: var(--answered-question-border-light);
+    color: var(--answered-question-text-light);
+    font-weight: 500; /* Có thể làm chữ đậm hơn chút */
+}
+html.dark-mode .test-question-list-item.answered {
+    background-color: var(--dm-answered-question-bg);
+    border-color: var(--dm-answered-question-border);
+    color: var(--dm-answered-question-text);
+}
+
+
+/* Style for the CURRENT question in the navigator */
+.test-question-list-item.current {
+    background-color: var(--primary-color, #6A5ACD); /* Màu primary light mode */
+    color: white;
+    border-color: var(--primary-color-dark, #483D8B); /* Viền đậm hơn cho primary */
+    font-weight: bold;
+}
+html.dark-mode .test-question-list-item.current {
+    background-color: var(--dm-primary-color, #7b68ee);
+    color: var(--dm-primary-color-text, white);
+    border-color: var(--dm-primary-color-dark, #5a4abd);
+}
+
+
+/* Style if a question is BOTH answered AND current */
+/* CSS sẽ tự động áp dụng style của .current nếu nó được định nghĩa sau .answered */
+/* Tuy nhiên, nếu bạn muốn một style rất đặc biệt cho trường hợp này, bạn có thể thêm: */
+.test-question-list-item.answered.current {
+ 
+}
+html.dark-mode .test-question-list-item.answered.current {
+    /* Tương tự cho dark mode */
+}
+/* Đặt đoạn này TRONG thẻ <style> hoặc ở cuối file styles.css để test */
+body.dark-mode .review-column { /* Hoặc selector dark mode của bạn */
+    background-color: #2a2a3a !important; /* Một màu nền tối nhưng khác biệt */
+    border: 1px solid #44475a !important;
+}
+body.dark-mode .review-column h5 {
+    color: #bd93f9 !important; /* Màu tiêu đề cột */
+}
+body.dark-mode .review-answer-item {
+    color: #f8f8f2 !important; /* Màu chữ chung cho item */
+    border-bottom-color: #44475a !important;
+}
+body.dark-mode .review-answer-item .question-review-text {
+    color: #8be9fd !important;
+}
+body.dark-mode .review-answer-item .user-answer-text::before,
+body.dark-mode .review-answer-item .correct-answer-text::before {
+    color: #6272a4 !important;
+}
+body.dark-mode .review-answer-item .correct-answer-text {
+    color: #50fa7b !important; /* Màu xanh lá cho đáp án đúng */
+}
+body.dark-mode .review-answer-item .user-answer-text span.user-choice-incorrect {
+    color: #ff5555 !important; /* Màu đỏ cho câu sai */
+    background-color: rgba(255, 85, 85, 0.1) !important;
+    border-color: #ff5555 !important;
+}
+/* Thay vì chỉ: */
+/* .review-columns-container { display: flex; ... } */
+
+/* Thử: */
+#testResults .review-answers .review-columns-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 15px;
+}/* THAY THẾ CSS CŨ CHO PHẦN REVIEW BẰNG CSS NÀY */
+.review-answers h4 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+/* Danh sách câu trả lời (một cột) */
+.single-column-list { /* Đổi tên class hoặc giữ lại .answer-list nếu chỉ dùng cho trường hợp này */
+    background-color: var(--secondary-bg-color, #2a2a3a); /* Nền tối cho dark mode, hoặc #f9f9f9 cho light */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    max-height: 400px; /* Giới hạn chiều cao */
+    overflow-y: auto;
+    margin-top: 15px;
+}
+
+/* Tùy chỉnh scrollbar (giữ nguyên nếu bạn thích) */
+.single-column-list::-webkit-scrollbar {
+    width: 8px;
+}
+.single-column-list::-webkit-scrollbar-track {
+    background: var(--light-border-color, #404040); /* Màu track cho dark mode */
+    border-radius: 4px;
+}
+.single-column-list::-webkit-scrollbar-thumb {
+    background: var(--border-color, #6c757d); /* Màu thumb cho dark mode */
+    border-radius: 4px;
+}
+.single-column-list::-webkit-scrollbar-thumb:hover {
+    background: var(--text-color-secondary, #adb5bd);
+}
+
+
+.review-answer-item {
+    padding: 12px 8px;
+    border-bottom: 1px solid var(--light-border-color, #44475a); /* Đường kẻ cho dark mode */
+    font-size: 0.95em; /* Tăng nhẹ kích thước chữ */
+    line-height: 1.6;
+}
+
+.review-answer-item:last-child {
+    border-bottom: none;
+}
+
+.review-answer-item .question-review-text {
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: var(--text-color-secondary, #bd93f9); /* Màu chữ câu hỏi cho dark mode */
+}
+
+.review-answer-item .user-answer-text {
+    margin-left: 10px; /* Canh lề nhẹ */
+    display: block;
+    color: var(--text-color, #f8f8f2); /* Màu chữ mặc định cho dark mode */
+}
+
+/* Style cho các loại câu trả lời của người dùng */
+.review-answer-item .user-answer-text span.user-choice-unanswered {
+    color: var(--text-color, #f8f8f2); /* Màu trắng (hoặc màu text chính) cho "Chưa trả lời" */
+    font-style: italic;
+}
+
+.review-answer-item .user-answer-text span.user-choice-correct {
+    color: var(--success-color, #50fa7b); /* XANH LÁ CHO CÂU ĐÚNG */
+    font-weight: bold;
+    background-color: rgba(80, 250, 123, 0.1); /* Nền xanh lá nhẹ */
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+
+.review-answer-item .user-answer-text span.user-choice-incorrect {
+    color: var(--danger-color, #ff5555); /* ĐỎ CHO CÂU SAI */
+    font-weight: bold;
+    background-color: rgba(255, 85, 85, 0.1); /* Nền đỏ nhẹ */
+    padding: 2px 5px;
+    border-radius: 3px;
+    border: 1px dashed var(--danger-color, #ff5555);
+}
+
+.review-answer-item .correct-answer-text {
+    margin-left: 10px;
+    display: block;
+    font-weight: normal; /* Không cần bold nếu user chọn đúng */
+    color: var(--success-color-muted, #8be9fd); /* Màu xanh dương nhạt cho đáp án đúng khi user sai */
+    font-size: 0.9em; /* Nhỏ hơn một chút */
+}
+.review-answer-item .correct-answer-text::before{
+    content: "Đáp án đúng: ";
+    font-weight: normal;
+    color: var(--text-color-secondary, #6272a4);
+}
+
+.empty-message {
+    text-align: center;
+    color: var(--text-color-secondary, #6c757d);
+    padding: 20px;
+    font-style: italic;
+}
+
+/* Nhớ định nghĩa các biến màu cho dark mode trong :root hoặc body.dark-mode */
+/* Ví dụ các biến màu cho dark mode (Dracula theme-like) */
+body.dark-mode {
+    --primary-color: #bd93f9;
+    --secondary-bg-color: #282a36; /* Nền chính của review list */
+    --text-color: #f8f8f2; /* Màu chữ trắng */
+    --text-color-secondary: #6272a4; /* Màu chữ phụ */
+    --border-color: #44475a; /* Đường kẻ đậm hơn */
+    --light-border-color: #44475a; /* Đường kẻ nhạt hơn */
+    --success-color: #50fa7b; /* Xanh lá */
+    --success-color-muted: #8be9fd; /* Xanh dương nhạt */
+    --danger-color: #ff5555; /* Đỏ */
+    /* ... các biến khác ... */
+}
+
+.blank-placeholder {
+    font-weight: bold;
+    color: var(--primary-color); /* Hoặc màu bạn muốn */
+    border-bottom: 2px solid var(--text-color-normal);
+    padding: 0 5px;
+}
+.loading-spinner { /* Thêm CSS cho spinner nếu bạn dùng */
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border-left-color: var(--primary-color); /* Hoặc màu bạn muốn */
+    animation: spin 1s ease infinite;
+    margin: 20px auto;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

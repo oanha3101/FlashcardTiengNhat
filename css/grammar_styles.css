@@ -1,0 +1,761 @@
+/* ../css/grammar_styles.css */
+
+/* ================================================ */
+/*                 BIẾN MÀU VÀ RESET CƠ BẢN         */
+/*      (Giống với styles.css gốc của bạn)         */
+/* ================================================ */
+:root {
+    --primary-color: #6366f1; /* Tím Indigo */
+    --primary-hover: #4f46e5;
+    --secondary-color: #ec4899; /* Hồng */
+    --secondary-hover: #db2777;
+    --success-color: #10b981;  /* Xanh lá Emerald */
+    --success-hover: #059669;
+    --danger-color: #ef4444;   /* Đỏ */
+    --danger-hover: #dc2626;
+    --warning-color: #f59e0b;  /* Vàng Cam Amber */
+    --warning-hover: #d97706;
+    --info-color: #3b82f6;     /* Xanh dương */
+    --info-hover: #2563eb;
+
+    --light-color: #f3f4f6;  /* Màu nền rất sáng (almost white) */
+    --dark-color: #1f2937;   /* Màu rất tối (almost black for text or components) */
+
+    --text-color: #374151;      /* Màu chữ chính cho light mode (Xám đậm) */
+    --text-light: #6b7280;    /* Màu chữ phụ, nhạt hơn (Xám vừa) */
+    --bg-color: #f9fafb;        /* Màu nền chính cho light mode (Xám rất nhạt) */
+    --card-bg: #ffffff;       /* Màu nền cho card, input ở light mode (Trắng) */
+    --border-color: #e5e7eb;  /* Màu viền cho light mode (Xám nhạt) */
+
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+    --transition: all 0.3s ease;
+    --border-radius: 0.5rem; /* 8px */
+    --border-radius-sm: 0.375rem; /* 6px */
+    --border-radius-lg: 1rem; /* 16px */
+
+    --font-jp: 'Noto Sans JP', sans-serif;
+    --font-main: 'Inter', sans-serif; /* Đổi thành Inter như HTML mới */
+}
+
+.dark-mode { /* Hoặc html.dark-mode nếu bạn dùng class trên html tag */
+    --primary-color: #818cf8;
+    --primary-hover: #6366f1;
+    --secondary-color: #f472b6;
+    --secondary-hover: #ec4899;
+    --success-color: #34d399;
+    --success-hover: #10b981;
+    --danger-color: #f87171;
+    --danger-hover: #ef4444;
+    --warning-color: #fbbf24;
+    --warning-hover: #f59e0b;
+    --info-color: #60a5fa;
+    --info-hover: #3b82f6;
+
+    --text-color: #f9fafb;      /* Màu chữ chính cho dark mode (Trắng rất nhạt) */
+    --text-light: #d1d5db;    /* Màu chữ phụ cho dark mode (Xám nhạt) */
+    --bg-color: #111827;        /* Màu nền chính cho dark mode (Xám rất tối) */
+    --card-bg: #1f2937;       /* Màu nền cho card, input ở dark mode (Xám tối vừa) */
+    --border-color: #374151;  /* Màu viền cho dark mode (Xám tối) */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-main);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Gradient từ style cũ */
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    transition: background-color var(--transition), color var(--transition); /* Chỉ transition màu cho body */
+    background-attachment: fixed;
+}
+
+.dark-mode body { /* Hoặc html.dark-mode body */
+    background: linear-gradient(135deg, #1e3a8a 0%, #4c1d95 100%); /* Gradient từ style cũ */
+}
+
+
+/* ================================================ */
+/*                 CẤU TRÚC CHUNG                   */
+/* ================================================ */
+.app-wrapper {
+    width: 100%;
+    max-width: 900px; /* Có thể điều chỉnh tùy ý */
+    margin: 0 auto;
+}
+
+.glass-container {
+    background: rgba(255, 255, 255, 0.85);
+    -webkit-backdrop-filter: blur(12px); /* Tăng blur một chút */
+    backdrop-filter: blur(12px);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: var(--shadow-xl);
+    padding: 25px 30px; /* Điều chỉnh padding */
+    transition: background var(--transition), border var(--transition);
+}
+
+.dark-mode .glass-container {
+    background: rgba(31, 41, 55, 0.85); /* Nền tối hơn cho dark mode */
+    border: 1px solid rgba(55, 65, 81, 0.25);
+}
+
+/* App Header (Giữ nguyên hoặc điều chỉnh nhẹ nếu cần) */
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.app-header h1 {
+    font-size: 1.8rem; /* Điều chỉnh kích thước */
+    font-weight: 800; /* Tăng độ đậm */
+    color: var(--primary-color);
+    font-family: var(--font-jp);
+}
+.app-header h1 span {
+    font-family: var(--font-main);
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--secondary-color);
+    margin-left: 6px;
+}
+
+.theme-toggle button {
+    background: transparent;
+    border: none;
+    color: var(--text-light); /* Màu icon nhạt hơn */
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    transition: var(--transition);
+}
+.theme-toggle button:hover {
+    background: rgba(var(--primary-color), 0.1); /* Sử dụng alpha cho màu primary */
+    color: var(--primary-color);
+}
+.dark-mode .theme-toggle button {
+    color: var(--text-light);
+}
+.dark-mode .theme-toggle button:hover {
+    background: rgba(var(--primary-color), 0.15);
+    color: var(--primary-color);
+}
+
+
+/* Mode Switcher (Giữ nguyên hoặc điều chỉnh nhẹ) */
+.mode-switcher {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 30px;
+    background: rgba(0,0,0,0.03); /* Nền nhẹ cho light mode */
+    padding: 6px;
+    border-radius: var(--border-radius);
+}
+.dark-mode .mode-switcher {
+    background: rgba(255,255,255,0.05); /* Nền nhẹ cho dark mode */
+}
+
+.mode-btn {
+    flex: 1;
+    padding: 10px 12px; /* Điều chỉnh padding */
+    border: none;
+    border-radius: var(--border-radius-sm);
+    background: transparent;
+    color: var(--text-light);
+    font-weight: 600; /* Tăng độ đậm */
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 0.9rem;
+}
+.mode-btn:hover:not(.active) {
+    background: rgba(0,0,0,0.05);
+    color: var(--text-color);
+}
+.dark-mode .mode-btn:hover:not(.active) {
+    background: rgba(255,255,255,0.08);
+    color: var(--text-color);
+}
+.mode-btn.active {
+    background: var(--primary-color);
+    color: white;
+    box-shadow: var(--shadow-sm);
+}
+/* Các màu riêng cho từng mode button nếu cần (ví dụ từ style gốc của bạn) */
+.mode-btn.grammar-list-mode:not(.active) { color: var(--primary-color); }
+.mode-btn.flashcard-mode:not(.active) { color: var(--info-color); }
+.mode-btn.test-mode:not(.active) { color: var(--secondary-color); }
+
+
+/* Screen & Messages (Kế thừa từ style gốc) */
+.screen {
+    margin-top: 0; /* Bỏ margin-top mặc định nếu mode-switcher đã tạo khoảng cách */
+    /* animation: fadeInScreen 0.5s ease-out; */ /* Tùy chọn: thêm animation */
+}
+@keyframes fadeInScreen {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.screen.hidden {
+    display: none !important;
+}
+
+.message-container, .loading-message, .error-message, .spinner, .info-text, .empty-message {
+    /* Kế thừa từ style gốc */
+}
+.empty-message {
+    padding: 30px 15px;
+    background-color: rgba(0,0,0,0.02);
+    border-radius: var(--border-radius-sm);
+}
+.dark-mode .empty-message {
+    background-color: rgba(255,255,255,0.03);
+}
+
+
+/* Buttons (Kế thừa và tùy chỉnh nếu cần) */
+.primary-btn, .secondary-btn, .danger-btn, .outline-btn, .control-btn {
+    /* Kế thừa từ style gốc, đảm bảo class 'interactive-element' không xung đột */
+    text-decoration: none; /* Cho nút dạng link */
+    line-height: 1.5;
+}
+.primary-btn svg, .secondary-btn svg, .danger-btn svg, .outline-btn svg, .control-btn svg {
+    margin-right: 6px; /* Khoảng cách icon và text */
+}
+
+/* Effect 'glass' cho một số vùng nội dung */
+.glass-effect {
+    background: rgba(255, 255, 255, 0.7);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: var(--shadow-sm);
+}
+.dark-mode .glass-effect {
+    background: rgba(31, 41, 55, 0.7);
+    border: 1px solid rgba(55, 65, 81, 0.2);
+}
+
+/* ================================================ */
+/*             DANH SÁCH NGỮ PHÁP                 */
+/* ================================================ */
+#grammarListScreen h2 { /* Style cho tiêu đề đã có inline, có thể chuyển vào đây */
+    color: var(--text-color);
+    text-align: left;
+}
+
+.grammar-list-container {
+    display: grid;
+    grid-template-columns: 1fr; /* Mặc định một cột */
+    gap: 15px;
+    max-height: 500px; /* Giới hạn chiều cao, thêm cuộn */
+    overflow-y: auto;
+    padding: 5px; /* Padding nhỏ để scrollbar không sát viền */
+}
+
+.grammar-item {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius-sm);
+    padding: 15px 20px;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+    cursor: pointer; /* Để người dùng biết có thể click */
+}
+.grammar-item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow);
+    border-color: var(--primary-color);
+}
+
+.grammar-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.grammar-point {
+    font-family: var(--font-jp);
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.grammar-meaning {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+/* Custom Checkbox */
+.custom-checkbox {
+    position: relative;
+    cursor: pointer;
+    font-size: 22px;
+    /* user-select: none; */
+    display: inline-block; /* Hoặc flex nếu cần căn chỉnh phức tạp hơn */
+    padding-left: 30px; /* Khoảng trống cho checkmark */
+    line-height: 20px; /* Căn giữa checkmark */
+}
+.custom-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: var(--border-color); /* Màu nền khi chưa check */
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+}
+.custom-checkbox:hover input ~ .checkmark {
+    background-color: #ccc; /* Màu khi hover */
+}
+.dark-mode .custom-checkbox:hover input ~ .checkmark {
+    background-color: #555;
+}
+.custom-checkbox input:checked ~ .checkmark {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+.custom-checkbox input:checked ~ .checkmark:after {
+    display: block;
+}
+.custom-checkbox .checkmark:after { /* Style cho dấu tick */
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+#testSelectedGrammarBtn {
+    font-size: 0.9rem;
+}
+
+/* ================================================ */
+/*             CHI TIẾT NGỮ PHÁP                   */
+/* ================================================ */
+#grammarDetailContent { /* Đã có class .glass-effect */
+    padding: 25px;
+}
+
+#grammarDetailContent h3 {
+    font-family: var(--font-jp);
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--secondary-color);
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.grammar-detail-section {
+    margin-bottom: 25px;
+}
+.grammar-detail-section strong {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin-bottom: 8px;
+}
+.grammar-detail-section p, .grammar-detail-section .connection-text {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-light);
+}
+.connection-text { /* Cho phần cách nối */
+    font-family: var(--font-jp);
+    background-color: rgba(0,0,0,0.03);
+    padding: 10px 15px;
+    border-radius: var(--border-radius-sm);
+    border-left: 3px solid var(--info-color);
+}
+.dark-mode .connection-text {
+    background-color: rgba(255,255,255,0.05);
+}
+
+.grammar-detail-example {
+    background-color: rgba(0,0,0,0.02);
+    padding: 15px;
+    border-radius: var(--border-radius-sm);
+    margin-bottom: 12px;
+    border: 1px dashed var(--border-color);
+}
+.dark-mode .grammar-detail-example {
+    background-color: rgba(255,255,255,0.03);
+    border-color: var(--border-color);
+}
+.jp-sentence {
+    font-family: var(--font-jp);
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--text-color);
+    margin-bottom: 8px;
+}
+.vi-translation {
+    font-size: 0.95rem;
+    color: var(--text-light);
+    font-style: italic;
+}
+
+
+/* ================================================ */
+/*                 FLASHCARD NGỮ PHÁP               */
+/* ================================================ */
+#flashcardSetupScreen h2, #flashcardApp h2 {
+    color: var(--text-color);
+    text-align: left;
+}
+#flashcardSetupScreen p, #flashcardApp .flashcard-header .progress-stats span {
+    color: var(--text-light);
+}
+#flashcardApp .flashcard-header .progress-stats b { /* Kế thừa từ style gốc nếu có */
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+/* Danh sách chọn ngữ pháp cho Flashcard/Test */
+.grammar-selection-list { /* Đã có .glass-effect */
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 15px; /* Giảm padding nếu glass-effect đã có */
+    display: grid; /* Cho phép nhiều cột nếu muốn */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 10px;
+}
+.grammar-selection-item {
+    display: block; /* Để label chiếm đủ rộng */
+    padding: 10px;
+    background-color: rgba(0,0,0,0.02);
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: var(--transition);
+}
+.grammar-selection-item:hover {
+    background-color: rgba(0,0,0,0.05);
+}
+.dark-mode .grammar-selection-item {
+    background-color: rgba(255,255,255,0.03);
+}
+.dark-mode .grammar-selection-item:hover {
+    background-color: rgba(255,255,255,0.07);
+}
+.grammar-selection-item input[type="checkbox"] {
+    margin-right: 10px;
+    transform: scale(1.1); /* Làm checkbox to hơn chút */
+    accent-color: var(--primary-color); /* Màu khi check */
+}
+
+/* Flashcard UI (Kế thừa nhiều từ style gốc) */
+.flashcard-container { /* Kế thừa */
+    height: 320px; /* Điều chỉnh chiều cao nếu cần cho nội dung ngữ pháp */
+}
+.flashcard { /* Kế thừa */ }
+.flashcard.is-flipped { /* Kế thừa */ }
+.flashcard-face { /* Kế thừa */
+    align-items: flex-start; /* Căn nội dung lên trên */
+    text-align: left;
+}
+
+.flashcard-front { /* Màu sắc có thể khác với flashcard từ vựng */
+    background: var(--card-bg);
+    border: 2px solid var(--primary-color);
+    color: var(--text-color);
+}
+.grammar-point-display { /* Nội dung mặt trước */
+    font-family: var(--font-jp);
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: auto; /* Căn giữa nếu chỉ có 1 dòng */
+    text-align: center;
+}
+
+.flashcard-back { /* Màu sắc có thể khác */
+    background: var(--card-bg);
+    border: 2px solid var(--secondary-color);
+    color: var(--text-color);
+    overflow-y: auto; /* Cho phép cuộn nếu nội dung mặt sau dài */
+}
+.grammar-details-display { /* Nội dung mặt sau */
+    width: 100%;
+}
+.grammar-details-display .grammar-detail-section { margin-bottom: 15px; }
+.grammar-details-display .grammar-detail-section strong { font-size: 1rem; color: var(--secondary-color); }
+.grammar-details-display .grammar-detail-section p,
+.grammar-details-display .connection-text,
+.grammar-details-display .jp-sentence,
+.grammar-details-display .vi-translation {
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+.grammar-details-display .jp-sentence { font-weight: 500; }
+
+
+.mark-indicator { /* Kế thừa */ }
+.progress-bar-container, .progress-bar { /* Kế thừa */ }
+.controls-grid { /* Kế thừa */ }
+.bottom-actions { /* Kế thừa */ }
+
+
+/* ================================================ */
+/*                 KIỂM TRA NGỮ PHÁP                */
+/* ================================================ */
+#testSetupScreen h2, #testInterface h2, #testResultsScreen h2 {
+    color: var(--text-color);
+    text-align: left;
+}
+#testSetupScreen p { color: var(--text-light); }
+
+#testSetupScreen .form-group { /* Đã có .glass-effect */
+    margin-bottom: 20px;
+}
+#testSetupScreen .form-group label, #testSetupScreen .checkbox-group label {
+    color: var(--text-color); /* Chữ đậm hơn */
+    font-weight: 500;
+}
+#testSetupScreen .checkbox-group {
+    display: flex;
+    flex-direction: column; /* Hoặc row tùy ý */
+    gap: 10px;
+}
+#testSetupScreen .checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+#testSetupScreen .checkbox-group input[type="checkbox"] {
+    accent-color: var(--primary-color);
+    transform: scale(1.2);
+}
+
+/* Giao diện làm bài Test */
+.test-progress {
+    text-align: right;
+    font-size: 0.9rem;
+    color: var(--text-light);
+    margin-bottom: 20px;
+    padding: 8px 15px;
+    background-color: rgba(0,0,0,0.03);
+    border-radius: var(--border-radius-sm);
+}
+.dark-mode .test-progress { background-color: rgba(255,255,255,0.05); }
+
+#questionDisplayArea {
+    background-color: var(--card-bg);
+    padding: 25px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 25px;
+    min-height: 200px; /* Đảm bảo có không gian */
+    border: 1px solid var(--border-color);
+}
+
+/* Câu hỏi điền từ (Cloze) */
+.question-area-cloze { }
+.cloze-sentence {
+    font-family: var(--font-jp);
+    font-size: 1.4rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--text-color);
+}
+.cloze-sentence span.blank { /* Phần gạch chân cho chỗ trống */
+    display: inline-block;
+    width: 100px; /* Điều chỉnh độ rộng */
+    border-bottom: 2px solid var(--primary-color);
+    margin: 0 5px;
+    vertical-align: bottom; /* Căn gạch chân với dòng chữ */
+}
+#clozeAnswerInput {
+    width: 100%;
+    max-width: 300px; /* Giới hạn độ rộng input */
+    display: block;
+    margin: 0 auto;
+    padding: 12px 15px;
+    border-radius: var(--border-radius-sm);
+    border: 2px solid var(--border-color);
+    background: var(--bg-color); /* Nền khác với card-bg để nổi bật hơn */
+    color: var(--text-color);
+    font-family: var(--font-jp);
+    font-size: 1.1rem;
+    text-align: center;
+}
+#clozeAnswerInput:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+/* Câu hỏi trắc nghiệm (MCQ) */
+.question-area-mcq { }
+#mcqPromptText { /* Câu dẫn (ví dụ: Chọn ngữ pháp đúng) */
+    font-size: 1rem;
+    color: var(--text-light);
+    margin-bottom: 10px;
+    text-align: center;
+}
+#mcqSentenceText { /* Câu tiếng Nhật có chỗ trống (___) */
+    font-family: var(--font-jp);
+    font-size: 1.4rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--text-color);
+}
+.options-area {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+}
+.options-area button { /* Nút lựa chọn */
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border-radius: var(--border-radius-sm);
+    font-family: var(--font-jp);
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: left;
+}
+.options-area button:hover {
+    border-color: var(--primary-color);
+    background-color: rgba(var(--primary-color), 0.05);
+}
+.options-area button.selected {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+.dark-mode .options-area button:hover {
+    background-color: rgba(var(--primary-color), 0.15);
+}
+
+/* Phản hồi và nút điều khiển Test */
+.test-feedback { /* Đã có .glass-effect */
+    padding: 15px; /* Giảm padding nếu glass-effect đã có */
+    text-align: center;
+    font-weight: 600;
+    min-height: 30px; /* Để không bị nhảy layout */
+}
+.test-feedback.correct { color: var(--success-color); }
+.test-feedback.incorrect { color: var(--danger-color); }
+
+.test-actions { /* Kế thừa */ }
+
+
+/* Kết quả Test (Kế thừa nhiều từ style gốc) */
+.results-summary { /* Kế thừa */ }
+.score-display { /* Kế thừa */ }
+.score-circle { /* Kế thừa */
+    /* Đảm bảo biến --score-percent được cập nhật bởi JS */
+    /* background: conic-gradient(var(--primary-color) 0%, var(--primary-color) var(--score-percent, 0%), var(--border-color) var(--score-percent, 0%), var(--border-color) 100%); */
+}
+.score-circle span { font-size: 1.5rem; } /* Điều chỉnh kích thước % */
+.dark-mode .score-circle {
+    background: conic-gradient(var(--primary-color) 0%, var(--primary-color) var(--score-percent, 0%), var(--border-color) var(--score-percent, 0%), var(--border-color) 100%);
+}
+
+.review-answers { /* Đã có .glass-effect */
+    padding: 20px;
+    max-height: 350px; /* Tăng chiều cao nếu cần */
+}
+.review-answers h4 { /* Kế thừa */ color: var(--text-color); }
+#incorrectAnswersList {
+    list-style: none;
+    padding: 0;
+}
+#incorrectAnswersList li {
+    padding: 10px;
+    border-bottom: 1px dashed var(--border-color);
+    font-size: 0.9rem;
+}
+#incorrectAnswersList li:last-child { border-bottom: none; }
+#incorrectAnswersList li strong { color: var(--danger-color); } /* Câu hỏi sai */
+#incorrectAnswersList li .user-answer { color: var(--danger-hover); font-style: italic; }
+#incorrectAnswersList li .correct-answer { color: var(--success-color); font-weight: 500; }
+
+.results-actions { /* Kế thừa */ }
+
+
+/* Footer (Kế thừa) */
+.app-footer { /* Kế thừa */ }
+
+
+/* Responsive Adjustments (Thêm hoặc điều chỉnh từ style gốc) */
+@media (max-width: 768px) {
+    .glass-container { padding: 20px; }
+    .app-header h1 { font-size: 1.6rem; }
+    .app-header h1 span { font-size: 1.1rem; }
+
+    .grammar-list-container { gap: 12px; }
+    .grammar-item { padding: 12px 15px; }
+    .grammar-point { font-size: 1.1rem; }
+    .grammar-meaning { font-size: 0.9rem; }
+
+    #grammarDetailContent h3 { font-size: 1.6rem; }
+
+    .flashcard-container { height: 280px; }
+    .grammar-point-display { font-size: 1.8rem; }
+
+    .cloze-sentence, #mcqSentenceText { font-size: 1.2rem; }
+    .options-area button, #clozeAnswerInput { font-size: 1rem; }
+}
+
+@media (max-width: 480px) {
+    .mode-switcher { flex-direction: column; }
+    #grammarListScreen h2, #flashcardSetupScreen h2, #testSetupScreen h2, #testInterface h2, #testResultsScreen h2 {
+        font-size: 1.3rem; /* Giảm font tiêu đề cho màn hình nhỏ */
+        margin-bottom: 15px;
+    }
+    .grammar-selection-list { grid-template-columns: 1fr; } /* Một cột trên mobile */
+
+    .flashcard-container { height: 250px; }
+    .grammar-point-display { font-size: 1.5rem; }
+
+    .score-circle { width: 100px; height: 100px; }
+    .score-circle::before { width: 80px; height: 80px; }
+    .score-circle span { font-size: 1.2rem; }
+}

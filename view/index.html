@@ -1,71 +1,94 @@
 <!DOCTYPE html>
 <html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Học Tiếng Nhật N3</title>
-    <link rel="stylesheet" href="../css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-</head>
-<body>
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <div class="app-wrapper">
-        <div class="glass-container">
-            <header class="app-header">
-                <h1>日本語<span>N3 学習</span></h1>
-                <div class="theme-toggle">
-                    <button id="themeToggle" aria-label="Chuyển đổi chế độ sáng/tối">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                        </svg>
-                    </button>
-                </div>
-            </header>
+      <div class="glass-container">
+        <header class="app-header">
+          <h1>日本語<span>N3 学習</span></h1>
+          <div class="theme-toggle">
+            <button id="themeToggle" aria-label="Chuyển đổi chế độ sáng/tối">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path
+                  d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </header>
 
-           <!-- Thay đổi phần study-type-grid trong index.html -->
-<div class="study-type-grid">
-    <div class="study-type-card" id="kanjiStudyCard">
-        <h3>漢字</h3>
-        <p>Học Kanji N3</p>
-        <a href=" kanji.html" class="primary-btn">Bắt đầu</a>
-    </div>
-    <div class="study-type-card" id="vocabStudyCard">
-        <h3>単語</h3>
-        <p>Học Từ vựng N3</p>
-        <a href="vocab.html" class="primary-btn">Bắt đầu</a>
-    </div>
-    <div class="study-type-card" id="grammarStudyCard">
-        <h3>文法</h3>
-        <p>Học Ngữ pháp N3</p>
-        <button class="secondary-btn" disabled>Sắp ra mắt</button>
-    </div>
-</div>
-
-            <!-- Loading Message -->
-            <div id="loadingMessage" class="screen hidden">
-                <div class="message-container loading-message">
-                    <div class="spinner"></div>
-                    <p>Đang tải dữ liệu...</p>
-                </div>
-            </div>
-
-            <!-- Error Message -->
-            <div id="errorMessage" class="screen hidden">
-                <div class="message-container error-message">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="12" y1="8" x2="12" y2="12"></line>
-                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                    </svg>
-                    <p>Đã xảy ra lỗi. Vui lòng thử lại sau.</p>
-                </div>
-            </div>
-
-            <footer class="app-footer">
-                <p>© 2023 Học Tiếng Nhật N3 | Thiết kế bởi GamezUI</p>
-            </footer>
+        <!-- Thay đổi phần study-type-grid trong index.html -->
+        <div class="study-type-grid">
+          <div class="study-type-card" id="kanjiStudyCard">
+            <h3>漢字</h3>
+            <p>Học Kanji N3</p>
+            <a href=" kanji.html" class="primary-btn">Bắt đầu</a>
+          </div>
+          <div class="study-type-card" id="vocabStudyCard">
+            <h3>単語</h3>
+            <p>Học Từ vựng N3</p>
+            <a href="vocab.html" class="primary-btn">Bắt đầu</a>
+          </div>
+          <div class="study-type-card" id="vocabStudyCard">
+            <h3>単語</h3>
+            <p>Học Ngữ Pháp N3</p>
+            <a href="grammar.html" class="primary-btn">Bắt đầu</a>
+          </div>
         </div>
-    </div>
 
-   
-</body>
+        <!-- Loading Message -->
+        <div id="loadingMessage" class="screen hidden">
+          <div class="message-container loading-message">
+            <div class="spinner"></div>
+            <p>Đang tải dữ liệu...</p>
+          </div>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="screen hidden">
+          <div class="message-container error-message">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="40"
+              height="40"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <p>Đã xảy ra lỗi. Vui lòng thử lại sau.</p>
+          </div>
+        </div>
+
+        <footer class="app-footer">
+          <p>© 2023 Học Tiếng Nhật N3 | Thiết kế bởi GamezUI</p>
+        </footer>
+      </div>
+    </div>
+  </body>
 </html>

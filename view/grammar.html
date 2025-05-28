@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Học Ngữ Pháp N3 - Tiếng Nhật</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Đảm bảo đường dẫn CSS đúng -->
+    <link rel="stylesheet" href="../css/grammar_styles.css"> 
+</head>
+<body>
+    <div class="app-wrapper">
+        <div class="glass-container">
+            <div class="app-header">
+                <h1>Ngữ Pháp <span>N3</span></h1>
+                <div class="theme-toggle">
+                    <button id="themeToggle" class="interactive-element" aria-label="Toggle dark mode">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"></path></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div id="modeSwitcher" class="mode-switcher">
+                <button id="switchToGrammarListBtn" class="mode-btn grammar-list-mode active interactive-element">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><path d="M15 2H9a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1z"></path></svg>
+                    DS Ngữ Pháp
+                </button>
+                <button id="switchToFlashcardSetupBtn" class="mode-btn flashcard-mode interactive-element">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect><path d="M3 9h18"></path></svg>
+                    Học Flashcard
+                </button>
+                <button id="switchToTestSetupBtn" class="mode-btn test-mode interactive-element">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                    Kiểm Tra
+                </button>
+            </div>
+
+            <div id="loadingMessage" class="message-container loading-message hidden">
+                <div class="spinner"></div>
+                <p>Đang tải dữ liệu...</p>
+            </div>
+            <div id="errorMessage" class="message-container error-message hidden"></div>
+
+            <!-- Grammar List Screen -->
+            <div id="grammarListScreen" class="screen">
+                <h2 style="margin-bottom: 25px; font-size: 1.8rem; font-weight: 700;">Danh sách Ngữ Pháp N3</h2>
+                <div style="margin-bottom: 20px; text-align: right;">
+                    <button id="testSelectedGrammarBtn" class="primary-btn hidden interactive-element">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                        Kiểm tra Mục Đã Chọn (<span id="selectedGrammarCount">0</span>)
+                    </button>
+                </div>
+                <div id="grammarListContainer" class="grammar-list-container">
+                    <!-- Mock Grammar Items for Demo - JS will populate this -->
+                    <div class="grammar-item interactive-element">
+                        <div class="grammar-item-header">
+                            <div>
+                                <div class="grammar-point">〜（placeholder）</div>
+                                <div class="grammar-meaning">Ý nghĩa placeholder</div>
+                            </div>
+                            <div class="grammar-controls">
+                                <label class="custom-checkbox">
+                                    <input type="checkbox" data-id="N3G_Placeholder1">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="grammar-item interactive-element">
+                        <div class="grammar-item-header">
+                            <div>
+                                <div class="grammar-point">〜（別の placeholder）</div>
+                                <div class="grammar-meaning">Một ý nghĩa khác</div>
+                            </div>
+                            <div class="grammar-controls">
+                                <label class="custom-checkbox">
+                                    <input type="checkbox" data-id="N3G_Placeholder2">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p id="noGrammarMessage" class="empty-message hidden">Chưa có điểm ngữ pháp nào.</p>
+            </div>
+            
+            <!-- Grammar Detail Screen -->
+            <div id="grammarDetailScreen" class="screen hidden">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
+                    <button id="backToGrammarListBtn" class="outline-btn interactive-element">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"></path><path d="M19 12H5"></path></svg>
+                        Quay lại
+                    </button>
+                    <button id="testThisGrammarBtn" class="secondary-btn interactive-element">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                        Kiểm Tra Ngữ Pháp Này
+                    </button>
+                </div>
+                <div id="grammarDetailContent" class="grammar-detail-content glass-effect">
+                    <!-- JS will populate this -->
+                    <h3>〜（Đang tải...）</h3>
+                    <div class="grammar-detail-section">
+                        <strong>Ý nghĩa:</strong>
+                        <p>Đang tải...</p>
+                    </div>
+                    <div class="grammar-detail-section">
+                        <strong>Cách nối:</strong>
+                        <p class="connection-text">Đang tải...</p>
+                    </div>
+                    <div class="grammar-detail-section">
+                        <strong>Ghi chú:</strong>
+                        <p>Đang tải...</p>
+                    </div>
+                    <div class="grammar-detail-section">
+                        <strong>Ví dụ:</strong>
+                        <div class="grammar-detail-example">
+                            <div class="jp-sentence">Đang tải...</div>
+                            <div class="vi-translation">Đang tải...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flashcard Setup Screen -->
+            <div id="flashcardSetupScreen" class="screen hidden">
+                <h2 style="margin-bottom: 25px; font-size: 1.8rem; font-weight: 700;">Chọn Ngữ Pháp cho Flashcard</h2>
+                <p style="margin-bottom: 25px; color: var(--text-light);">Đánh dấu các điểm ngữ pháp bạn muốn ôn tập.</p>
+                <div id="flashcardGrammarSelection" class="grammar-selection-list glass-effect">
+                    <!-- JS will populate this -->
+                    <label class="grammar-selection-item">
+                        <input type="checkbox" value="placeholder_id_1"> (Đang tải danh sách...)
+                    </label>
+                </div>
+                <div class="input-group" style="margin: 20px 0;">
+                    <label for="flashcardFrontType" style="display: block; margin-bottom: 8px; font-weight: 600;">Hiển thị mặt trước:</label>
+                    <select id="flashcardFrontType" style="width: 100%; padding: 12px; border-radius: var(--border-radius-sm); border: 2px solid var(--border-color); background: var(--card-bg); color: var(--text-color); font-size: 1rem;">
+                        <option value="grammar">Ngữ pháp</option>
+                        <option value="meaning">Ý nghĩa</option>
+                    </select>
+                </div>
+                <button id="startFlashcardButton" class="primary-btn interactive-element" style="width: 100%; margin-top: 20px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5,3 19,12 5,21 5,3"></polygon></svg>
+                    Bắt đầu Flashcard
+                </button>
+            </div>
+
+            <!-- Flashcard App Screen -->
+            <div id="flashcardApp" class="screen hidden">
+                <div class="flashcard-header" style="text-align: center; margin-bottom: 30px;">
+                    <h2 style="margin-bottom: 15px; font-size: 1.8rem; font-weight: 700;">Flashcard Ngữ Pháp N3</h2>
+                    <div class="progress-stats" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; font-size: 0.9rem;">
+                        <span class="glass-effect" style="padding: 8px 15px; border-radius: var(--border-radius-sm);">Còn: <b id="remainingCount">0</b></span>
+                        <span class="glass-effect" style="padding: 8px 15px; border-radius: var(--border-radius-sm);">Hiện tại: <b id="currentCardNumber">0</b>/<b id="totalInReviewSet">0</b></span>
+                        <span class="glass-effect" style="padding: 8px 15px; border-radius: var(--border-radius-sm);">Tổng: <b id="totalSelectedCount">0</b></span>
+                    </div>
+                </div>
+                <div class="flashcard-container" id="flashcardContainer">
+                    <div id="markIndicator" class="mark-indicator"></div>
+                    <div class="flashcard interactive-element" id="flashcard">
+                        <div class="flashcard-face flashcard-front">
+                            <div id="grammarDisplay" class="grammar-point-display"></div>
+                        </div>
+                        <div class="flashcard-face flashcard-back">
+                            <div id="grammarDetailsDisplay" class="grammar-details-display">
+                                <!-- JS will populate this -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progressBar" style="width: 0%;"></div>
+                </div>
+                <div class="controls-grid">
+                    <button id="flipButton" class="control-btn flip-btn interactive-element">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M3 21v-5h5"></path></svg>
+                        Lật Thẻ (Space)
+                    </button>
+                    <button id="prevButton" class="control-btn prev-btn interactive-element">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
+                        Trước (←)
+                    </button>
+                    <button id="nextButton" class="control-btn next-btn interactive-element">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+                        Tiếp (→)
+                    </button>
+                    <button id="markKnownButton" class="control-btn known-btn interactive-element">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path></svg>
+                        Thuộc (O)
+                    </button>
+                    <button id="markUnknownButton" class="control-btn unknown-btn interactive-element">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></svg>
+                        Chưa thuộc (X)
+                    </button>
+                    <button id="clearMarkButton" class="control-btn clear-btn interactive-element">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-2 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path></svg>
+                        Bỏ dấu
+                    </button>
+                </div>
+                <div class="bottom-actions" style="display: flex; gap: 15px; justify-content: center; margin-top: 30px;">
+                    <button id="backToFlashcardSetupBtn" class="secondary-btn interactive-element">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"></path><path d="m12 19-7-7 7-7"></path></svg>
+                        Chọn lại
+                    </button>
+                    <button id="startFlashcardTestBtn" class="primary-btn interactive-element">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+                        Kiểm tra Flashcard Này
+                    </button>
+                </div>
+            </div>
+
+            <!-- Test Setup Screen -->
+            <div id="testSetupScreen" class="screen hidden">
+                <h2 style="margin-bottom: 25px; font-size: 1.8rem; font-weight: 700;">Cài Đặt Bài Kiểm Tra</h2>
+                <p style="margin-bottom: 25px; color: var(--text-light);">Chọn các điểm ngữ pháp và loại câu hỏi.</p>
+                <div id="testGrammarSelection" class="grammar-selection-list glass-effect">
+                     <!-- JS will populate this -->
+                    <label class="grammar-selection-item">
+                        <input type="checkbox" value="placeholder_id_1"> (Đang tải danh sách...)
+                    </label>
+                </div>
+                <div class="form-group glass-effect" style="padding: 20px; border-radius: var(--border-radius); margin: 20px 0;">
+                    <label for="numTestQuestions" style="display: block; margin-bottom: 8px; font-weight: 600;">Số câu hỏi:</label>
+                    <input type="number" id="numTestQuestions" value="10" min="1" style="width: 100%; padding: 12px; border-radius: var(--border-radius-sm); border: 2px solid var(--border-color); background: var(--card-bg); color: var(--text-color); font-size: 1rem;">
+                </div>
+                <div class="form-group glass-effect" style="padding: 20px; border-radius: var(--border-radius); margin: 20px 0;">
+                    <label style="display: block; margin-bottom: 15px; font-weight: 600;">Loại câu hỏi (chọn ít nhất một):</label>
+                    <div class="checkbox-group">
+                        <label>
+                            <input type="checkbox" name="questionType" value="cloze" checked>
+                            <span>Điền từ</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" name="questionType" value="mcq" checked>
+                            <span>Trắc nghiệm</span>
+                        </label>
+                    </div>
+                </div>
+                <button id="startTestButton" class="primary-btn interactive-element" style="width: 100%; margin-top: 20px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5,3 19,12 5,21 5,3"></polygon></svg>
+                    Bắt đầu Kiểm tra
+                </button>
+            </div>
+
+            <!-- Test Interface Screen -->
+            <div id="testInterface" class="screen hidden">
+                <h2 style="margin-bottom: 25px; font-size: 1.8rem; font-weight: 700;">Bài Kiểm Tra Ngữ Pháp</h2>
+                <div id="testProgress" class="test-progress">
+                    Câu: <span id="currentQuestionNum">1</span>/<span id="totalTestQuestions">10</span>
+                </div>
+                
+                <div id="questionDisplayArea">
+                    <!-- Cloze Question Structure -->
+                    <div id="clozeQuestionArea" class="question-area-cloze hidden">
+                        <p id="clozeQuestionText" class="cloze-sentence"></p>
+                        <input type="text" id="clozeAnswerInput" placeholder="Điền ngữ pháp còn thiếu">
+                    </div>
+                    <!-- MCQ Question Structure -->
+                    <div id="mcqQuestionArea" class="question-area-mcq hidden">
+                        <p id="mcqPromptText"></p>
+                        <p id="mcqSentenceText" class="mcq-sentence"></p> 
+                        <div id="mcqOptionsArea" class="options-area">
+                            <!-- JS will populate options here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="testFeedback" class="test-feedback glass-effect" style="padding: 20px; border-radius: var(--border-radius); margin: 20px 0; display: none;"></div>
+                
+                <div class="test-actions" style="text-align: center; margin-top: 30px;">
+                    <button id="submitAnswerButton" class="primary-btn interactive-element" style="margin-right: 15px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"></path></svg>
+                        Trả lời
+                    </button>
+                    <button id="nextQuestionButton" class="primary-btn hidden interactive-element" style="margin-right: 15px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+                        Câu Tiếp Theo
+                    </button>
+                    <button id="finishTestEarlyButton" class="outline-btn hidden interactive-element">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></svg>
+                        Xem Kết Quả Sớm
+                    </button>
+                </div>
+            </div>
+
+            <!-- Test Results Screen -->
+            <div id="testResultsScreen" class="screen hidden">
+                <h2 style="margin-bottom: 30px; font-size: 1.8rem; font-weight: 700;">Kết Quả Kiểm Tra</h2>
+                <div class="results-summary">
+                    <div class="score-display">
+                        <div class="score-circle">
+                            <span id="scorePercentage">0</span>%
+                        </div>
+                        <p style="font-size: 1.2rem; font-weight: 600; margin-top: 15px;">
+                            Điểm của bạn: <span id="scoreCorrect">0</span>/<span id="scoreTotal">0</span>
+                        </p>
+                    </div>
+                </div>
+                <div id="reviewAnswersArea" class="review-answers glass-effect">
+                    <h4 style="margin-bottom: 20px; font-size: 1.2rem; font-weight: 600;">Xem lại câu sai:</h4>
+                    <ul id="incorrectAnswersList" style="list-style: none; padding: 0;">
+                        <!-- JS will populate this -->
+                    </ul>
+                </div>
+                <div class="results-actions">
+                    <button id="retakeTestButton" class="primary-btn interactive-element">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M3 21v-5h5"></path></svg>
+                        Làm lại
+                    </button>
+                    <button id="backToTestSetupFromResultsBtn" class="secondary-btn interactive-element">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> <!-- Icon changed to settings-like -->
+                        Cài đặt lại
+                    </button>
+                </div>
+            </div>
+
+            <div class="app-footer">
+                <p>© 2025 Japanese Grammar App</p>
+            </div>
+        </div>
+    </div>
+    <!-- Đảm bảo đường dẫn JS đúng -->
+    <script src="../js/n3_grammar_data.js"></script> 
+    <script src="../js/grammar.js"></script> 
+</body>
+</html>

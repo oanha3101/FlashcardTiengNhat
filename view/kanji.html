@@ -13,7 +13,7 @@
             <header class="app-header">
                 <h1>漢字<span>N3 学習</span></h1>
                 <div class="theme-toggle">
-                    <button id="themeToggle" aria-label="Chuyển đổi chế độ sáng/tối"></button>
+                    <button id="themeToggle" aria-label="Chuyển đổi chế độ sáng/tối">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                         </svg>
@@ -108,10 +108,11 @@
                         <div class="flashcard-face flashcard-front">
                             <div id="markIndicator" class="mark-indicator"></div>
                             <div id="kanjiDisplay" class="kanji">漢字</div>
-                            <div id="onYomiDisplay" class="on-yomi">おん</div>
+                            <!-- onYomiDisplay đã được chuyển sang mặt sau -->
                         </div>
                         <div class="flashcard-face flashcard-back">
-                            <div id="kunYomiDisplay" class="kun-yomi">くん</div>
+                            <div id="onYomiDisplay" class="on-yomi">おん</div> <!-- On'yomi bây giờ ở đây -->
+                            <div id="kunYomiDisplay" class="kun-yomi">くん</div> <!-- Kun'yomi vẫn ở đây -->
                             <div id="meaningDisplay" class="meaning">Ý nghĩa</div>
                             <div id="exampleDisplay" class="example">Ví dụ</div>
                         </div>
@@ -352,6 +353,7 @@
             </footer>
         </div>
     </div>
+
 
     <script src="../js/n3_kanji_data.js"></script> <!-- Tải file dữ liệu TRƯỚC -->
     <script src="../js/kanji.js"></script>
